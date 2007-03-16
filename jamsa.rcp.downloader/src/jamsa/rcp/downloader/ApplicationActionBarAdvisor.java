@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -22,7 +23,7 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
-
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IWorkbenchAction quitAction;
@@ -53,32 +54,52 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void makeActions(IWorkbenchWindow window) {
+		
+		
 		quitAction = ActionFactory.QUIT.create(window);
+		quitAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.RUN_SMALL));
 		register(quitAction);
+		
 		aboutAction = ActionFactory.ABOUT.create(window);
 		register(aboutAction);
+		
 		prefAction = ActionFactory.PREFERENCES.create(window);
 		register(prefAction);
 
 		newTaskAction = new NewTaskAction(window, "&New");
+		newTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(newTaskAction);
 		
 		modifyTaskAction = new ModifyTaskAction(window, "&Modify");
+		modifyTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(modifyTaskAction);
 
 		runTaskAction = new RunTaskAction(window, "&Run");
+		runTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(runTaskAction);
 
 		restartTaskAction = new RestartTaskAction(window, "&Restart");
+		restartTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(restartTaskAction);
 
 		stopTaskAction = new StopTaskAction(window, "&Stop");
+		stopTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(stopTaskAction);
 		
 		deleteTaskAction = new DeleteTaskAction(window,"&Delete");
+		deleteTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(deleteTaskAction);
 		
 		restoreTaskAction = new RestoreTaskAction(window,"&Restore");
+		restoreTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
 		register(restoreTaskAction);
 
 		viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
@@ -119,6 +140,23 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void fillCoolBar(ICoolBarManager coolBar) {
 		IToolBarManager toolbar = new ToolBarManager(coolBar.getStyle());
 		coolBar.add(toolbar);
+		toolbar.add(newTaskAction);
+		toolbar.add(runTaskAction);
+		toolbar.add(stopTaskAction);
+		toolbar.add(new Separator());
+		toolbar.add(restartTaskAction);
+		toolbar.add(new Separator());
+		toolbar.add(deleteTaskAction);
+		toolbar.add(restoreTaskAction);
+		toolbar.add(new Separator());
+		toolbar.add(aboutAction);
+		toolbar.add(quitAction);
 	}
+	
+	protected void fillTrayItem(IMenuManager trayItem) {
+		trayItem.add(aboutAction);
+		trayItem.add(quitAction);
+	}
+
 
 }
