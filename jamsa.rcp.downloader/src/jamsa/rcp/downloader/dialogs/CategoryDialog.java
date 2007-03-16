@@ -5,8 +5,12 @@ import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.utils.FileUtils;
 import jamsa.rcp.downloader.utils.StringUtils;
 
+import java.io.File;
+
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -57,6 +61,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		categoryLabel.setText("Category");
 
 		categoryText = new Text(container, SWT.BORDER);
+
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true,
 				false);
 		gridData_1.widthHint = 365;
@@ -90,6 +95,20 @@ public class CategoryDialog extends TitleAreaDialog {
 			categoryText.setText(category.getName());
 		if (category.getPath() != null)
 			directoryText.setText(category.getPath());
+
+		categoryText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				String path = categoryText.getText();
+				if (path != null) {
+					path = path.trim();
+					if (!parentCategory.getPath().endsWith(File.separator))
+						path = File.separator + path;
+					directoryText.setText(parentCategory.getPath()
+							+ File.separator + path);
+				}
+			}
+		});
+
 		return parent;
 	}
 
@@ -143,11 +162,11 @@ public class CategoryDialog extends TitleAreaDialog {
 		}
 	}
 
-	public Text getCategoryText() {
-		return categoryText;
-	}
-
-	public Text getDirectoryText() {
-		return directoryText;
-	}
+	// public Text getCategoryText() {
+	// return categoryText;
+	// }
+	//
+	// public Text getDirectoryText() {
+	// return directoryText;
+	// }
 }
