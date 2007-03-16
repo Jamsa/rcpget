@@ -2,22 +2,30 @@ package jamsa.rcp.downloader.views;
 
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
+import jamsa.rcp.downloader.views.actions.AddCategoryAction;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
 
 /**
  * 下载分类视图
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class CategoryTreeView extends ViewPart {
 	public static final String ID = "jamsa.rcp.downloader.views.CategoryTreeView";
@@ -38,9 +46,8 @@ public class CategoryTreeView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		// treeViewer = new TreeViewer(parent,  | SWT.MULTI
+		// treeViewer = new TreeViewer(parent, | SWT.MULTI
 		// | SWT.BORDER);
-
 		treeViewer = new TreeViewer(parent, SWT.NONE);
 		treeViewer.setLabelProvider(new ViewLabelProvider());
 		treeViewer.setContentProvider(new ViewContentProvider());
@@ -56,6 +63,30 @@ public class CategoryTreeView extends ViewPart {
 				treeViewer.refresh();
 			}
 		});
+		createContextMenu(parent);
+	}
+
+	private void createContextMenu(Composite parent) {
+		MenuManager mgr = new MenuManager();
+		mgr.setRemoveAllWhenShown(true);
+		mgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				fillContextMenu(manager);
+			}
+		});
+		Menu menu = mgr.createContextMenu(treeViewer.getControl());
+		treeViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(mgr, treeViewer);
+	}
+
+	private void fillContextMenu(IMenuManager manager) {
+//	getViewSite().getActionBars().getMenuManager().getItems();
+//		IContributionItem[] items = getViewSite().getActionBars().getMenuManager().getItems();
+//		for (int i = 0; i < items.length; i++) {
+//			IAction item = (IAction)items[i];
+//			manager.add(item.);
+//		}
+		
 	}
 
 	@Override
