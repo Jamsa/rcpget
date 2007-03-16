@@ -50,6 +50,15 @@
             id="jamsa.rcp.downloader.views.CategoryTreeViewContribution"
             targetID="jamsa.rcp.downloader.views.CategoryTreeView">
             <action
+                  class="jamsa.rcp.downloader.views.actions.EmptyTrashAction"
+                  enablesFor="1"
+                  icon="icons/alt_window_16.gif"
+                  id="jamsa.rcp.downloader.views.actions.EmptyTrashAction"
+                  label="Empty Trash"
+                  menubarPath="category"
+                  style="push"
+                  toolbarPath="category"/>
+            <action
                class="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
                enablesFor="1"
                icon="icons/alt_window_16.gif"
