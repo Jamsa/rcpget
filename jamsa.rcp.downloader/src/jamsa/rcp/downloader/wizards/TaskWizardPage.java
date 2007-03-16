@@ -106,6 +106,12 @@ public class TaskWizardPage extends WizardPage {
 			setPageComplete(false);
 			return false;
 		}
+		
+		if (!this.fileUrlText.getText().trim().startsWith("http")) {
+			setErrorMessage("Alpha版本，暂只支持Http协议");
+			setPageComplete(false);
+			return false;
+		}
 
 		if (StringUtils.isEmpty(fileNameText.getText())) {
 			setErrorMessage("请填写文件名");
