@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="jamsa.rcp.downloader.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Downloader Perspective"
+            class="jamsa.rcp.downloader.Perspective"
+            id="jamsa.rcp.downloader.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="jamsa.rcp.downloader.views.CategoryTreeView"
+            icon="icons/alt_window_16.gif"
+            id="jamsa.rcp.downloader.views.CategoryTreeView"
+            name="Category"/>
+      <view
+            class="jamsa.rcp.downloader.views.TaskTableView"
+            icon="icons/alt_window_16.gif"
+            id="jamsa.rcp.downloader.views.TaskTableView"
+            name="Tasks"/>
+      <view
+            category="bottom"
+            class="jamsa.rcp.downloader.views.TaskInfoView"
+            icon="icons/alt_window_16.gif"
+            id="jamsa.rcp.downloader.views.TaskInfoView"
+            name="Task Infomation"/>
+      <view
+            category="bottom"
+            class="jamsa.rcp.downloader.views.ConsoleView"
+            icon="icons/alt_window_16.gif"
+            id="jamsa.rcp.downloader.views.ConsoleView"
+            name="Console"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="jamsa.rcp.downloader.views.CategoryTreeViewContribution"
+            targetID="jamsa.rcp.downloader.views.CategoryTreeView">
+            <action
+               class="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
+               enablesFor="1"
+               icon="icons/alt_window_16.gif"
+               id="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
+               label="Delete Category"
+               menubarPath="category"
+               style="push"
+               toolbarPath="category"/>
+            <action
+                  class="jamsa.rcp.downloader.views.actions.ModifyCategoryAction"
+                  enablesFor="1"
+                  icon="icons/alt_window_16.gif"
+                  id="jamsa.rcp.downloader.views.actions.ModifyCategoryAction"
+                  label="Modify Category"
+                  menubarPath="category"
+                  style="push"
+                  toolbarPath="category"/>
+            <action
+               class="jamsa.rcp.downloader.views.actions.AddCategoryAction"
+               enablesFor="1"
+               icon="icons/alt_window_16.gif"
+               id="jamsa.rcp.downloader.views.actions.AddCategoryAction"
+               label="Add Category"
+               menubarPath="category"
+               style="push"
+               toolbarPath="category"/>
+      </viewContribution>
+         <!-- 
+      <viewContribution
+            id="jamsa.rcp.downloader.views.TaskTableViewContribution"
+            targetID="jamsa.rcp.downloader.views.TaskTableView">
+         <action
+               class="jamsa.rcp.downloader.views.actions.RunTaskAction"
+               enablesFor="1"
+               icon="icons/alt_window_16.gif"
+               id="jamsa.rcp.downloader.views.actions.RunTaskAction"
+               label="Run Task"
+               menubarPath="task"
+               style="push"
+               toolbarPath="task"/>
+      </viewContribution>
+      -->
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="jamsa.rcp.downloader.preference.General"
+            id="jamsa.rcp.downloader.preference.General"
+            name="General"/>
+      <page
+            class="jamsa.rcp.downloader.preference.Connection"
+            id="jamsa.rcp.downloader.preference.Connection"
+            name="Connection"/>
+   </extension>
+
+</plugin>
