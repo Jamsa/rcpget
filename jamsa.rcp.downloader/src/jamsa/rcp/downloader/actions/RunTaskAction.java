@@ -37,6 +37,7 @@ public class RunTaskAction extends Action implements ISelectionListener,
 		setId(ID);
 		setText(label);
 		setToolTipText("&Run the selected task.");
+
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);

@@ -51,13 +51,13 @@ public class RestoreTaskAction extends Action implements ISelectionListener,
 			if (incoming.size() == 1
 					&& incoming.getFirstElement() instanceof Task) {
 				Task newTask = (Task) incoming.getFirstElement();
-//				if (newTask != this.ta) {
-					if (this.task != null)
-						this.task.deleteObserver(this);
-					this.task = newTask;
-					this.update(null, null);
-					this.task.addObserver(this);
-//				}
+				// if (newTask != this.ta) {
+				if (this.task != null)
+					this.task.deleteObserver(this);
+				this.task = newTask;
+				this.update(null, null);
+				this.task.addObserver(this);
+				// }
 			}
 		} else {
 			setEnabled(false);

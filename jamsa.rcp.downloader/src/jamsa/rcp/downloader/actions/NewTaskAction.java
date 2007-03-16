@@ -9,8 +9,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 /**
  * 新建任务动作
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class NewTaskAction extends Action {
 	private final IWorkbenchWindow window;
@@ -22,7 +23,7 @@ public class NewTaskAction extends Action {
 	}
 
 	public void run() {
-		TaskWizard wizard = new TaskWizard(new Task(),false);
+		TaskWizard wizard = new TaskWizard(new Task(), false);
 		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
 		dialog.open();
 	}

@@ -16,8 +16,9 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * 重启任务动作
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class RestartTaskAction extends Action implements ISelectionListener,
 		ActionFactory.IWorkbenchAction, Observer {
@@ -42,7 +43,7 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 
 	public void run() {
 		TaskThreadsManager.getInstance().restart(task);
-//		setEnabled(false);
+		// setEnabled(false);
 	}
 
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {

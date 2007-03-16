@@ -16,8 +16,9 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * 停止任务动作
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class StopTaskAction extends Action implements ISelectionListener,
 		ActionFactory.IWorkbenchAction, Observer {

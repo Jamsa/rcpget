@@ -17,8 +17,9 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * 修改任务动作
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class ModifyTaskAction extends Action implements ISelectionListener,
 		ActionFactory.IWorkbenchAction, Observer {

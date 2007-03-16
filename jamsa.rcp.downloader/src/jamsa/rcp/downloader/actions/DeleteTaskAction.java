@@ -44,7 +44,8 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
-		boolean confirm = MessageDialog.openConfirm(window.getShell(), "删除任务", "确定要删除该任务吗？");
+		boolean confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
+				"确定要删除该任务吗？");
 		if (confirm) {
 			TaskThreadsManager.getInstance().stop(task);
 			TaskModel.getInstance().deleteTask(task);
