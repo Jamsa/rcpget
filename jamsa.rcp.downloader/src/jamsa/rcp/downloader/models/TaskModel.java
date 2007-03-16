@@ -161,6 +161,20 @@ public class TaskModel extends Observable {
 		task.setDeleted(false);
 		updateTask(task);
 	}
+	
+	/**
+	 * 清空回收站
+	 * @param task
+	 */
+	public void emptyTrash(){
+		Task[] tasks = this.getTasks(CategoryModel.getInstance().getTrash());
+		if(tasks!=null){
+			for (int i = 0; i < tasks.length; i++) {
+				Task task = tasks[i];
+				this.deleteTask(task);
+			}
+		}
+	}
 
 	/**
 	 * 获取所有任务
