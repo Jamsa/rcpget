@@ -49,9 +49,8 @@ public class TaskThreadsManager {
 	public void stop(Task task) {
 		// TaskThread thread = (TaskThread) threads.get(task.getFileUrl());
 		TaskThread2 thread = (TaskThread2) threads.get(task.getFileUrl());
-
+		task.setStatus(Task.STATUS_STOP);
 		if (thread != null) {
-			task.setStatus(Task.STATUS_STOP);
 			// thread.interrupt();
 			logger.debug("Í£Ö¹ÈÎÎñ" + thread);
 			threads.remove(task.getFileUrl());

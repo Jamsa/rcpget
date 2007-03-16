@@ -137,7 +137,7 @@ public class TaskModel extends Observable {
 		}
 		this.setChanged();
 		this.notifyObservers(task);
-		this.saveTasks();
+//		this.saveTasks();
 	}
 
 	/**
