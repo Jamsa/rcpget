@@ -22,7 +22,7 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class RunTaskAction extends Action implements ISelectionListener,
 		ActionFactory.IWorkbenchAction, Observer {
-	public static final String ID = "jamsa.rcp.downloader.actions.RunTaskAction";
+	public static final String ID = RunTaskAction.class.getName();
 
 	private IWorkbenchWindow window;
 
