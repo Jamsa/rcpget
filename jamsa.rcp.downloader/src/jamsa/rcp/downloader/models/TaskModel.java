@@ -35,48 +35,104 @@ public class TaskModel extends Observable {
 	private static Logger logger = new Logger(TaskModel.class);
 
 	/**
-	 * 保存有所有任务的容器
+	 * 唯一实例
 	 */
-	private Map tasks = Collections.synchronizedMap(new HashMap(10));
-
-	/**
-	 * 当前选中任务
-	 * 
-	 * private Task currentSelect;
-	 * 
-	 * public Task getCurrentSelect() { return currentSelect; }
-	 * 
-	 * public void setCurrentSelect(Task currentSelect) { this.currentSelect =
-	 * currentSelect; setChanged(); this.notifyObservers(this.currentSelect); }
-	 */
-
-	private TaskModel() {
-		loadTasks();
-	}
-
 	private static TaskModel instance = new TaskModel();
 
 	public static TaskModel getInstance() {
 		return instance;
 	}
 
-	// TODO 需要添加参数控制是否持久化任务列表以减少IO次数
+	private TaskModel() {
+		loadTasks();
+	}
+
+	/**
+	 * 保存有所有任务的容器
+	 */
+	private Map tasks = Collections.synchronizedMap(new HashMap(10));
+
+	/**
+	 * 获取保存任务状态文件的路径
+	 * 
+	 * @return
+	 */
+	private File getTasksDirectory() {
+		return Activator.getDefault().getStateLocation().append("tasks")
+				.toFile();
+	}
+
+	/**
+	 * 获取任务状态文件
+	 * 
+	 * @param task
+	 * @return
+	 */
+	private File getTaskFile(Task task) {
+		return Activator.getDefault().getStateLocation().append("tasks")
+				.append(Md5Encrypt.MD5Encode(task.getFileUrl())).toFile();
+	}
+
+	/**
+	 * 添加任务
+	 * 
+	 * @param task
+	 */
 	public void addTask(Task task) {
+		this._saveTask(task);
 		tasks.put(task.getFileUrl(), task);
 		this.setChanged();
 		this.notifyObservers(task);
-		this.saveTasks();
 		logger.info("通知任务列表观察者");
 	}
 
+	/**
+	 * 修改任务
+	 * 
+	 * @param task
+	 */
 	public void updateTask(Task task) {
 		this.addTask(task);
 	}
 
+	/**
+	 * 将任务对象持久化
+	 * 
+	 * @param task
+	 */
+	public synchronized void _saveTask(Task task) {
+		if (tasks.isEmpty())
+			return;
+		File directory = getTasksDirectory();
+		if (!directory.exists())
+			FileUtils.createDirectory(directory.getAbsolutePath());
+		ObjectOutputStream oos=null;
+		try {
+			FileOutputStream fos = new FileOutputStream(getTaskFile(task));
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(task);
+			oos.close();
+		} catch (Exception e) {
+			logger.error("保存任务失败",e);
+		}finally{
+			try{
+			oos.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * 删除任务
+	 * 
+	 * @param task
+	 */
 	public void deleteTask(Task task) {
-		if (task.isDeleted())
+		if (task.isDeleted()) {
 			tasks.remove(task.getFileUrl());
-		else {
+			this._deleteTask(task);
+		} else {
 			task.setDeleted(true);
 		}
 		this.setChanged();
@@ -84,12 +140,26 @@ public class TaskModel extends Observable {
 		this.saveTasks();
 	}
 
+	/**
+	 * 删除任务持久化对象
+	 * 
+	 * @param task
+	 */
+	private void _deleteTask(Task task) {
+		// 已经标识为被删除的对象才能被删除
+		if (task.isDeleted()) {
+			getTaskFile(task).delete();
+		}
+	}
+
+	
+	/**
+	 * 还原任务
+	 * @param task
+	 */
 	public void restoreTask(Task task) {
 		task.setDeleted(false);
-		// task.setStatus(Task.STATUS_RUNNING);
-		this.setChanged();
-		this.notifyObservers(task);
-		this.saveTasks();
+		updateTask(task);
 	}
 
 	/**
@@ -149,19 +219,27 @@ public class TaskModel extends Observable {
 		return (Task[]) result.toArray(new Task[] {});
 	}
 
+	/**
+	 * 获取分类下的所有任务
+	 * @param category
+	 * @return
+	 */
 	public Task[] getTasks(Category category) {
 		return this.getTasks(category.getName());
 	}
 
-	private File getTasksDirectory() {
-		return Activator.getDefault().getStateLocation().append("tasks")
-				.toFile();
-	}
-
+	/**
+	 * 加载所有任务
+	 *
+	 */
 	public void loadTasks() {
 		_loadTasks();
 	}
 
+	/**
+	 * 读取任务文件加载所有任务
+	 *
+	 */
 	public void _loadTasks() {
 		File directory = getTasksDirectory();
 		if (directory.exists()) {
@@ -183,7 +261,15 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * 改变持久化方案
+	 * 保存所有任务
+	 * 
+	 */
+	public void saveTasks() {
+		_saveTasks();
+	}
+
+	/**
+	 * 将所有任务对象持久化
 	 * 
 	 */
 	public void _saveTasks() {
@@ -197,28 +283,6 @@ public class TaskModel extends Observable {
 			_saveTask(task);
 		}
 
-	}
-
-	public synchronized void _saveTask(Task task) {
-		if (tasks.isEmpty())
-			return;
-		File directory = getTasksDirectory();
-		if (!directory.exists())
-			FileUtils.createDirectory(directory.getAbsolutePath());
-		try {
-			String fileName = getTasksDirectory().getAbsolutePath()
-					+ File.separator + Md5Encrypt.MD5Encode(task.getFileUrl());
-			FileOutputStream fos = new FileOutputStream(fileName);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(task);
-			oos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveTasks() {
-		_saveTasks();
 	}
 
 	// =================================XML处理部分======================================
