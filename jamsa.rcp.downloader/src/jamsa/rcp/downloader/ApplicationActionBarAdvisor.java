@@ -59,13 +59,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		quitAction = ActionFactory.QUIT.create(window);
 		quitAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.QUIT_SMALL));
+						IImageKeys.QUIT));
 		register(quitAction);
 
 		aboutAction = ActionFactory.ABOUT.create(window);
 		aboutAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.ABOUT_SMALL));
+						IImageKeys.ABOUT));
 		register(aboutAction);
 
 		prefAction = ActionFactory.PREFERENCES.create(window);
@@ -74,43 +74,43 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newTaskAction = new NewTaskAction(window, "&New");
 		newTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.ADD_SMALL));
+						IImageKeys.NEW_TASK));
 		register(newTaskAction);
 
 		modifyTaskAction = new ModifyTaskAction(window, "&Modify");
 		modifyTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.EDIT_SMALL));
+						IImageKeys.MODIFY_TASK));
 		register(modifyTaskAction);
 
 		runTaskAction = new RunTaskAction(window, "&Run");
 		runTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RUN_SMALL));
+						IImageKeys.RUN_TASK));
 		register(runTaskAction);
 
 		restartTaskAction = new RestartTaskAction(window, "&Restart");
 		restartTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RESTART_SMALL));
+						IImageKeys.RESTART_TASK));
 		register(restartTaskAction);
 
 		stopTaskAction = new StopTaskAction(window, "&Stop");
 		stopTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.STOP_SMALL));
+						IImageKeys.STOP_TASK));
 		register(stopTaskAction);
 
 		deleteTaskAction = new DeleteTaskAction(window, "&Delete");
 		deleteTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.DELETE_SMALL));
+						IImageKeys.DELETE_TASK));
 		register(deleteTaskAction);
 
 		restoreTaskAction = new RestoreTaskAction(window, "&Restore");
 		restoreTaskAction.setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RESTART_SMALL));
+						IImageKeys.RESTART_TASK));
 		register(restoreTaskAction);
 
 		viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);

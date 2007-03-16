@@ -1,17 +1,14 @@
 package jamsa.rcp.downloader;
 
 public interface IImageKeys {
-	public static final String ADD_SMALL = "icons/add-small.gif";
-	public static final String ADD_LARGE = "icons/add-large.gif";
-	public static final String DELETE_SMALL = "icons/delete-small.gif";
-	public static final String DELETE_LARGE = "icons/delete-large.gif";
-
-	public static final String EDIT_SMALL = "icons/edit-small.gif";
-	public static final String RUN_SMALL = "icons/edit-small.gif";
-	public static final String STOP_SMALL = "icons/edit-small.gif";
-	public static final String RESTART_SMALL = "icons/edit-small.gif";
-	public static final String TRASH_SMALL = "icons/edit-small.gif";
-	public static final String ABOUT_SMALL = "icons/edit-small.gif";
-	public static final String QUIT_SMALL = "icons/edit-small.gif";
+	public static final String NEW_TASK = "icons/add-small.gif";
+	public static final String DELETE_TASK = "icons/delete-small.gif";
+	public static final String MODIFY_TASK = "icons/edit-small.gif";
+	public static final String RUN_TASK = "icons/star-small.gif";
+	public static final String STOP_TASK = "icons/stop-alt2-small.gif";
+	public static final String RESTART_TASK = "icons/edit-small.gif";
+	public static final String TRASH = "icons/edit-small.gif";
+	public static final String ABOUT = "icons/edit-small.gif";
+	public static final String QUIT = "icons/edit-small.gif";
 }
 
