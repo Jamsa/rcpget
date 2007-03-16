@@ -15,7 +15,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
@@ -24,6 +23,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IWorkbenchAction quitAction;
@@ -43,8 +43,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private StopTaskAction stopTaskAction;
 
 	private ModifyTaskAction modifyTaskAction;
-	
+
 	private DeleteTaskAction deleteTaskAction;
+
 	private RestoreTaskAction restoreTaskAction;
 
 	// private RunTaskAction runTaskAction;
@@ -54,52 +55,62 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void makeActions(IWorkbenchWindow window) {
-		
-		
+
 		quitAction = ActionFactory.QUIT.create(window);
-		quitAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.RUN_SMALL));
+		quitAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.QUIT_SMALL));
 		register(quitAction);
-		
+
 		aboutAction = ActionFactory.ABOUT.create(window);
+		aboutAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.ABOUT_SMALL));
 		register(aboutAction);
-		
+
 		prefAction = ActionFactory.PREFERENCES.create(window);
 		register(prefAction);
 
 		newTaskAction = new NewTaskAction(window, "&New");
-		newTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+		newTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.ADD_SMALL));
 		register(newTaskAction);
-		
+
 		modifyTaskAction = new ModifyTaskAction(window, "&Modify");
-		modifyTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+		modifyTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.EDIT_SMALL));
 		register(modifyTaskAction);
 
 		runTaskAction = new RunTaskAction(window, "&Run");
-		runTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+		runTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.RUN_SMALL));
 		register(runTaskAction);
 
 		restartTaskAction = new RestartTaskAction(window, "&Restart");
-		restartTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+		restartTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.RESTART_SMALL));
 		register(restartTaskAction);
 
 		stopTaskAction = new StopTaskAction(window, "&Stop");
-		stopTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+		stopTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.STOP_SMALL));
 		register(stopTaskAction);
-		
-		deleteTaskAction = new DeleteTaskAction(window,"&Delete");
-		deleteTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+
+		deleteTaskAction = new DeleteTaskAction(window, "&Delete");
+		deleteTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.DELETE_SMALL));
 		register(deleteTaskAction);
-		
-		restoreTaskAction = new RestoreTaskAction(window,"&Restore");
-		restoreTaskAction.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				Activator.PLUGIN_ID, IImageKeys.DELETE_SMALL));
+
+		restoreTaskAction = new RestoreTaskAction(window, "&Restore");
+		restoreTaskAction.setImageDescriptor(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						IImageKeys.RESTART_SMALL));
 		register(restoreTaskAction);
 
 		viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
@@ -152,11 +163,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		toolbar.add(aboutAction);
 		toolbar.add(quitAction);
 	}
-	
+
 	protected void fillTrayItem(IMenuManager trayItem) {
 		trayItem.add(aboutAction);
 		trayItem.add(quitAction);
 	}
-
 
 }
