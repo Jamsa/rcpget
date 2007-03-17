@@ -1,14 +1,13 @@
 package jamsa.rcp.downloader.views;
 
+import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.IImageKeys;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
-import jamsa.rcp.downloader.views.actions.AddCategoryAction;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -17,9 +16,11 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * 下载分类视图
@@ -80,13 +81,14 @@ public class CategoryTreeView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-//	getViewSite().getActionBars().getMenuManager().getItems();
-//		IContributionItem[] items = getViewSite().getActionBars().getMenuManager().getItems();
-//		for (int i = 0; i < items.length; i++) {
-//			IAction item = (IAction)items[i];
-//			manager.add(item.);
-//		}
-		
+		// getViewSite().getActionBars().getMenuManager().getItems();
+		// IContributionItem[] items =
+		// getViewSite().getActionBars().getMenuManager().getItems();
+		// for (int i = 0; i < items.length; i++) {
+		// IAction item = (IAction)items[i];
+		// manager.add(item.);
+		// }
+
 	}
 
 	@Override
@@ -102,6 +104,24 @@ public class CategoryTreeView extends ViewPart {
 				return category.getName();
 			}
 			return super.getText(element);
+		}
+
+		public Image getImage(Object element) {
+			if (element instanceof Category) {
+				Category category = (Category) element;
+				if (category == CategoryModel.getInstance().getRoot())
+					return AbstractUIPlugin.imageDescriptorFromPlugin(
+							Activator.PLUGIN_ID, IImageKeys.RCP_GET)
+							.createImage();
+				if (category == CategoryModel.getInstance().getTrash())
+					return AbstractUIPlugin.imageDescriptorFromPlugin(
+							Activator.PLUGIN_ID, IImageKeys.TRASH)
+							.createImage();
+				
+			}
+			return AbstractUIPlugin.imageDescriptorFromPlugin(
+					Activator.PLUGIN_ID, IImageKeys.CATEGORY)
+					.createImage();
 		}
 	}
 

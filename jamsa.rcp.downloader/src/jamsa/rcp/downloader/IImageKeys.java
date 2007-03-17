@@ -9,8 +9,11 @@ public interface IImageKeys {
 	public static final String STOP_TASK = "icons/task-stop.gif";
 	public static final String RESTART_TASK = "icons/task-restart.gif";
 	public static final String RESTORE_TASK = "icons/task-restore.gif";
-	public static final String TRASH = "icons/category-trash.gif";
+	public static final String TRASH = "icons/trash.gif";
+	public static final String CATEGORY = "icons/category.gif";
 	public static final String ABOUT = "icons/icon-about.gif";
 	public static final String QUIT = "icons/icon-quit.gif";
+	
 }
+
 
