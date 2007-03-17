@@ -168,12 +168,12 @@ public class TaskTableView extends ViewPart {
 	private void createContextMenu(Composite parent) {
 		MenuManager mgr = new MenuManager();
 		// mgr.setRemoveAllWhenShown(true);
-		fillContextMenu(mgr);
 		// mgr.addMenuListener(new IMenuListener() {
 		// public void menuAboutToShow(IMenuManager manager) {
 		// fillContextMenu(manager);
 		// }
 		// });
+		fillContextMenu(mgr);
 		Menu menu = mgr.createContextMenu(tableViewer.getControl());
 		tableViewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(mgr, tableViewer);

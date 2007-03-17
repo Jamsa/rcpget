@@ -82,7 +82,7 @@ public class CategoryTreeView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		getViewSite().getActionBars().getToolBarManager().getItems();
+//		getViewSite().getActionBars().getToolBarManager().getItems();
 		IContributionItem[] items = getViewSite().getActionBars()
 				.getMenuManager().getItems();
 		// manager.findMenuUsingPath("category");
