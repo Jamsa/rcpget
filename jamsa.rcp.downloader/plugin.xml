@@ -59,14 +59,14 @@
                   style="push"
                   toolbarPath="category"/>
             <action
-               class="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
-               enablesFor="1"
-               icon="icons/category-delete.gif"
-               id="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
-               label="删除分类"
-               menubarPath="category"
-               style="push"
-               toolbarPath="category"/>
+                  class="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
+                  enablesFor="1"
+                  icon="icons/category-delete.gif"
+                  id="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
+                  label="删除分类"
+                  menubarPath="category"
+                  style="push"
+                  toolbarPath="category"/>
             <action
                   class="jamsa.rcp.downloader.views.actions.ModifyCategoryAction"
                   enablesFor="1"
@@ -77,14 +77,14 @@
                   style="push"
                   toolbarPath="category"/>
             <action
-               class="jamsa.rcp.downloader.views.actions.AddCategoryAction"
-               enablesFor="1"
-               icon="icons/category-add.gif"
-               id="jamsa.rcp.downloader.views.actions.AddCategoryAction"
-               label="新增分类"
-               menubarPath="category"
-               style="push"
-               toolbarPath="category"/>
+                  class="jamsa.rcp.downloader.views.actions.AddCategoryAction"
+                  enablesFor="1"
+                  icon="icons/category-add.gif"
+                  id="jamsa.rcp.downloader.views.actions.AddCategoryAction"
+                  label="新增分类"
+                  menubarPath="category"
+                  style="push"
+                  toolbarPath="category"/>
       </viewContribution>
          <!-- 
       <viewContribution
