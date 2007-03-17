@@ -4,6 +4,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -31,7 +32,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	public ActionBarAdvisor createActionBarAdvisor(
 			IActionBarConfigurer configurer) {
-		return new ApplicationActionBarAdvisor(configurer);
+		this.actionBarAdvisor = new ApplicationActionBarAdvisor(configurer);
+		return this.actionBarAdvisor;
 	}
 
 	public void preWindowOpen() {
@@ -87,11 +89,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		if (tray == null)
 			return null;
 		TrayItem trayItem = new TrayItem(tray, SWT.NONE);
-		 ISharedImages sharedImages = window.getWorkbench()
-         .getSharedImages();
-//		trayImage = AbstractUIPlugin.imageDescriptorFromPlugin(
-//				"org.eclipsercp.hyperbola", IImageKeys.ONLINE).createImage();
-		trayItem.setImage(sharedImages.getImageDescriptor(ISharedImages.IMG_DEF_VIEW).createImage());
+		Image trayImage = AbstractUIPlugin.imageDescriptorFromPlugin(
+				Activator.PLUGIN_ID, IImageKeys.RCP_GET).createImage();
+		trayItem.setImage(trayImage);
 		trayItem.setToolTipText("RCP Get");
 		return trayItem;
 	}

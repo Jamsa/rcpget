@@ -31,7 +31,7 @@ public class RestoreTaskAction extends Action implements ISelectionListener,
 	public RestoreTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Restore the selected task.");
+		setToolTipText("»¹Ô­");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);

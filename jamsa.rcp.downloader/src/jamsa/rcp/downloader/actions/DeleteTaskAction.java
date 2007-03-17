@@ -33,7 +33,7 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 	public DeleteTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Delete the selected task.");
+		setToolTipText("删除选中任务");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);
@@ -44,6 +44,8 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
+//		MessageDialogWithToggle.openOkCancelConfirm(window.getShell(), "确认", "删除任务？", "同时删除文件？", false, null, "dfa");
+		
 		boolean confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
 				"确定要删除该任务吗？");
 		if (confirm) {

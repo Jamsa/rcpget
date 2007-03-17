@@ -28,8 +28,9 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * 线程终端视图
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class ConsoleView extends ViewPart {
 	class ListLabelProvider extends LabelProvider {
@@ -79,15 +80,16 @@ public class ConsoleView extends ViewPart {
 				.addSelectionListener(selectionListener);
 
 	}
-	
+
 	/**
 	 * 在选择了一个新的任务后，将该任务的终端日志队列中的数据显示出来
+	 * 
 	 * @param messages
 	 */
-	private void writeMessages(Map messages){
+	private void writeMessages(Map messages) {
 		for (Iterator it = messages.keySet().iterator(); it.hasNext();) {
 			String key = String.valueOf(it.next());
-			List msgs = (List)messages.get(key);
+			List msgs = (List) messages.get(key);
 			for (Iterator iter = msgs.iterator(); iter.hasNext();) {
 				String msg = (String) iter.next();
 				addMessage("线程：" + key, msg);
@@ -97,25 +99,27 @@ public class ConsoleView extends ViewPart {
 
 	/**
 	 * 创建线程终端
-	 * @param name 终端名称
+	 * 
+	 * @param name
+	 *            终端名称
 	 */
 	private void createTabItem(String name) {
 		CTabItem item = new CTabItem(tabFolder, SWT.NONE);
 		item.setText(name);
 		tabItems.put(name, item);
-		final ListViewer listViewer = new ListViewer(tabFolder, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+		final ListViewer listViewer = new ListViewer(tabFolder, SWT.V_SCROLL
+				| SWT.H_SCROLL | SWT.BORDER);
 		listViewers.put(name, listViewer);
 		listViewer.setLabelProvider(new ListLabelProvider());
 		listViewer.setContentProvider(new ListContentProvider());
 		if (messages.get(name) == null)
 			messages.put(name, new ArrayList());
 		List msgs = (List) messages.get(name);
-		//msgs.add(name);
+		// msgs.add(name);
 		listViewer.setInput(msgs);
 		item.setControl(listViewer.getList());
 		tabFolder.setSelection(item);
-		
-		
+
 	}
 
 	private void addMessage(String name, String msg) {
@@ -123,7 +127,7 @@ public class ConsoleView extends ViewPart {
 			ListViewer listViewer = (ListViewer) listViewers.get(name);
 			List msgs = (List) messages.get(name);
 			msgs.add(msg);
-//			msgs.add(0, msg);
+			// msgs.add(0, msg);
 			listViewer.scrollDown(0, 1);
 			listViewer.refresh();
 		} else {
@@ -153,8 +157,7 @@ public class ConsoleView extends ViewPart {
 		}
 
 	};
-	
-	
+
 	private ISelectionListener selectionListener = new ISelectionListener() {
 
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -170,7 +173,7 @@ public class ConsoleView extends ViewPart {
 						newTask.addObserver(msgObserver);
 						task = newTask;
 						disposeTabItems();
-						
+
 						writeMessages(task.getMessages());
 					}
 					logger.info("当前选中任务：" + task.getFileName());
@@ -192,9 +195,10 @@ public class ConsoleView extends ViewPart {
 	}
 
 	public void dispose() {
-		super.dispose();
+//		super.dispose();
 		disposeTabItems();
-		task.deleteObserver(msgObserver);
+		if (this.task != null)
+			task.deleteObserver(msgObserver);
 		getSite().getWorkbenchWindow().getSelectionService()
 				.removeSelectionListener(selectionListener);
 	}

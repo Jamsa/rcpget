@@ -21,11 +21,13 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * 任务详细信息视图
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class TaskInfoView extends ViewPart {
 	private static final Logger logger = new Logger(TaskInfoView.class);
+
 	public static final String ID = "jamsa.rcp.downloader.views.TaskInfoView";
 
 	private TableViewer tableViewer;
@@ -37,7 +39,8 @@ public class TaskInfoView extends ViewPart {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection incoming = (IStructuredSelection) selection;
-				if (incoming.size() == 1 && incoming.getFirstElement() instanceof Task) {
+				if (incoming.size() == 1
+						&& incoming.getFirstElement() instanceof Task) {
 					task = (Task) incoming.getFirstElement();
 					tableViewer.setInput(task);
 					logger.info("当前选中任务：" + task.getFileName());
@@ -92,24 +95,8 @@ public class TaskInfoView extends ViewPart {
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof Object[]) {
 				Object[] props = (Object[]) element;
-				if (props.length == 2) {
-					switch (columnIndex) {
-					case 0:
-						return String.valueOf(props[0]);
-					case 1:
-						return String.valueOf(props[1]);
-					case 2:
-						return String.valueOf(props[2]);
-					case 3:
-						return String.valueOf(props[3]);
-					case 4:
-						return String.valueOf(props[4]);
-					case 5:
-						return String.valueOf(props[5]);
-					default:
-						return "";
-						// break;
-					}
+				if(columnIndex<(props.length)){
+					return String.valueOf(props[columnIndex]);
 				}
 			}
 			return null;
@@ -122,14 +109,33 @@ public class TaskInfoView extends ViewPart {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Task) {
 				Task task = (Task) inputElement;
-				Object[] result = new Object[6];
+				Object[] result = new Object[9];
 				result[0] = new String[] { "文件名", task.getFileName() };
-				result[1] = new String[] { "大小", task.getFileSize() + "" };
-				result[2] = new String[] { "URL", task.getFileUrl() };
-				result[3] = new String[] { "保存位置", task.getFilePath() };
-				result[4] = new String[] { "文件类型", task.getFileType() };
-				result[5] = new String[] { "备注", task.getMemo() };
-				
+				result[1] = new String[] { "保存位置", task.getFilePath() };
+				result[2] = new String[] { "大小", task.getFileSize() + "" };
+				result[3] = new String[] { "平均速度", task.getAverageSpeed() + "k/s" };
+				result[4] = new String[] { "总耗时", task.getTotalTime()/1000 + "s" };
+				switch (task.getStatus()) {
+				case Task.STATUS_ERROR:
+					result[5] = new String[]{"状态","错误"};
+					break;
+				case Task.STATUS_FINISHED:
+					result[5] = new String[]{"状态","已完成"};
+					break;
+				case Task.STATUS_RUNNING:
+					result[5] = new String[]{"状态","运行中"};
+					break;
+				case Task.STATUS_STOP:
+					result[5] = new String[]{"状态","停止"};
+					break;
+				default:
+					result[5] = new String[]{"状态",""};
+					break;
+				}
+				result[6] = new String[] { "URL", task.getFileUrl() };
+				result[7] = new String[] { "文件类型", task.getFileType() };
+				result[8] = new String[] { "备注", task.getMemo() };
+
 				return result;
 			}
 			return null;

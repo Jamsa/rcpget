@@ -40,13 +40,13 @@ public class TaskThread2 extends Thread {
 		task.setStatus(status);
 	}
 
-	// 默认分成5块下载
-	// private int block = 5;
-
 	// 下载线程
 	private List threads = new ArrayList(10);
 
-	// 自动分割任务
+	/**
+	 * 自动分割任务
+	 * 
+	 */
 	private void split() {
 		// 默认分成5块下载
 		int block = task.getBlocks();
@@ -138,70 +138,31 @@ public class TaskThread2 extends Thread {
 	}
 
 	public void run() {
+		task.writeMessage("Task", "任务启动");
 		// 修改任务状态
 		changeStatus(Task.STATUS_RUNNING);
-		task.writeMessage("Task", "任务启动");
-
-		// 获取文件大小
-		long fileSize = getFileSize();
-
-		if (fileSize < 0) {
-			logger.info("无法获取文件大小");
-			task.writeMessage("Task", "无法获取文件大小");
-			task.setFileSize(0);
-			// return;
-		}
-
-		if (task.getFileSize() > 0 && task.getFileSize() != fileSize) {
-			logger.info("文件大小不一致，重新下载！");
-			task.writeMessage("Task", "文件大小不一致，重新下载！");
-			task.reset();
-			task.setStatus(Task.STATUS_RUNNING);
-			// return;
-		}
-
-		task.setFileSize(fileSize);
-		task.writeMessage("Task", "获取文件大小: " + fileSize);
-
-		// 如果未设置任务开始时间，则设置
-		if (task.getBeginTime() == 0)
-			task.setBeginTime(System.currentTimeMillis());
-
+		setFileSize();
+		setBeginTime();
 		split();
-		// 保存任务状态
+		File file = getSavedFile();
 		TaskModel.getInstance().updateTask(task);
-
-		// 创建文件保存目录
-		FileUtils.createDirectory(task.getFilePath());
-		task.writeMessage("Task", "检查/创建目录" + task.getFilePath());
-		String fileName = task.getFilePath() + File.separator
-				+ task.getFileName();
-
-//		// 检查文件是否已经存在
-//		while (FileUtils.existsFile(fileName)
-//				&& FileUtils.existsFile(fileName + FILENAME_DOWNLOAD_SUFFIX)) {
-//			task.setFileName(fileName.substring(0, fileName.indexOf("."))
-//					+ FILENAME_SUFFIX
-//					+ fileName.substring(fileName.indexOf("."), fileName
-//							.length()));
-//		}
-//		fileName = fileName + FILENAME_DOWNLOAD_SUFFIX;
 
 		RandomAccessFile savedFile = null;
 
 		HttpURLConnection httpConnection = null;
 		InputStream input = null;
 		try {
-			savedFile = new RandomAccessFile(fileName, "rw");
-			task.writeMessage("Task", "打开文件" + fileName);
-			// savedFile.setLength(fileSize);
+			savedFile = new RandomAccessFile(file, "rw");
+			task.writeMessage("Task", "打开文件" + file);
 			for (Iterator iter = task.getSplitters().iterator(); iter.hasNext();) {
 				TaskSplitter s = (TaskSplitter) iter.next();
-				DownloadThread t = new DownloadThread(task, savedFile, s);
-				threads.add(t);
-				t.start();
-				task.writeMessage("Task", "启动下载线程" + t.getName());
-				Thread.sleep(500);
+				if (!s.isFinish()) {
+					DownloadThread t = new DownloadThread(task, savedFile, s);
+					threads.add(t);
+					t.start();
+					task.writeMessage("Task", "启动下载线程" + s.getName());
+					Thread.sleep(500);
+				}
 			}
 
 			long lastTime = System.currentTimeMillis();
@@ -218,7 +179,6 @@ public class TaskThread2 extends Thread {
 						finished = false;
 						// break;
 					}
-
 				}
 
 				long current = System.currentTimeMillis();
@@ -243,6 +203,9 @@ public class TaskThread2 extends Thread {
 				sleep(1000);
 			}
 
+			/**
+			 * 任务线程被停止或者打断时中断所有下载线程
+			 */
 			if (task.getStatus() == Task.STATUS_STOP || this.isInterrupted()) {
 				logger.info("下载停止");
 				task.writeMessage("Task", "下载停止");
@@ -254,28 +217,12 @@ public class TaskThread2 extends Thread {
 				}
 				return;
 			}
-			// if (this.isInterrupted()) {
-			// logger.info("下载中断");
-			// changeStatus(Task.STATUS_STOP);
-			// return;
-			// }
 
 			task.setFinishTime(System.currentTimeMillis());
-
-//			String lastFileName = fileName.substring(0, fileName
-//					.lastIndexOf(FILENAME_DOWNLOAD_SUFFIX));
-//			while (FileUtils.existsFile(lastFileName)) {
-//				lastFileName = lastFileName.substring(0, lastFileName
-//						.lastIndexOf("."))
-//						+ FILENAME_SUFFIX + lastFileName.substring(
-//								+ lastFileName.lastIndexOf("."), lastFileName
-//								.length());
-//			}
-//			task.setFileName(lastFileName);
-//			FileUtils.renameFile(fileName, lastFileName);
+			savedFile.close();
+			renameSavedFile(file);
 
 			changeStatus(Task.STATUS_FINISHED);
-
 			logger.info("下载完成");
 			task.writeMessage("Task", "下载完成");
 		} catch (Exception e) {
@@ -303,8 +250,98 @@ public class TaskThread2 extends Thread {
 
 	}
 
-	// 获得文件长度
-	public long getFileSize() {
+	/**
+	 * 下载完成后，重命名文件
+	 * 
+	 * @param savedFile
+	 */
+	private void renameSavedFile(File savedFile) {
+		String finalFileName = task.getFilePath() + File.separator
+				+ task.getFileName();
+		while (FileUtils.existsFile(finalFileName)) {
+			String name = task.getFileName();
+			int length = name.length();
+			int idx = name.lastIndexOf(".");
+			name = name.substring(0, idx) + FILENAME_SUFFIX
+					+ name.substring(idx, length);
+			task.setFileName(name);
+
+			finalFileName = task.getFilePath() + File.separator
+					+ task.getFileName();
+		}
+		savedFile.renameTo(new File(finalFileName));
+	}
+
+	/**
+	 * 获取保存的临时文件名
+	 * 
+	 * @return
+	 */
+	private File getSavedFile() {
+		// 创建文件保存目录
+		FileUtils.createDirectory(task.getFilePath());
+		task.writeMessage("Task", "检查/创建目录" + task.getFilePath());
+		String fileName = task.getFilePath() + File.separator
+				+ task.getFileName();
+
+		// 检查文件是否已经存在
+		while (FileUtils.existsFile(fileName)) {
+			String name = task.getFileName();
+			int length = name.length();
+			int idx = name.lastIndexOf(".");
+			name = name.substring(0, idx) + FILENAME_SUFFIX
+					+ name.substring(idx, length);
+			task.setFileName(name);
+			fileName = task.getFilePath() + File.separator + task.getFileName();
+		}
+		// 修改任务文件名
+		fileName += FILENAME_DOWNLOAD_SUFFIX;
+		return new File(fileName);
+	}
+
+	/**
+	 * 设置任务开始时间
+	 * 
+	 */
+	private void setBeginTime() {
+		// 如果未设置任务开始时间，则设置
+		if (task.getBeginTime() == 0)
+			task.setBeginTime(System.currentTimeMillis());
+	}
+
+	/**
+	 * 设置任务文件大小
+	 * 
+	 */
+	private void setFileSize() {
+		// 获取文件大小
+		long fileSize = getRemoteFileSize();
+
+		if (fileSize < 0) {
+			logger.info("无法获取文件大小");
+			task.writeMessage("Task", "无法获取文件大小");
+			task.setFileSize(0);
+			// return;
+		}
+
+		if (task.getFileSize() > 0 && task.getFileSize() != fileSize) {
+			logger.info("文件大小不一致，重新下载！");
+			task.writeMessage("Task", "文件大小不一致，重新下载！");
+			task.reset();
+			task.setStatus(Task.STATUS_RUNNING);
+			// return;
+		}
+
+		task.setFileSize(fileSize);
+		task.writeMessage("Task", "获取文件大小: " + fileSize);
+	}
+
+	/**
+	 * 获取远程文件的大小
+	 * 
+	 * @return
+	 */
+	private long getRemoteFileSize() {
 		int nFileLength = -1;
 		try {
 			URL url = new URL(task.getFileUrl());

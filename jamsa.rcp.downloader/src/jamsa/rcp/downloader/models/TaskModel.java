@@ -101,23 +101,23 @@ public class TaskModel extends Observable {
 	 * @param task
 	 */
 	public synchronized void _saveTask(Task task) {
-		if (tasks.isEmpty())
-			return;
+//		if (tasks.isEmpty())
+//			return;
 		File directory = getTasksDirectory();
 		if (!directory.exists())
 			FileUtils.createDirectory(directory.getAbsolutePath());
-		ObjectOutputStream oos=null;
+		ObjectOutputStream oos = null;
 		try {
 			FileOutputStream fos = new FileOutputStream(getTaskFile(task));
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(task);
 			oos.close();
 		} catch (Exception e) {
-			logger.error("保存任务失败",e);
-		}finally{
-			try{
-			oos.close();
-			}catch (Exception e) {
+			logger.error("保存任务失败", e);
+		} finally {
+			try {
+				oos.close();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -137,7 +137,7 @@ public class TaskModel extends Observable {
 		}
 		this.setChanged();
 		this.notifyObservers(task);
-//		this.saveTasks();
+		// this.saveTasks();
 	}
 
 	/**
@@ -152,23 +152,24 @@ public class TaskModel extends Observable {
 		}
 	}
 
-	
 	/**
 	 * 还原任务
+	 * 
 	 * @param task
 	 */
 	public void restoreTask(Task task) {
 		task.setDeleted(false);
 		updateTask(task);
 	}
-	
+
 	/**
 	 * 清空回收站
+	 * 
 	 * @param task
 	 */
-	public void emptyTrash(){
+	public void emptyTrash() {
 		Task[] tasks = this.getTasks(CategoryModel.getInstance().getTrash());
-		if(tasks!=null){
+		if (tasks != null) {
 			for (int i = 0; i < tasks.length; i++) {
 				Task task = tasks[i];
 				this.deleteTask(task);
@@ -235,6 +236,7 @@ public class TaskModel extends Observable {
 
 	/**
 	 * 获取分类下的所有任务
+	 * 
 	 * @param category
 	 * @return
 	 */
@@ -244,7 +246,7 @@ public class TaskModel extends Observable {
 
 	/**
 	 * 加载所有任务
-	 *
+	 * 
 	 */
 	public void loadTasks() {
 		_loadTasks();
@@ -252,7 +254,7 @@ public class TaskModel extends Observable {
 
 	/**
 	 * 读取任务文件加载所有任务
-	 *
+	 * 
 	 */
 	public void _loadTasks() {
 		File directory = getTasksDirectory();
@@ -264,7 +266,28 @@ public class TaskModel extends Observable {
 					FileInputStream fis = new FileInputStream(file);
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					Task task = (Task) ois.readObject();
+					//非正常退出的状态检查
+					task
+							.setStatus(task.getStatus() == Task.STATUS_FINISHED ? Task.STATUS_FINISHED
+									: Task.STATUS_STOP);
+					
+					// 如果分类未找到，则根据任务状态 放到默认分类下
+					Category category = task.getCategory();
+					CategoryModel categoryModel = CategoryModel.getInstance();
+					if (category == null) {
+						
+								
+						if (task.getStatus() == Task.STATUS_FINISHED)
+							task.setCategory(categoryModel.getFinished());
+						else {
+							task.setCategory(categoryModel.getRunning());
+						}
+					} else {
+						task.setCategory(categoryModel.getCategory(task.getCategory().getName()));
+					}
+
 					tasks.put(task.getFileUrl(), task);
+					
 					ois.close();
 				} catch (Exception e) {
 					e.printStackTrace();

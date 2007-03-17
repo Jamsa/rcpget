@@ -35,7 +35,7 @@ public class ModifyTaskAction extends Action implements ISelectionListener,
 	public ModifyTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Modify task.");
+		setToolTipText("ÐÞ¸ÄÈÎÎñ");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);

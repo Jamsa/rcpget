@@ -65,9 +65,9 @@ public class TaskWizardPage extends WizardPage {
 	 *            是否为修改任务
 	 */
 	public TaskWizardPage(Task task, boolean isModify) {
-		super("New Download");
-		setTitle("New Download");
-		setDescription("New Download Task.");
+		super("下载任务");
+		setTitle("下载任务");
+		setDescription("下载任务");
 		setPageComplete(false);
 		setPageComplete(true);
 
@@ -237,17 +237,17 @@ public class TaskWizardPage extends WizardPage {
 		group_1.setLayout(gridLayout_1);
 
 		final Label categoryLabel = new Label(group_1, SWT.NONE);
-		categoryLabel.setText("Category");
+		categoryLabel.setText("分类");
 
 		categoryCombo = new Combo(group_1, SWT.READ_ONLY);
 		categoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
 
 		final Button addCategoryButton = new Button(group_1, SWT.NONE);
-		addCategoryButton.setText("&Add...");
+		addCategoryButton.setText("添加(&A)");
 
 		final Label savePathLabel = new Label(group_1, SWT.NONE);
-		savePathLabel.setText("Save Path");
+		savePathLabel.setText("保存目录");
 
 		savePathCombo = new Combo(group_1, SWT.NONE);
 		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -255,10 +255,10 @@ public class TaskWizardPage extends WizardPage {
 
 		final Button selectSavePathButton = new Button(group_1, SWT.NONE);
 
-		selectSavePathButton.setText("&Select...");
+		selectSavePathButton.setText("选择(&S)");
 
 		final Label fileNameLabel = new Label(group_1, SWT.NONE);
-		fileNameLabel.setText("File Name");
+		fileNameLabel.setText("文件名");
 
 		fileNameText = new Text(group_1, SWT.BORDER);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -271,7 +271,7 @@ public class TaskWizardPage extends WizardPage {
 		group_2.setLayout(gridLayout_2);
 
 		final Label memoLabel = new Label(group_2, SWT.NONE);
-		memoLabel.setText("Memo");
+		memoLabel.setText("备注");
 
 		memoText = new Text(group_2, SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.FILL, true,
@@ -282,7 +282,7 @@ public class TaskWizardPage extends WizardPage {
 		new Label(group_1, SWT.NONE);
 
 		final Label blocksLabel = new Label(group_1, SWT.NONE);
-		blocksLabel.setText("Split To");
+		blocksLabel.setText("线程数量");
 
 		blocksCombo = new Combo(group_1, SWT.NONE);
 
@@ -336,7 +336,7 @@ public class TaskWizardPage extends WizardPage {
 		});
 
 		// 选中第一条记录
-		categoryCombo.select(0);
+		categoryCombo.select(1);
 
 		addValidateListener();
 	}

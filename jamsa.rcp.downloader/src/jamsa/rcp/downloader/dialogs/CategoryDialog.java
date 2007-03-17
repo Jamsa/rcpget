@@ -58,7 +58,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		container.setLayout(gridLayout);
 
 		final Label categoryLabel = new Label(container, SWT.NONE);
-		categoryLabel.setText("Category");
+		categoryLabel.setText("分类名称");
 
 		categoryText = new Text(container, SWT.BORDER);
 
@@ -69,7 +69,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		new Label(container, SWT.NONE);
 
 		final Label directoryLabel = new Label(container, SWT.NONE);
-		directoryLabel.setText("Directory");
+		directoryLabel.setText("保存目录");
 
 		directoryText = new Text(container, SWT.BORDER);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -87,7 +87,7 @@ public class CategoryDialog extends TitleAreaDialog {
 			}
 		});
 		selectButton.setLayoutData(new GridData());
-		selectButton.setText("Select...");
+		selectButton.setText("选择(&S)");
 
 		setTitle("分类设置");
 

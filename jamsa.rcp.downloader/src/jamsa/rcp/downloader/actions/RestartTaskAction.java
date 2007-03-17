@@ -31,7 +31,7 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 	public RestartTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Pause the selected task.");
+		setToolTipText("÷ÿ–¬œ¬‘ÿ");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);

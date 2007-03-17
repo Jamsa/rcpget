@@ -2,14 +2,13 @@ package jamsa.rcp.downloader.models;
 
 import java.io.Serializable;
 
-
 /**
  * 任务块信息
  * 
  * @author 朱杰
  * 
  */
-public class TaskSplitter implements Serializable{
+public class TaskSplitter implements Serializable {
 	// /**
 	// * 消息
 	// */
@@ -79,19 +78,23 @@ public class TaskSplitter implements Serializable{
 		this.name = name;
 	}
 
-//	public List getMessages() {
-//		return messages;
-//	}
-//
-//	public void setMessages(List messages) {
-//		this.messages = messages;
-//	}
-//	
-//	public void addMessage(String message){
-//		this.messages.add(message);
-//	}
-//	
-//	public void removeMessage(String message){
-//		this.messages.remove(message);
-//	}
+	public boolean isFinish() {
+		return (this.getFinished() - (this.getEndPos() - this.getStartPos())) >= 0;
+	}
+
+	// public List getMessages() {
+	// return messages;
+	// }
+	//
+	// public void setMessages(List messages) {
+	// this.messages = messages;
+	// }
+	//	
+	// public void addMessage(String message){
+	// this.messages.add(message);
+	// }
+	//	
+	// public void removeMessage(String message){
+	// this.messages.remove(message);
+	// }
 }

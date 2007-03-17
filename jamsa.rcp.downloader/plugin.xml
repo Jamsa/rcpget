@@ -23,26 +23,26 @@
          point="org.eclipse.ui.views">
       <view
             class="jamsa.rcp.downloader.views.CategoryTreeView"
-            icon="icons/alt_window_16.gif"
+            icon="icons/category.gif"
             id="jamsa.rcp.downloader.views.CategoryTreeView"
-            name="Category"/>
+            name="下载分类"/>
       <view
             class="jamsa.rcp.downloader.views.TaskTableView"
-            icon="icons/alt_window_16.gif"
+            icon="icons/task.gif"
             id="jamsa.rcp.downloader.views.TaskTableView"
-            name="Tasks"/>
+            name="任务"/>
       <view
             category="bottom"
             class="jamsa.rcp.downloader.views.TaskInfoView"
-            icon="icons/alt_window_16.gif"
+            icon="icons/taskinfo.gif"
             id="jamsa.rcp.downloader.views.TaskInfoView"
-            name="Task Infomation"/>
+            name="任务信息"/>
       <view
             category="bottom"
             class="jamsa.rcp.downloader.views.ConsoleView"
-            icon="icons/alt_window_16.gif"
+            icon="icons/console.gif"
             id="jamsa.rcp.downloader.views.ConsoleView"
-            name="Console"/>
+            name="终端"/>
    </extension>
    <extension
          point="org.eclipse.ui.viewActions">
@@ -52,36 +52,36 @@
             <action
                   class="jamsa.rcp.downloader.views.actions.EmptyTrashAction"
                   enablesFor="1"
-                  icon="icons/alt_window_16.gif"
+                  icon="icons/trash.gif"
                   id="jamsa.rcp.downloader.views.actions.EmptyTrashAction"
-                  label="Empty Trash"
+                  label="清空回收站"
                   menubarPath="category"
                   style="push"
                   toolbarPath="category"/>
             <action
                class="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
                enablesFor="1"
-               icon="icons/alt_window_16.gif"
+               icon="icons/category-delete.gif"
                id="jamsa.rcp.downloader.views.actions.DeleteCategoryAction"
-               label="Delete Category"
+               label="删除分类"
                menubarPath="category"
                style="push"
                toolbarPath="category"/>
             <action
                   class="jamsa.rcp.downloader.views.actions.ModifyCategoryAction"
                   enablesFor="1"
-                  icon="icons/alt_window_16.gif"
+                  icon="icons/category-edit.gif"
                   id="jamsa.rcp.downloader.views.actions.ModifyCategoryAction"
-                  label="Modify Category"
+                  label="修改分类"
                   menubarPath="category"
                   style="push"
                   toolbarPath="category"/>
             <action
                class="jamsa.rcp.downloader.views.actions.AddCategoryAction"
                enablesFor="1"
-               icon="icons/alt_window_16.gif"
+               icon="icons/category-add.gif"
                id="jamsa.rcp.downloader.views.actions.AddCategoryAction"
-               label="Add Category"
+               label="新增分类"
                menubarPath="category"
                style="push"
                toolbarPath="category"/>
@@ -107,11 +107,11 @@
       <page
             class="jamsa.rcp.downloader.preference.General"
             id="jamsa.rcp.downloader.preference.General"
-            name="General"/>
+            name="常规"/>
       <page
             class="jamsa.rcp.downloader.preference.Connection"
             id="jamsa.rcp.downloader.preference.Connection"
-            name="Connection"/>
+            name="网络"/>
    </extension>
 
 </plugin>

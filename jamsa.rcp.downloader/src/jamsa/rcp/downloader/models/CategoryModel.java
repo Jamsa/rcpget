@@ -301,6 +301,7 @@ public class CategoryModel extends Observable {
 	 * @return
 	 */
 	public Category[] getAllowSaveCategories() {
+
 		return _getCategories(categories);
 	}
 
@@ -322,15 +323,14 @@ public class CategoryModel extends Observable {
 	}
 
 	public String[] getAllowSaveCategoryNames() {
-		// String[] result = new String[categories.size() + 1];
-		// int index = 0;
-		// result[index++] = finished.getName();
-		// for (Iterator iter = categories.keySet().iterator(); iter.hasNext();)
-		// {
-		// result[index++] = String.valueOf(iter.next());
-		// }
-		// return result;
-		return (String[]) categories.keySet().toArray(new String[] {});
+		String[] result = new String[categories.size() + 1];
+		int index = 0;
+		result[index++] = finished.getName();
+		for (Iterator iter = categories.keySet().iterator(); iter.hasNext();) {
+			result[index++] = String.valueOf(iter.next());
+		}
+		return result;
+		// return (String[]) categories.keySet().toArray(new String[] {});
 	}
 
 	public static final String TAG_CATEGORIES = "Categories";

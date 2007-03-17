@@ -34,7 +34,7 @@ public class StopTaskAction extends Action implements ISelectionListener,
 	public StopTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Stop the selected task.");
+		setToolTipText("Í£Ö¹ÈÎÎñ");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);

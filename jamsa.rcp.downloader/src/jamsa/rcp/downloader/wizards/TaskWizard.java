@@ -4,6 +4,7 @@ import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.utils.Logger;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.Wizard;
 
 /**

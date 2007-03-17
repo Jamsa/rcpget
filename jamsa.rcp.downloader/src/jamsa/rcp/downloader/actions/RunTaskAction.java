@@ -36,7 +36,7 @@ public class RunTaskAction extends Action implements ISelectionListener,
 	public RunTaskAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("&Run the selected task.");
+		setToolTipText("运行任务");
 
 		this.window = window;
 		try {
