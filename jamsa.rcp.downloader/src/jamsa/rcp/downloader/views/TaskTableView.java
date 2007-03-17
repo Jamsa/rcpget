@@ -11,7 +11,6 @@ import jamsa.rcp.downloader.utils.Logger;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -163,30 +162,37 @@ public class TaskTableView extends ViewPart {
 		});
 
 		createContextMenu(parent);
+
 	}
 
 	private void createContextMenu(Composite parent) {
 		MenuManager mgr = new MenuManager();
-		mgr.setRemoveAllWhenShown(true);
-		mgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				fillContextMenu(manager);
-			}
-		});
+		// mgr.setRemoveAllWhenShown(true);
+		fillContextMenu(mgr);
+		// mgr.addMenuListener(new IMenuListener() {
+		// public void menuAboutToShow(IMenuManager manager) {
+		// fillContextMenu(manager);
+		// }
+		// });
 		Menu menu = mgr.createContextMenu(tableViewer.getControl());
 		tableViewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(mgr, tableViewer);
 	}
 
+	private boolean contextMenu = false;
+
 	private void fillContextMenu(IMenuManager manager) {
-		IWorkbenchWindow window = getSite().getWorkbenchWindow();
-		manager.add(RCPGetActionFactory.NEW_TASK.create(window));
-		manager.add(RCPGetActionFactory.RUN_TASK.create(window));
-		manager.add(RCPGetActionFactory.STOP_TASK.create(window));
-		manager.add(RCPGetActionFactory.RESTART_TASK.create(window));
-		manager.add(new Separator());
-		manager.add(RCPGetActionFactory.DELETE_TASK.create(window));
-		manager.add(RCPGetActionFactory.RESTORE_TASK.create(window));
+		if (!contextMenu) {
+			IWorkbenchWindow window = getSite().getWorkbenchWindow();
+			manager.add(RCPGetActionFactory.NEW_TASK.create(window));
+			manager.add(RCPGetActionFactory.RUN_TASK.create(window));
+			manager.add(RCPGetActionFactory.STOP_TASK.create(window));
+			manager.add(RCPGetActionFactory.RESTART_TASK.create(window));
+			manager.add(new Separator());
+			manager.add(RCPGetActionFactory.DELETE_TASK.create(window));
+			manager.add(RCPGetActionFactory.RESTORE_TASK.create(window));
+			contextMenu = true;
+		}
 	}
 
 	public void dispose() {
