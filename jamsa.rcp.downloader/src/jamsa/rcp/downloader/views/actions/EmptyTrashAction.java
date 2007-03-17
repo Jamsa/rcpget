@@ -1,12 +1,14 @@
 package jamsa.rcp.downloader.views.actions;
 
+import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewActionDelegate;
@@ -38,7 +40,7 @@ public class EmptyTrashAction extends ActionDelegate implements
 				category = (Category) selections.getFirstElement();
 				if (CategoryModel.getInstance().getTrash() == category) {
 					Task[] trashs = TaskModel.getInstance().getTasks(category);
-					if(trashs!=null && trashs.length>0)
+					if (trashs != null && trashs.length > 0)
 						action.setEnabled(true);
 					else
 						action.setEnabled(false);
@@ -49,11 +51,22 @@ public class EmptyTrashAction extends ActionDelegate implements
 		}
 	}
 
+	private static final String DELETE_FILE_IN_TRASH = "DELETE_FILE_IN_TRASH";
+
 	public void run(IAction action) {
-		boolean confirm = MessageDialog.openConfirm(view.getViewSite()
-				.getShell(), "清空回收站", "要同时清空回收站中的文件吗？");
-		if (confirm)
-			TaskModel.getInstance().emptyTrash();
+		// boolean confirm = MessageDialog.openConfirm(view.getViewSite()
+		// .getShell(), "清空回收站", "要同时清空回收站中的文件吗？");
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		MessageDialogWithToggle dialog = MessageDialogWithToggle
+				.openOkCancelConfirm(view.getViewSite().getShell(), "清空回收站",
+						"确定要清空回收站吗？", "同时删除文件", false, store,
+						DELETE_FILE_IN_TRASH);
+		boolean confirm = dialog.getReturnCode() == MessageDialogWithToggle.OK;
+		boolean deleteFile = MessageDialogWithToggle.ALWAYS.equals(store
+				.getString(DELETE_FILE_IN_TRASH));
+		if (confirm) {
+			TaskModel.getInstance().emptyTrash(deleteFile);
+		}
 	}
 
 }

@@ -152,33 +152,24 @@ public class TaskModel extends Observable {
 			this._deleteTaskFile(task);
 		this.deleteTask(task);
 	}
-	
+
 	/**
-	 * 获取保存的临时文件名
+	 * 获取任务文件名，用于文件删除时
 	 * 
 	 * @return
 	 */
 	private File _getSavedFile(Task task) {
 		String fileName = task.getFilePath() + File.separator
 				+ task.getFileName();
-
-		// 检查文件是否已经存在
-		while (FileUtils.existsFile(fileName)) {
-			String name = task.getFileName();
-			int length = name.length();
-			int idx = name.lastIndexOf(".");
-			name = name.substring(0, idx) + TaskThread2.FILENAME_SUFFIX
-					+ name.substring(idx, length);
-			task.setFileName(name);
-			fileName = task.getFilePath() + File.separator + task.getFileName();
-		}
 		// 修改任务文件名
-		fileName += TaskThread2.FILENAME_DOWNLOAD_SUFFIX;
+		if (task.getStatus() != Task.STATUS_FINISHED)
+			fileName += TaskThread2.FILENAME_DOWNLOAD_SUFFIX;
 		return new File(fileName);
 	}
 
 	/**
 	 * 删除任务文件
+	 * 
 	 * @param task
 	 */
 	private void _deleteTaskFile(Task task) {
@@ -216,17 +207,19 @@ public class TaskModel extends Observable {
 	public void emptyTrash() {
 		emptyTrash(false);
 	}
-	
+
 	/**
 	 * 清空回收站
-	 * @param deleteFile 是否同时删除文件
+	 * 
+	 * @param deleteFile
+	 *            是否同时删除文件
 	 */
 	public void emptyTrash(boolean deleteFile) {
 		Task[] tasks = this.getTasks(CategoryModel.getInstance().getTrash());
 		if (tasks != null) {
 			for (int i = 0; i < tasks.length; i++) {
 				Task task = tasks[i];
-				this.deleteTask(task,deleteFile);
+				this.deleteTask(task, deleteFile);
 			}
 		}
 	}
