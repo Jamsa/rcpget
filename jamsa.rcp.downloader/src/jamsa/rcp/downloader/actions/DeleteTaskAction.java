@@ -44,14 +44,20 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
-//		MessageDialogWithToggle.openOkCancelConfirm(window.getShell(), "确认", "删除任务？", "同时删除文件？", false, null, "dfa");
-		
-		boolean confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
-				"确定要删除该任务吗？");
-		if (confirm) {
-			TaskThreadsManager.getInstance().stop(task);
-			TaskModel.getInstance().deleteTask(task);
+		if (task.getStatus() == Task.STATUS_RUNNING && !task.isDeleted()) {
+			boolean confirm = MessageDialog.openConfirm(window.getShell(),
+					"删除任务", "要删除正在运行的任务吗？");
+			if (confirm)
+				TaskThreadsManager.getInstance().stop(task);
 		}
+		// 如果是已经被删除的任务就要提示是否要删除文件
+		boolean deleteFile = false;
+		if (task.isDeleted()) {
+			deleteFile = MessageDialog.openConfirm(window.getShell(), "删除任务",
+					"同时删除文件？");
+		}
+
+		TaskModel.getInstance().deleteTask(task, deleteFile);
 	}
 
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -75,10 +81,14 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 
 	public void update(Observable o, Object arg) {
 		// 根据线程状态修改菜单状态
-		if (this.task.getStatus() == Task.STATUS_RUNNING)
-			setEnabled(false);
-		else
+		// if (this.task.getStatus() == Task.STATUS_RUNNING)
+		// setEnabled(false);
+		// else
+		// setEnabled(true);
+		if (this.task != null)
 			setEnabled(true);
+		else
+			setEnabled(false);
 	}
 
 	public void dispose() {

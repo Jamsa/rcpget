@@ -25,9 +25,9 @@ public class TaskThread2 extends Thread {
 	// 每个块最小
 	private static final long BLOCK_MIN_SIZE = 100000;
 
-	private static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
+	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
 
-	private static final String FILENAME_SUFFIX = "_1";
+	public static final String FILENAME_SUFFIX = "_1";
 
 	private Task task;
 

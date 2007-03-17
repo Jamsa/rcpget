@@ -101,8 +101,8 @@ public class TaskModel extends Observable {
 	 * @param task
 	 */
 	public synchronized void _saveTask(Task task) {
-//		if (tasks.isEmpty())
-//			return;
+		// if (tasks.isEmpty())
+		// return;
 		File directory = getTasksDirectory();
 		if (!directory.exists())
 			FileUtils.createDirectory(directory.getAbsolutePath());
@@ -138,6 +138,52 @@ public class TaskModel extends Observable {
 		this.setChanged();
 		this.notifyObservers(task);
 		// this.saveTasks();
+	}
+
+	/**
+	 * 删除任务和文件
+	 * 
+	 * @param task
+	 * @param deleteFile
+	 *            是否删除文件
+	 */
+	public void deleteTask(Task task, boolean deleteFile) {
+		if (deleteFile)
+			this._deleteTaskFile(task);
+		this.deleteTask(task);
+	}
+	
+	/**
+	 * 获取保存的临时文件名
+	 * 
+	 * @return
+	 */
+	private File _getSavedFile(Task task) {
+		String fileName = task.getFilePath() + File.separator
+				+ task.getFileName();
+
+		// 检查文件是否已经存在
+		while (FileUtils.existsFile(fileName)) {
+			String name = task.getFileName();
+			int length = name.length();
+			int idx = name.lastIndexOf(".");
+			name = name.substring(0, idx) + TaskThread2.FILENAME_SUFFIX
+					+ name.substring(idx, length);
+			task.setFileName(name);
+			fileName = task.getFilePath() + File.separator + task.getFileName();
+		}
+		// 修改任务文件名
+		fileName += TaskThread2.FILENAME_DOWNLOAD_SUFFIX;
+		return new File(fileName);
+	}
+
+	/**
+	 * 删除任务文件
+	 * @param task
+	 */
+	private void _deleteTaskFile(Task task) {
+		File file = _getSavedFile(task);
+		file.delete();
 	}
 
 	/**
@@ -266,28 +312,28 @@ public class TaskModel extends Observable {
 					FileInputStream fis = new FileInputStream(file);
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					Task task = (Task) ois.readObject();
-					//非正常退出的状态检查
+					// 非正常退出的状态检查
 					task
 							.setStatus(task.getStatus() == Task.STATUS_FINISHED ? Task.STATUS_FINISHED
 									: Task.STATUS_STOP);
-					
+
 					// 如果分类未找到，则根据任务状态 放到默认分类下
 					Category category = task.getCategory();
 					CategoryModel categoryModel = CategoryModel.getInstance();
 					if (category == null) {
-						
-								
+
 						if (task.getStatus() == Task.STATUS_FINISHED)
 							task.setCategory(categoryModel.getFinished());
 						else {
 							task.setCategory(categoryModel.getRunning());
 						}
 					} else {
-						task.setCategory(categoryModel.getCategory(task.getCategory().getName()));
+						task.setCategory(categoryModel.getCategory(task
+								.getCategory().getName()));
 					}
 
 					tasks.put(task.getFileUrl(), task);
-					
+
 					ois.close();
 				} catch (Exception e) {
 					e.printStackTrace();
