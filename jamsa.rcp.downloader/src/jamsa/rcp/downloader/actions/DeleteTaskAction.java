@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.actions;
 
+import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.models.TaskThreadsManager;
@@ -9,6 +10,8 @@ import java.util.Observer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionListener;
@@ -43,21 +46,41 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 		setEnabled(false);
 	}
 
+	private static final String DELETE_FILE_IN_DELETE_TASK = "DELETE_FILE_IN_DELETE_TASK";
+
 	public void run() {
+		// 一般情况，且任务不是在回收站中
+		if (task.getStatus() != Task.STATUS_RUNNING && !task.isDeleted()) {
+			TaskModel.getInstance().deleteTask(task);
+			return;
+		}
+
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		boolean confirm = false;
+		boolean deleteFile = false;
+		MessageDialogWithToggle dialog = null;
+		store.setValue(DELETE_FILE_IN_DELETE_TASK, "");
+		// 任务正在运行时的删除
 		if (task.getStatus() == Task.STATUS_RUNNING && !task.isDeleted()) {
-			boolean confirm = MessageDialog.openConfirm(window.getShell(),
-					"删除任务", "要删除正在运行的任务吗？");
+			confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
+					"要删除正在运行的任务吗？");
 			if (confirm)
 				TaskThreadsManager.getInstance().stop(task);
 		}
+
 		// 如果是已经被删除的任务就要提示是否要删除文件
-		boolean deleteFile = false;
 		if (task.isDeleted()) {
-			deleteFile = MessageDialog.openConfirm(window.getShell(), "删除任务",
-					"同时删除文件？");
+			dialog = MessageDialogWithToggle.openOkCancelConfirm(window
+					.getShell(), "删除任务", "确定要删除该任务吗？", "同时删除文件", false, store,
+					DELETE_FILE_IN_DELETE_TASK);
+			confirm = dialog.getReturnCode() == MessageDialogWithToggle.OK;
+			deleteFile = MessageDialogWithToggle.ALWAYS.equals(store
+					.getString(DELETE_FILE_IN_DELETE_TASK));
 		}
 
-		TaskModel.getInstance().deleteTask(task, deleteFile);
+		if (confirm) {
+			TaskModel.getInstance().deleteTask(task, deleteFile);
+		}
 	}
 
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {

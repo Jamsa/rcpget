@@ -57,6 +57,7 @@ public class EmptyTrashAction extends ActionDelegate implements
 		// boolean confirm = MessageDialog.openConfirm(view.getViewSite()
 		// .getShell(), "清空回收站", "要同时清空回收站中的文件吗？");
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		store.setValue(DELETE_FILE_IN_TRASH, "");
 		MessageDialogWithToggle dialog = MessageDialogWithToggle
 				.openOkCancelConfirm(view.getViewSite().getShell(), "清空回收站",
 						"确定要清空回收站吗？", "同时删除文件", false, store,
