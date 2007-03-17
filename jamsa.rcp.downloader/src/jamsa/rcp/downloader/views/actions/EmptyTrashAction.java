@@ -51,7 +51,7 @@ public class EmptyTrashAction extends ActionDelegate implements
 
 	public void run(IAction action) {
 		boolean confirm = MessageDialog.openConfirm(view.getViewSite()
-				.getShell(), "清空回收站", "确定要清空回收站吗？");
+				.getShell(), "清空回收站", "要同时清空回收站中的文件吗？");
 		if (confirm)
 			TaskModel.getInstance().emptyTrash();
 	}

@@ -214,11 +214,19 @@ public class TaskModel extends Observable {
 	 * @param task
 	 */
 	public void emptyTrash() {
+		emptyTrash(false);
+	}
+	
+	/**
+	 * 清空回收站
+	 * @param deleteFile 是否同时删除文件
+	 */
+	public void emptyTrash(boolean deleteFile) {
 		Task[] tasks = this.getTasks(CategoryModel.getInstance().getTrash());
 		if (tasks != null) {
 			for (int i = 0; i < tasks.length; i++) {
 				Task task = tasks[i];
-				this.deleteTask(task);
+				this.deleteTask(task,deleteFile);
 			}
 		}
 	}
