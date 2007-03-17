@@ -8,6 +8,7 @@ import jamsa.rcp.downloader.models.CategoryModel;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -81,14 +82,13 @@ public class CategoryTreeView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		// getViewSite().getActionBars().getMenuManager().getItems();
-		// IContributionItem[] items =
-		// getViewSite().getActionBars().getMenuManager().getItems();
-		// for (int i = 0; i < items.length; i++) {
-		// IAction item = (IAction)items[i];
-		// manager.add(item.);
-		// }
-
+		getViewSite().getActionBars().getToolBarManager().getItems();
+		IContributionItem[] items = getViewSite().getActionBars()
+				.getMenuManager().getItems();
+		manager.findMenuUsingPath("category");
+		for (int i = 0; i < items.length; i++) {
+			manager.add(items[i]);
+		}
 	}
 
 	@Override
@@ -117,11 +117,10 @@ public class CategoryTreeView extends ViewPart {
 					return AbstractUIPlugin.imageDescriptorFromPlugin(
 							Activator.PLUGIN_ID, IImageKeys.TRASH)
 							.createImage();
-				
+
 			}
 			return AbstractUIPlugin.imageDescriptorFromPlugin(
-					Activator.PLUGIN_ID, IImageKeys.CATEGORY)
-					.createImage();
+					Activator.PLUGIN_ID, IImageKeys.CATEGORY).createImage();
 		}
 	}
 
