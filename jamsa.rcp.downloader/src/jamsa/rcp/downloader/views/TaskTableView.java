@@ -191,6 +191,9 @@ public class TaskTableView extends ViewPart {
 			manager.add(new Separator());
 			manager.add(RCPGetActionFactory.DELETE_TASK.create(window));
 			manager.add(RCPGetActionFactory.RESTORE_TASK.create(window));
+			manager.add(new Separator());
+			manager.add(RCPGetActionFactory.COPY_URL.create(window));
+			manager.add(RCPGetActionFactory.MODIFY_TASK.create(window));
 			contextMenu = true;
 		}
 	}

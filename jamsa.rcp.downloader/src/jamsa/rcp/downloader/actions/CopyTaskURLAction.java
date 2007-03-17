@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.actions;
 
 import jamsa.rcp.downloader.models.Task;
+import jamsa.rcp.downloader.utils.StringUtils;
 import jamsa.rcp.downloader.wizards.TaskWizard;
 
 import java.util.Observable;
@@ -10,6 +11,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -21,9 +24,9 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author 朱杰
  * 
  */
-public class ModifyTaskAction extends Action implements ISelectionListener,
+public class CopyTaskURLAction extends Action implements ISelectionListener,
 		ActionFactory.IWorkbenchAction, Observer {
-	public static final String ID = "jamsa.rcp.downloader.actions.RunTaskAction";
+	public static final String ID = CopyTaskURLAction.class.getName();
 
 	private IWorkbenchWindow window;
 
@@ -32,10 +35,10 @@ public class ModifyTaskAction extends Action implements ISelectionListener,
 	// private TaskThreadsManager threadManager =
 	// TaskThreadsManager.getInstance();
 
-	public ModifyTaskAction(IWorkbenchWindow window, String label) {
+	public CopyTaskURLAction(IWorkbenchWindow window, String label) {
 		setId(ID);
 		setText(label);
-		setToolTipText("修改任务");
+		setToolTipText("复制URL");
 		this.window = window;
 		try {
 			window.getSelectionService().addSelectionListener(this);
@@ -46,9 +49,9 @@ public class ModifyTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
-		TaskWizard wizard = new TaskWizard(task, true);
-		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
-		dialog.open();
+		Clipboard clipboard = new Clipboard(window.getShell().getDisplay());
+		TextTransfer textTransfer = TextTransfer.getInstance();
+		clipboard.setContents(new Object[]{task.getFileUrl()}, new TextTransfer[]{textTransfer});
 	}
 
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -77,9 +80,9 @@ public class ModifyTaskAction extends Action implements ISelectionListener,
 
 	public void update(Observable o, Object arg) {
 		// 根据线程状态修改菜单状态
-		if (this.task.getStatus() == Task.STATUS_RUNNING)//|| this.task.getStatus() == Task.STATUS_FINISHED)
-			setEnabled(false);
-		else
+//		if (this.task.getStatus() == Task.STATUS_RUNNING)//|| this.task.getStatus() == Task.STATUS_FINISHED)
+//			setEnabled(false);
+//		else
 			setEnabled(true);
 	}
 }

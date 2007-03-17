@@ -40,7 +40,8 @@ public class Gather extends Shell {
 	 */
 	protected void createContents() {
 		setText("SWT Application");
-		setSize(500, 375);
+//		setSize(200, 200);
+		setLocation(600,800);
 		//
 	}
 

@@ -2,12 +2,14 @@ package jamsa.rcp.downloader.models;
 
 import jamsa.rcp.downloader.utils.FileUtils;
 import jamsa.rcp.downloader.utils.Logger;
+import jamsa.rcp.downloader.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -139,14 +141,24 @@ public class TaskThread2 extends Thread {
 
 	public void run() {
 		task.writeMessage("Task", "任务启动");
+		task.getMessages().clear();
 		// 修改任务状态
 		changeStatus(Task.STATUS_RUNNING);
-		setFileSize();
+		TaskModel.getInstance().updateTask(task);
+		// setFileSize();
+		try {
+			getRemoteFileInfo();
+		} catch (Exception e) {
+			task.setStatus(Task.STATUS_ERROR);
+			TaskModel.getInstance().updateTask(task);
+			task.writeMessage("Task", e.getMessage());
+			e.printStackTrace();
+			return;
+		}
 		setBeginTime();
 		split();
 		File file = getSavedFile();
 		TaskModel.getInstance().updateTask(task);
-
 		RandomAccessFile savedFile = null;
 
 		HttpURLConnection httpConnection = null;
@@ -307,6 +319,90 @@ public class TaskThread2 extends Thread {
 		// 如果未设置任务开始时间，则设置
 		if (task.getBeginTime() == 0)
 			task.setBeginTime(System.currentTimeMillis());
+	}
+
+	private void getRemoteFileInfo() throws Exception {
+		URL url = null;
+		HttpURLConnection conn = null;
+		try {
+			url = new URL(task.getFileUrl());
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("User-Agent", "RCP Get");
+			conn.setRequestMethod("GET");
+			//conn.connect();
+			int code = conn.getResponseCode();
+			// 检查返回码
+			if (code == HttpURLConnection.HTTP_BAD_METHOD) {
+				conn.setRequestMethod("POST");
+				code = conn.getResponseCode();
+//				conn.connect();
+			}
+
+			if (code != HttpURLConnection.HTTP_OK)
+				throw new Exception("连接错误!错误代码：" + code);
+
+			url = conn.getURL();
+			
+			
+			
+			// 文件发生了重定向
+			if (!url.toString().equals(task.getFileUrl())
+					&& task.getFinishedSize() == 0) {
+				// 如果文件还没有开始下载就重新设置文件名
+				String fileName = url.getFile();
+				int start = fileName.lastIndexOf("/") + 1;
+				if (start < fileName.length()) {
+					task.writeMessage("Task", "文件重命名" + fileName);
+					task.setFileName(fileName.substring(start, fileName
+							.length()));
+				}
+			}
+
+			// Map fields = conn.getHeaderFields();
+			String contentLength = null;
+
+			String header = null;
+			for (int i = 1;; i++) {
+				header = conn.getHeaderFieldKey(i);
+				if (header != null) {
+					task.writeMessage("Task", header+": " + conn.getHeaderField(header));
+					if (header.equals("Content-Length")) {
+						contentLength = conn.getHeaderField(header);
+						break;
+					}
+				} else
+					break;
+			}
+
+			// 如果无法获取文件长度就将是0，任务仍将会继续
+			if (!StringUtils.isEmpty(contentLength)) {
+				long size = Long.parseLong(String.valueOf(contentLength));
+				if (task.getFileSize() > 0 && task.getFileSize() != size) {
+					task.writeMessage("Task", "文件大小不一致，重新下载！");
+					task.reset();
+					task.setStatus(Task.STATUS_RUNNING);
+				}
+				task.setFileSize(size);
+				task.writeMessage("Task", "远程文件大小：" + task.getFileSize());
+			} else {
+				task.writeMessage("Task", "无法获取文件大小");
+			}
+
+			conn.disconnect();
+		} catch (MalformedURLException e) {
+			throw new Exception("URL错误："+e.getLocalizedMessage(), e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new Exception("I/O错误："+e.getLocalizedMessage(), e);
+		} catch (NumberFormatException e) {
+			throw new Exception("无法解析文件大小", e);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (conn != null)
+				conn.disconnect();
+		}
+
 	}
 
 	/**

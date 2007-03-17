@@ -4,6 +4,8 @@ import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.utils.StringUtils;
 
+import java.net.URL;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -82,14 +84,26 @@ public class TaskWizardPage extends WizardPage {
 	 * @return
 	 */
 	private String getFileName(String url) {
-		String fileUrl = url.trim();
-		int fileNameIndex = fileUrl.lastIndexOf("/");
-		int paramIndex = fileUrl.indexOf('?');
-		int length = fileUrl.length();
-		if (fileNameIndex > 0 && fileNameIndex < length && paramIndex <= 0)
-			return fileUrl.substring(fileNameIndex + 1, fileUrl.length());
-		if (fileNameIndex > 0 && fileNameIndex < length && paramIndex > 0)
-			return fileUrl.substring(fileNameIndex + 1, paramIndex);
+		// String fileUrl = url.trim();
+		// int fileNameIndex = fileUrl.lastIndexOf("/");
+		// int paramIndex = fileUrl.indexOf('?');
+		// int length = fileUrl.length();
+		// if (fileNameIndex > 0 && fileNameIndex + 1 < length && paramIndex <=
+		// 0)
+		// return fileUrl.substring(fileNameIndex + 1, fileUrl.length());
+		// if (fileNameIndex > 0 && fileNameIndex + 1 < length && paramIndex >
+		// 0)
+		// return fileUrl.substring(fileNameIndex + 1, paramIndex);
+
+		try {
+			URL u = new URL(url);
+			String name = u.getFile();
+			int start = name.lastIndexOf("/") + 1;
+			if (name.length() > start)
+				return name.substring(start, name.length());
+		} catch (Exception e) {
+			// e.printStackTrace();
+		}
 
 		return "index.html";
 	}
@@ -106,7 +120,7 @@ public class TaskWizardPage extends WizardPage {
 			setPageComplete(false);
 			return false;
 		}
-		
+
 		if (!this.fileUrlText.getText().trim().startsWith("http")) {
 			setErrorMessage("Alpha版本，暂只支持Http协议");
 			setPageComplete(false);
@@ -318,7 +332,9 @@ public class TaskWizardPage extends WizardPage {
 		// 从剪贴板粘贴url
 		TextTransfer textTransfer = TextTransfer.getInstance();
 		String textData = (String) clipboard.getContents(textTransfer);
-		if (textData.startsWith("http://")) {
+
+		if (!StringUtils.isEmpty(textData) && textData.startsWith("http://")) {
+			textData = textData.trim();
 			fileUrlText.setText(textData);
 		}
 
