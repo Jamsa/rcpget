@@ -1,13 +1,5 @@
 package jamsa.rcp.downloader;
 
-import jamsa.rcp.downloader.actions.DeleteTaskAction;
-import jamsa.rcp.downloader.actions.ModifyTaskAction;
-import jamsa.rcp.downloader.actions.NewTaskAction;
-import jamsa.rcp.downloader.actions.RestartTaskAction;
-import jamsa.rcp.downloader.actions.RestoreTaskAction;
-import jamsa.rcp.downloader.actions.RunTaskAction;
-import jamsa.rcp.downloader.actions.StopTaskAction;
-
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
@@ -17,13 +9,10 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
-import org.eclipse.ui.internal.ShowViewMenu;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
@@ -35,19 +24,19 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IWorkbenchAction prefAction;
 
-	private NewTaskAction newTaskAction;
+	private IWorkbenchAction newTaskAction;
 
-	private RunTaskAction runTaskAction;
+	private IWorkbenchAction runTaskAction;
 
-	private RestartTaskAction restartTaskAction;
+	private IWorkbenchAction restartTaskAction;
 
-	private StopTaskAction stopTaskAction;
+	private IWorkbenchAction stopTaskAction;
 
-	private ModifyTaskAction modifyTaskAction;
+	private IWorkbenchAction modifyTaskAction;
 
-	private DeleteTaskAction deleteTaskAction;
+	private IWorkbenchAction deleteTaskAction;
 
-	private RestoreTaskAction restoreTaskAction;
+	private IWorkbenchAction restoreTaskAction;
 
 	// private RunTaskAction runTaskAction;
 
@@ -56,69 +45,38 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void makeActions(IWorkbenchWindow window) {
-
-		quitAction = ActionFactory.QUIT.create(window);
-		quitAction.setText("退出(&X)");
-		quitAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.QUIT));
+		quitAction = RCPGetActionFactory.QUIT.create(window);
 		register(quitAction);
 
-		aboutAction = ActionFactory.ABOUT.create(window);
-		aboutAction.setText("关于(&A)");
-		aboutAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.ABOUT));
+		aboutAction = RCPGetActionFactory.ABOUT.create(window);
 		register(aboutAction);
 
-		prefAction = ActionFactory.PREFERENCES.create(window);
-		prefAction.setText("首选项(&P)");
+		prefAction = RCPGetActionFactory.PREFERENCES.create(window);
 		register(prefAction);
 
-		newTaskAction = new NewTaskAction(window, "新建任务(&N)");
-		newTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.NEW_TASK));
+		newTaskAction = RCPGetActionFactory.NEW_TASK.create(window);
 		register(newTaskAction);
 
-		modifyTaskAction = new ModifyTaskAction(window, "修改任务(&M)");
-		modifyTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.MODIFY_TASK));
+		modifyTaskAction = RCPGetActionFactory.MODIFY_TASK.create(window);
 		register(modifyTaskAction);
 
-		runTaskAction = new RunTaskAction(window, "运行任务(&S)");
-		runTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RUN_TASK));
+		runTaskAction = RCPGetActionFactory.RUN_TASK.create(window);
 		register(runTaskAction);
 
-		restartTaskAction = new RestartTaskAction(window, "重新下载(&R)");
-		restartTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RESTART_TASK));
+		restartTaskAction = RCPGetActionFactory.RESTART_TASK.create(window);
 		register(restartTaskAction);
 
-		stopTaskAction = new StopTaskAction(window, "停止任务(&Z)");
-		stopTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.STOP_TASK));
+		stopTaskAction = RCPGetActionFactory.STOP_TASK.create(window);
 		register(stopTaskAction);
 
-		deleteTaskAction = new DeleteTaskAction(window, "删除任务(&D)");
-		deleteTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.DELETE_TASK));
+		deleteTaskAction = RCPGetActionFactory.DELETE_TASK.create(window);
 		register(deleteTaskAction);
 
-		restoreTaskAction = new RestoreTaskAction(window, "还原(&R)");
-		restoreTaskAction.setImageDescriptor(AbstractUIPlugin
-				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
-						IImageKeys.RESTORE_TASK));
+		restoreTaskAction = RCPGetActionFactory.RESTART_TASK.create(window);
 		register(restoreTaskAction);
 
 		viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
-		
+
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {

@@ -6,6 +6,7 @@ import jamsa.rcp.downloader.wizards.TaskWizard;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * 新建任务动作
@@ -13,7 +14,10 @@ import org.eclipse.ui.IWorkbenchWindow;
  * @author 朱杰
  * 
  */
-public class NewTaskAction extends Action {
+public class NewTaskAction extends Action implements
+		ActionFactory.IWorkbenchAction {
+	public static final String ID = NewTaskAction.class.getName();
+
 	private final IWorkbenchWindow window;
 
 	public NewTaskAction(IWorkbenchWindow window, String label) {
@@ -26,5 +30,10 @@ public class NewTaskAction extends Action {
 		TaskWizard wizard = new TaskWizard(new Task(), false);
 		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
 		dialog.open();
+	}
+
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 }

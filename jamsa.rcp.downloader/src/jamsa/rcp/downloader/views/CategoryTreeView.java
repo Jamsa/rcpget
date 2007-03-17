@@ -85,7 +85,7 @@ public class CategoryTreeView extends ViewPart {
 		getViewSite().getActionBars().getToolBarManager().getItems();
 		IContributionItem[] items = getViewSite().getActionBars()
 				.getMenuManager().getItems();
-		manager.findMenuUsingPath("category");
+		// manager.findMenuUsingPath("category");
 		for (int i = 0; i < items.length; i++) {
 			manager.add(items[i]);
 		}

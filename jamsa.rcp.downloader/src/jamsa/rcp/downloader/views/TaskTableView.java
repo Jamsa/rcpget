@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.views;
 
+import jamsa.rcp.downloader.RCPGetActionFactory;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
@@ -10,6 +11,10 @@ import jamsa.rcp.downloader.utils.Logger;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -23,10 +28,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -154,6 +161,32 @@ public class TaskTableView extends ViewPart {
 				});
 			}
 		});
+
+		createContextMenu(parent);
+	}
+
+	private void createContextMenu(Composite parent) {
+		MenuManager mgr = new MenuManager();
+		mgr.setRemoveAllWhenShown(true);
+		mgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				fillContextMenu(manager);
+			}
+		});
+		Menu menu = mgr.createContextMenu(tableViewer.getControl());
+		tableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(mgr, tableViewer);
+	}
+
+	private void fillContextMenu(IMenuManager manager) {
+		IWorkbenchWindow window = getSite().getWorkbenchWindow();
+		manager.add(RCPGetActionFactory.NEW_TASK.create(window));
+		manager.add(RCPGetActionFactory.RUN_TASK.create(window));
+		manager.add(RCPGetActionFactory.STOP_TASK.create(window));
+		manager.add(RCPGetActionFactory.RESTART_TASK.create(window));
+		manager.add(new Separator());
+		manager.add(RCPGetActionFactory.DELETE_TASK.create(window));
+		manager.add(RCPGetActionFactory.RESTORE_TASK.create(window));
 	}
 
 	public void dispose() {
