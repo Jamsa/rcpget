@@ -1,5 +1,8 @@
 package jamsa.rcp.downloader;
 
+import jamsa.rcp.downloader.preference.PreferenceManager;
+
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -28,6 +31,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		PreferenceManager.getInstance().checkPreference();
 	}
 
 	/*
