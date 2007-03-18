@@ -15,42 +15,45 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class Connection extends PreferencePage implements
 IWorkbenchPreferencePage{
 
-	private Text text_1;
-	private Text text;
+	private Text maxTasksText;
+	private Text retryDelayText;
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout());
 
 		final Group timeoutGroup = new Group(container, SWT.NONE);
-		timeoutGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		timeoutGroup.setText("TimeOut");
+		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gridData.widthHint = 302;
+		timeoutGroup.setLayoutData(gridData);
+		timeoutGroup.setText("超时");
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		timeoutGroup.setLayout(gridLayout);
 
-		final Label retryAfterLabel = new Label(timeoutGroup, SWT.NONE);
-		retryAfterLabel.setText("Retry after");
+		final Label retryDelayLabel = new Label(timeoutGroup, SWT.NONE);
+		retryDelayLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
+		retryDelayLabel.setText("重试等侍时间");
 
-		text = new Text(timeoutGroup, SWT.BORDER);
-		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		retryDelayText = new Text(timeoutGroup, SWT.BORDER);
+		retryDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final Label sLabel = new Label(timeoutGroup, SWT.NONE);
-		sLabel.setText("s");
+		sLabel.setText("秒");
 
 		final Group limitGroup = new Group(container, SWT.NONE);
 		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		limitGroup.setText("Limit");
+		limitGroup.setText("限制");
 		final GridLayout gridLayout_1 = new GridLayout();
 		gridLayout_1.numColumns = 2;
 		limitGroup.setLayout(gridLayout_1);
 
-		final Label maxinumTasksLabel = new Label(limitGroup, SWT.NONE);
-		maxinumTasksLabel.setLayoutData(new GridData(97, SWT.DEFAULT));
-		maxinumTasksLabel.setText("Maxinum tasks");
+		final Label maxTasksLabel = new Label(limitGroup, SWT.NONE);
+		maxTasksLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
+		maxTasksLabel.setText("最多同时运行任务数量");
 
-		text_1 = new Text(limitGroup, SWT.BORDER);
-		text_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		maxTasksText = new Text(limitGroup, SWT.BORDER);
+		maxTasksText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		return container;
 	}
 	public void init(IWorkbench workbench) {

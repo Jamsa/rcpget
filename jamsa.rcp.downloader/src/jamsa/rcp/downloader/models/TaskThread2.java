@@ -321,6 +321,11 @@ public class TaskThread2 extends Thread {
 			task.setBeginTime(System.currentTimeMillis());
 	}
 
+	/**
+	 * 根据远程文件信息设置任务对象
+	 * 
+	 * @throws Exception
+	 */
 	private void getRemoteFileInfo() throws Exception {
 		URL url = null;
 		HttpURLConnection conn = null;
@@ -329,22 +334,20 @@ public class TaskThread2 extends Thread {
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestProperty("User-Agent", "RCP Get");
 			conn.setRequestMethod("GET");
-			//conn.connect();
+			// conn.connect();
 			int code = conn.getResponseCode();
 			// 检查返回码
 			if (code == HttpURLConnection.HTTP_BAD_METHOD) {
 				conn.setRequestMethod("POST");
 				code = conn.getResponseCode();
-//				conn.connect();
+				// conn.connect();
 			}
 
 			if (code != HttpURLConnection.HTTP_OK)
 				throw new Exception("连接错误!错误代码：" + code);
 
 			url = conn.getURL();
-			
-			
-			
+
 			// 文件发生了重定向
 			if (!url.toString().equals(task.getFileUrl())
 					&& task.getFinishedSize() == 0) {
@@ -365,7 +368,8 @@ public class TaskThread2 extends Thread {
 			for (int i = 1;; i++) {
 				header = conn.getHeaderFieldKey(i);
 				if (header != null) {
-					task.writeMessage("Task", header+": " + conn.getHeaderField(header));
+					task.writeMessage("Task", header + ": "
+							+ conn.getHeaderField(header));
 					if (header.equals("Content-Length")) {
 						contentLength = conn.getHeaderField(header);
 						break;
@@ -390,10 +394,10 @@ public class TaskThread2 extends Thread {
 
 			conn.disconnect();
 		} catch (MalformedURLException e) {
-			throw new Exception("URL错误："+e.getLocalizedMessage(), e);
+			throw new Exception("URL错误：" + e.getLocalizedMessage(), e);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new Exception("I/O错误："+e.getLocalizedMessage(), e);
+			throw new Exception("I/O错误：" + e.getLocalizedMessage(), e);
 		} catch (NumberFormatException e) {
 			throw new Exception("无法解析文件大小", e);
 		} catch (Exception e) {
@@ -408,6 +412,8 @@ public class TaskThread2 extends Thread {
 	/**
 	 * 设置任务文件大小
 	 * 
+	 * @deprecated
+	 * @see #getRemoteFileInfo();
 	 */
 	private void setFileSize() {
 		// 获取文件大小
@@ -435,7 +441,9 @@ public class TaskThread2 extends Thread {
 	/**
 	 * 获取远程文件的大小
 	 * 
-	 * @return
+	 * @deprecated
+	 * @see #getRemoteFileInfo();
+	 * @return 返回远程文件大小
 	 */
 	private long getRemoteFileSize() {
 		int nFileLength = -1;

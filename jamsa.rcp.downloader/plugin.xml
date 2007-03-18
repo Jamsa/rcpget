@@ -112,6 +112,10 @@
             class="jamsa.rcp.downloader.preference.Connection"
             id="jamsa.rcp.downloader.preference.Connection"
             name="网络"/>
+      <page
+            class="jamsa.rcp.downloader.preference.DefaultTask"
+            id="jamsa.rcp.downloader.preference.DefaultTask"
+            name="任务缺省属性"/>
    </extension>
 
 </plugin>

@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader;
 
+import jamsa.rcp.downloader.actions.CopyTaskURLAction;
 import jamsa.rcp.downloader.actions.DeleteTaskAction;
 import jamsa.rcp.downloader.actions.ModifyTaskAction;
 import jamsa.rcp.downloader.actions.NewTaskAction;
@@ -56,7 +57,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new ModifyTaskAction(window, "修改任务");
+			IWorkbenchAction action = new ModifyTaskAction(window, "任务属性");
 			action.setId(getId());
 			action.setToolTipText(action.getText());
 			action.setImageDescriptor(AbstractUIPlugin
@@ -126,6 +127,19 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.RESTORE_TASK));
+			return action;
+		}
+	};
+	
+	public static final ActionFactory COPY_URL = new ActionFactory(
+			CopyTaskURLAction.ID) {
+		public IWorkbenchAction create(IWorkbenchWindow window) {
+			if (window == null) {
+				throw new IllegalArgumentException();
+			}
+			IWorkbenchAction action = new CopyTaskURLAction(window, "复制URL");
+			action.setId(getId());
+			action.setToolTipText(action.getText());
 			return action;
 		}
 	};
