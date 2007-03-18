@@ -8,6 +8,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * 首选项
+ * 常规设置
+ * @author Jamsa
+ *
+ */
 public class General extends PreferencePage implements
 IWorkbenchPreferencePage{
 

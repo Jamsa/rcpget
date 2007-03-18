@@ -1,5 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
+import jamsa.rcp.downloader.Activator;
+
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -12,18 +14,28 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * 首选项
+ * 网络连接设置
+ * @author Jamsa
+ *
+ */
 public class Connection extends PreferencePage implements
-IWorkbenchPreferencePage{
+		IWorkbenchPreferencePage {
+	private PreferenceManager pm;
 
 	private Text maxTasksText;
+
 	private Text retryDelayText;
+
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout());
 
 		final Group timeoutGroup = new Group(container, SWT.NONE);
-		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false,
+				false);
 		gridData.widthHint = 302;
 		timeoutGroup.setLayoutData(gridData);
 		timeoutGroup.setText("超时");
@@ -36,13 +48,15 @@ IWorkbenchPreferencePage{
 		retryDelayLabel.setText("重试等侍时间");
 
 		retryDelayText = new Text(timeoutGroup, SWT.BORDER);
-		retryDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		retryDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
 
 		final Label sLabel = new Label(timeoutGroup, SWT.NONE);
 		sLabel.setText("秒");
 
 		final Group limitGroup = new Group(container, SWT.NONE);
-		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+				false));
 		limitGroup.setText("限制");
 		final GridLayout gridLayout_1 = new GridLayout();
 		gridLayout_1.numColumns = 2;
@@ -53,12 +67,39 @@ IWorkbenchPreferencePage{
 		maxTasksLabel.setText("最多同时运行任务数量");
 
 		maxTasksText = new Text(limitGroup, SWT.BORDER);
-		maxTasksText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		maxTasksText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
+
+		setControl();
 		return container;
 	}
+
+	private void setControl() {
+		int delay = pm.getRetryDelay();
+		retryDelayText.setText(delay + "");
+		int maxTasks = pm.getMaxRunTasks();
+		maxTasksText.setText(maxTasks + "");
+	}
+	
+//	protected void performApply() {
+//		this.performOk();
+//	}
+
+	protected void performDefaults() {
+		pm.setConnectionDefault();
+		setControl();
+	}
+
+	public boolean performOk() {
+		pm.setRetryDelay(Integer.parseInt(retryDelayText.getText().trim()));
+		pm.setMaxRunTasks(Integer.parseInt(maxTasksText.getText().trim()));
+		return true;
+	}
+
+	
 	public void init(IWorkbench workbench) {
-		// TODO Auto-generated method stub
-		
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		pm = PreferenceManager.getInstance();
 	}
 
 }
