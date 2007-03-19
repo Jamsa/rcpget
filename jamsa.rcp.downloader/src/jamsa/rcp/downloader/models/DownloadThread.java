@@ -1,16 +1,14 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.http.HttpClientUtils;
 import jamsa.rcp.downloader.utils.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Properties;
 
 /**
  * 下载线程
@@ -37,6 +35,9 @@ public class DownloadThread extends Thread {
 
 	// 状态
 	private boolean runn = false;
+
+	// 是否处于wait状态
+	private boolean wait = false;
 
 	/**
 	 * 构造器
@@ -82,101 +83,51 @@ public class DownloadThread extends Thread {
 		return this.splitter.getFinished();
 	}
 
-	/**
-	 * 连接HttpURL 自动处理连接重试
-	 * 
-	 * @param url
-	 * @return
-	 */
-	private HttpURLConnection getConnection(String httpUrl) {
-		URL url = null;
+	public InputStream getInputStream() throws IOException {
+		HttpURLConnection conn = null;
+		Properties prop = new Properties();
+		prop.put("User-Agent", "RCP Get");
+
+		if (splitter.getEndPos() != 0) {
+			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-"
+					+ splitter.getEndPos());
+		} else {
+			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
+		}
+
 		try {
-			url = new URL(httpUrl);
-		} catch (MalformedURLException e) {
-			task.writeMessage(this.splitter.getName(), "未知协议！");
+			while (conn == null) {
+				conn = HttpClientUtils.getHttpURLConnection(task.getFileUrl(),
+						RETRY_TIMES, RETRY_DELAY, prop, task, splitter
+								.getName());
+				// 如果conn为null则等待，其它线程完成时将唤醒这些等侍状态的线程
+				if (conn == null) {
+					task.writeMessage(splitter.getName(), "连接被拒绝，等侍其它线程!");
+					wait = true;
+					wait();
+					task.writeMessage(splitter.getName(), "连接被唤醒！重新连接！");
+					wait = false;
+				}
+			}
+		} catch (Exception e) {
+			runn = false;
+			wait = false;
+			task.writeMessage(splitter.getName(), e.getLocalizedMessage());
 			return null;
 		}
-
-		HttpURLConnection conn = null;
-		// 重试计数器
-		int times = 0;
-
-		while ((conn == null || RETRY_TIMES == 0 )//|| times <= RETRY_TIMES bug 如果不重试，则这个下载任务将不能完成
-				&& !this.isInterrupted()) {
-			try {
-				conn = (HttpURLConnection) url.openConnection();
-				// 设置User-Agent
-				conn.setRequestProperty("User-Agent", "RCP Get");
-
-				// 设置断点续传的开始和结束位置
-				if (splitter.getEndPos() != 0) {
-					conn.setRequestProperty("RANGE", "bytes="
-							+ splitter.getStartPos() + "-"
-							+ splitter.getEndPos());
-				} else {
-					conn.setRequestProperty("RANGE", "bytes="
-							+ splitter.getStartPos() + "-");
-				}
-				times++;
-				this.printResponseHeader(conn);
-				if (conn.getHeaderField("Connection").equals("close")) {
-					if (conn != null) {
-						conn.disconnect();
-						conn = null;
-					}
-				}
-				if (conn == null) {
-					task.writeMessage(this.splitter.getName(), "连接错误！"
-							+ RETRY_DELAY / 1000 + "秒后，重试第" + times + "次...");
-					Thread.sleep(2000);
-				}
-
-			} catch (IOException e) {
-				task.writeMessage(this.splitter.getName(), "连接错误！重试第" + times
-						+ "次...");
-			} catch (InterruptedException e) {
-				if (conn != null) {
-					conn.disconnect();
-				}
-				return null;
-			}
-
-			// 打印响应头
-			task.writeMessage(this.splitter.getName(), "第" + times + "次连接");
-
-		}
-		return conn;
-
-	}
-
-	// 显示Http头信息
-	private void printResponseHeader(URLConnection conn) {
-		for (Iterator iter = conn.getHeaderFields().keySet().iterator(); iter
-				.hasNext();) {
-			String key = (String) iter.next();
-			logger.info(this.getName() + ": " + key + " : "
-					+ conn.getHeaderField(key));
-			task.writeMessage(splitter.getName(), key + " : "
-					+ conn.getHeaderField(key));
-		}
+		return conn.getInputStream();
 	}
 
 	public void run() {
 		runn = true;
-		HttpURLConnection conn = null;
 		InputStream input = null;
 		try {
-			conn = (HttpURLConnection) this.getConnection(task.getFileUrl());
-			if (conn == null) {
-				task.writeMessage(splitter.getName(), "连接失败!");
+			input = getInputStream();
+			if (input == null) {
 				return;
-			}else{
-				task.writeMessage(this.splitter.getName(), "连接成功！");
 			}
-			// 获得输入流
-			input = conn.getInputStream();
+
 			task.writeMessage(splitter.getName(), "开始读取数据...");
-			
 			// 每次从流中读取大小
 			int size = 0;
 			// 流缓存
@@ -186,7 +137,6 @@ public class DownloadThread extends Thread {
 					&& !this.isInterrupted()
 					&& (((splitter.getFinished() + splitter.getStartPos()) < splitter
 							.getEndPos()) || splitter.getEndPos() == 0)) {// 结束位置为0表示大小未知
-
 				int pos = Integer.parseInt((splitter.getStartPos() + splitter
 						.getFinished())
 						+ "");
@@ -201,24 +151,29 @@ public class DownloadThread extends Thread {
 				Arrays.fill(buf, (byte) 0);
 				sleep(10);
 			}
-			runn = false;
 			logger.info(splitter.getName() + "线程任务完成!");
 			task.writeMessage(splitter.getName(), "线程任务完成!");
-		} catch (Exception e) {
-			e.printStackTrace();
+			if (!this.isInterrupted())
+				notifyAll();
+		} catch (IOException e) {
+			task.writeMessage(splitter.getName(), "流操作异常："
+					+ e.getLocalizedMessage());
+			
+			return;
+		} catch (InterruptedException e) {
+			task.writeMessage(splitter.getName(), "线程被中断！");
+			
+			return;
 		} finally {
+			wait = false;
+			runn = false;
 			try {
-				if (input != null) {
+				if (input != null)
 					input.close();
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (conn != null) {
-				conn.disconnect();
-			}
-			logger.info(splitter.getName() + ": 停止");
-			task.writeMessage(splitter.getName(), "停止");
 		}
+
 	}
 }

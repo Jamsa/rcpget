@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.http.HttpClientUtils;
 import jamsa.rcp.downloader.utils.FileUtils;
 import jamsa.rcp.downloader.utils.Logger;
 import jamsa.rcp.downloader.utils.StringUtils;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,8 +33,11 @@ public class TaskThread2 extends Thread {
 
 	private Task task;
 
+	private TaskModel taskModel;
+
 	public TaskThread2(Task task) {
 		this.task = task;
+		this.taskModel = TaskModel.getInstance();
 	}
 
 	// 修改任务状态
@@ -141,7 +144,7 @@ public class TaskThread2 extends Thread {
 
 	public void run() {
 		task.writeMessage("Task", "任务启动");
-		task.getMessages().clear();
+		// task.getMessages().clear();
 		// 修改任务状态
 		changeStatus(Task.STATUS_RUNNING);
 		TaskModel.getInstance().updateTask(task);
@@ -240,6 +243,7 @@ public class TaskThread2 extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 			changeStatus(Task.STATUS_ERROR);
+			TaskModel.getInstance().updateTask(task);
 		} finally {
 			if (input != null)
 				try {
@@ -330,21 +334,12 @@ public class TaskThread2 extends Thread {
 		URL url = null;
 		HttpURLConnection conn = null;
 		try {
-			url = new URL(task.getFileUrl());
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestProperty("User-Agent", "RCP Get");
-			conn.setRequestMethod("GET");
-			// conn.connect();
-			int code = conn.getResponseCode();
-			// 检查返回码
-			if (code == HttpURLConnection.HTTP_BAD_METHOD) {
-				conn.setRequestMethod("POST");
-				code = conn.getResponseCode();
-				// conn.connect();
+			conn = HttpClientUtils.getHttpURLConnection(task.getFileUrl(), 5,
+					5000, null, task, "Task");
+			if (conn == null) {
+				task.setStatus(Task.STATUS_ERROR);
+				TaskModel.getInstance().updateTask(task);
 			}
-
-			if (code != HttpURLConnection.HTTP_OK)
-				throw new Exception("连接错误!错误代码：" + code);
 
 			url = conn.getURL();
 
@@ -393,11 +388,6 @@ public class TaskThread2 extends Thread {
 			}
 
 			conn.disconnect();
-		} catch (MalformedURLException e) {
-			throw new Exception("URL错误：" + e.getLocalizedMessage(), e);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new Exception("I/O错误：" + e.getLocalizedMessage(), e);
 		} catch (NumberFormatException e) {
 			throw new Exception("无法解析文件大小", e);
 		} catch (Exception e) {

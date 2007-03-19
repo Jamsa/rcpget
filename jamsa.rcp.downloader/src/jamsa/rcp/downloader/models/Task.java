@@ -1,5 +1,7 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.views.IConsoleWriter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +16,7 @@ import java.util.Observable;
  * @author ÷ÏΩ‹
  * 
  */
-public class Task extends Observable implements Serializable{
+public class Task extends Observable implements IConsoleWriter,Serializable{
 	/**
 	 * 
 	 */
