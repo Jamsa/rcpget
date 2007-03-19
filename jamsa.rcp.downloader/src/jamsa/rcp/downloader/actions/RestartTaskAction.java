@@ -44,6 +44,7 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 
 	public void run() {
 		TaskModel.getInstance().deleteTask(task, true);
+		task.setDeleted(false);
 		TaskModel.getInstance().addTask(task);
 		TaskThreadsManager.getInstance().restart(task);
 		// setEnabled(false);
@@ -55,13 +56,13 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 			if (incoming.size() == 1
 					&& incoming.getFirstElement() instanceof Task) {
 				Task newTask = (Task) incoming.getFirstElement();
-				//if (newTask != this.task) {
-					if (this.task != null)
-						this.task.deleteObserver(this);
-					this.task = newTask;
-					this.update(null, null);
-					this.task.addObserver(this);
-				//}
+				// if (newTask != this.task) {
+				if (this.task != null)
+					this.task.deleteObserver(this);
+				this.task = newTask;
+				this.update(null, null);
+				this.task.addObserver(this);
+				// }
 			}
 		} else {
 			setEnabled(false);
@@ -75,7 +76,8 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 
 	public void update(Observable o, Object arg) {
 		// 根据线程状态修改菜单状态
-		if (this.task.getStatus() == Task.STATUS_FINISHED && !this.task.isDeleted())
+		if (this.task.getStatus() == Task.STATUS_FINISHED
+				&& !this.task.isDeleted())
 			setEnabled(true);
 		else
 			setEnabled(false);
