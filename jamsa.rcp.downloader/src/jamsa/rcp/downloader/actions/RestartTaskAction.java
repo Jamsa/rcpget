@@ -55,13 +55,13 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 			if (incoming.size() == 1
 					&& incoming.getFirstElement() instanceof Task) {
 				Task newTask = (Task) incoming.getFirstElement();
-				if (newTask != this.task) {
+				//if (newTask != this.task) {
 					if (this.task != null)
 						this.task.deleteObserver(this);
 					this.task = newTask;
 					this.update(null, null);
 					this.task.addObserver(this);
-				}
+				//}
 			}
 		} else {
 			setEnabled(false);
@@ -75,7 +75,7 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 
 	public void update(Observable o, Object arg) {
 		// 根据线程状态修改菜单状态
-		if (this.task.getStatus() == Task.STATUS_FINISHED)
+		if (this.task.getStatus() == Task.STATUS_FINISHED && !this.task.isDeleted())
 			setEnabled(true);
 		else
 			setEnabled(false);

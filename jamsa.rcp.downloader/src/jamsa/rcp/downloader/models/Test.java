@@ -11,7 +11,7 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		String urlString = "http://www.greendown.cn/Download.asp?ID=7838";
+		String urlString = "http://down5.flashget.com/fgcn_101.exe";
 		URL url = new URL(urlString);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //		Map map = connection.getRequestProperties();

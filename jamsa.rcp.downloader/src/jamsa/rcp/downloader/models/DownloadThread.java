@@ -6,7 +6,6 @@ import jamsa.rcp.downloader.utils.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -36,8 +35,6 @@ public class DownloadThread extends Thread {
 	// 状态
 	private boolean runn = false;
 
-	// 是否处于wait状态
-	private boolean wait = false;
 
 	/**
 	 * 构造器
@@ -83,8 +80,7 @@ public class DownloadThread extends Thread {
 		return this.splitter.getFinished();
 	}
 
-	public InputStream getInputStream() throws IOException {
-		HttpURLConnection conn = null;
+	public InputStream getInputStream() {
 		Properties prop = new Properties();
 		prop.put("User-Agent", "RCP Get");
 
@@ -94,39 +90,19 @@ public class DownloadThread extends Thread {
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
 		}
-
-		try {
-			while (conn == null) {
-				conn = HttpClientUtils.getHttpURLConnection(task.getFileUrl(),
-						RETRY_TIMES, RETRY_DELAY, prop, task, splitter
-								.getName());
-				// 如果conn为null则等待，其它线程完成时将唤醒这些等侍状态的线程
-				if (conn == null) {
-					task.writeMessage(splitter.getName(), "连接被拒绝，等侍其它线程!");
-					wait = true;
-					wait();
-					task.writeMessage(splitter.getName(), "连接被唤醒！重新连接！");
-					wait = false;
-				}
-			}
-		} catch (Exception e) {
-			runn = false;
-			wait = false;
-			task.writeMessage(splitter.getName(), e.getLocalizedMessage());
-			return null;
-		}
-		return conn.getInputStream();
+		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, 5000, prop,
+				task, splitter.getName());
 	}
 
 	public void run() {
 		runn = true;
-		InputStream input = null;
-		try {
-			input = getInputStream();
-			if (input == null) {
-				return;
-			}
+		InputStream input = getInputStream();
 
+		if (input == null) {
+			runn = false;
+			return;
+		}
+		try {
 			task.writeMessage(splitter.getName(), "开始读取数据...");
 			// 每次从流中读取大小
 			int size = 0;
@@ -153,19 +129,15 @@ public class DownloadThread extends Thread {
 			}
 			logger.info(splitter.getName() + "线程任务完成!");
 			task.writeMessage(splitter.getName(), "线程任务完成!");
-			if (!this.isInterrupted())
-				notifyAll();
 		} catch (IOException e) {
 			task.writeMessage(splitter.getName(), "流操作异常："
 					+ e.getLocalizedMessage());
-			
 			return;
 		} catch (InterruptedException e) {
 			task.writeMessage(splitter.getName(), "线程被中断！");
-			
+
 			return;
 		} finally {
-			wait = false;
 			runn = false;
 			try {
 				if (input != null)

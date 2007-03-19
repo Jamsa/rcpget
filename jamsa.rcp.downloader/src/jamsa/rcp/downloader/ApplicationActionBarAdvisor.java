@@ -72,7 +72,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		deleteTaskAction = RCPGetActionFactory.DELETE_TASK.create(window);
 		register(deleteTaskAction);
 
-		restoreTaskAction = RCPGetActionFactory.RESTART_TASK.create(window);
+		restoreTaskAction = RCPGetActionFactory.RESTORE_TASK.create(window);
 		register(restoreTaskAction);
 
 		viewList = ContributionItemFactory.VIEWS_SHORTLIST.create(window);

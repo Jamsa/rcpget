@@ -39,11 +39,13 @@ public class TaskThreadsManager {
 		thread.start();
 		threads.put(task.getFileUrl(), thread);
 		logger.debug("启动任务" + thread);
+		TaskModel.getInstance().updateTask(task);
 	}
 
 	public void restart(Task task) {
 		task.reset();
 		this.start(task);
+		TaskModel.getInstance().updateTask(task);
 	}
 
 	public void stop(Task task) {
@@ -55,6 +57,7 @@ public class TaskThreadsManager {
 			logger.debug("停止任务" + thread);
 			threads.remove(task.getFileUrl());
 		}
+		TaskModel.getInstance().updateTask(task);
 	}
 
 }

@@ -1,11 +1,14 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.utils.FileUtils;
 import jamsa.rcp.downloader.views.IConsoleWriter;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -16,7 +19,7 @@ import java.util.Observable;
  * @author 朱杰
  * 
  */
-public class Task extends Observable implements IConsoleWriter,Serializable{
+public class Task extends Observable implements IConsoleWriter, Serializable {
 	/**
 	 * 
 	 */
@@ -32,6 +35,15 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	public static final int STATUS_FINISHED = 3;
 
 	public static final int STATUS_ERROR = 4;
+
+	// 每个块最小 100K
+	private static final long BLOCK_MIN_SIZE = 100000;
+
+	// 下载临时文件扩展名
+	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
+
+	// 下载文件名冲突时，添加的修饰后缀
+	public static final String FILENAME_SUFFIX = "_1";
 
 	// 文件名
 	private String fileName;
@@ -129,7 +141,9 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	}
 
 	public void setFileSize(long fileSize) {
+
 		this.fileSize = fileSize;
+
 	}
 
 	public String getFileType() {
@@ -209,7 +223,19 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	}
 
 	public void setBlocks(int blocks) {
-		this.blocks = blocks;
+		if (blocks <= 0)
+			return;
+		else {
+			if (blocks > this.blocks)
+				for (int i = 0; i < (blocks - this.blocks); i++)
+					this.addSplitter();
+
+			if (blocks < this.blocks)
+				for (int i = 0; i < (this.blocks - blocks); i++)
+					this.removeSplitter();
+
+		}
+		// this.blocks = blocks;
 	}
 
 	public void addSplitter(TaskSplitter splitter) {
@@ -230,6 +256,9 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	 * @param status
 	 */
 	public void setStatus(int status) {
+		if (this.beginTime == 0 && status == STATUS_RUNNING)
+			beginTime = System.currentTimeMillis();
+
 		if (this.status != status) {
 			this.status = status;
 			this.setChanged();
@@ -273,8 +302,6 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	 * 终端消息
 	 */
 	private Map messages = Collections.synchronizedMap(new HashMap(6));
-	
-	
 
 	public Map getMessages() {
 		return messages;
@@ -289,18 +316,188 @@ public class Task extends Observable implements IConsoleWriter,Serializable{
 	 *            日志内容
 	 */
 	public void writeMessage(String threadName, String message) {
-		if(messages.get(threadName)==null){
+		if (messages.get(threadName) == null) {
 			List msgs = new ArrayList(20);
 			msgs.add(message);
 			messages.put(threadName, msgs);
-		}else{
-			List msgs = (List)messages.get(threadName);
-			if(msgs.size()>=20)
+		} else {
+			List msgs = (List) messages.get(threadName);
+			if (msgs.size() >= 20)
 				msgs.clear();
 			msgs.add(message);
 		}
 		setChanged();
 		notifyObservers(new String[] { "线程：" + threadName, message });
+	}
+
+	/**
+	 * 块检查，应该在每次下载之前调用
+	 */
+	public void checkBlocks() {
+		// 如果还没有分割过，则分割
+		if (this.splitters.isEmpty()) {
+			this.split();
+			return;
+		}
+	}
+
+	/**
+	 * 减少任务块
+	 * 
+	 * @return
+	 */
+	public TaskSplitter removeSplitter() {
+		// TODO: 添加减少任务块的代码
+		return null;
+	}
+
+	/**
+	 * 添加新的任务块
+	 * 
+	 * @return 新增加的任务块对象，或者null(表示未添加，由于文件未完成部分太小)
+	 */
+	public TaskSplitter addSplitter() {
+		TaskSplitter ret = null;
+		// 如果文件还没有自动分割，则分割
+		if (getSplitters().isEmpty())
+			this.split();
+
+		// 如果还是未分割或者只有一块，则不再分割
+		if (getSplitters().isEmpty() || getSplitters().size() == 1)
+			return null;
+
+		// 从现在的块中分离出新的块任务
+		for (Iterator it = getSplitters().iterator(); it.hasNext();) {
+			TaskSplitter splitter = (TaskSplitter) it.next();
+
+			// 线程未完成量
+			long unfinished = (splitter.getEndPos() - splitter.getStartPos() - splitter
+					.getFinished());
+
+			// 如果未完成量除2大于最小块则分割
+			long spliteBlock = unfinished / 2;
+
+			if (spliteBlock > BLOCK_MIN_SIZE) {
+				long newEndPos = splitter.getStartPos()
+						+ splitter.getFinished() + spliteBlock;
+
+				ret = new TaskSplitter(newEndPos, splitter.getEndPos(), 0,
+						getSplitters().size() + "");
+				break;
+			}
+		}
+
+		addSplitter(ret);
+		this.blocks++;
+
+		return ret;
+	}
+
+	/**
+	 * 自动分割任务
+	 * 
+	 */
+	private void split() {
+		// 块数量
+		int block = getBlocks();
+		// 文件大小
+		long fileSize = getFileSize();
+
+		// 如果文件大小未知，或者块数量为零，是只分一块
+		if (fileSize == 0 || block == 0) {
+			TaskSplitter splitter = new TaskSplitter(0, 0, 0, getSplitters()
+					.size()
+					+ "");
+			this.addSplitter(splitter);
+			this.blocks = 1;
+			return;
+		}
+
+		// 如果任务未分割过则要分割任务
+		if (getSplitters().isEmpty()) {
+			writeMessage("Task", "分割任务");
+
+			// 按设置的块分
+			long blockSize = fileSize / block;
+			// 如果每块的大小，小于最小块限制，则按最小块限制进行分割
+			if (blockSize < BLOCK_MIN_SIZE) {
+				for (int i = 0; i < ++block; i++) {
+
+					boolean finished = false;// 分割完成
+					long startPos = i * BLOCK_MIN_SIZE;
+					long endPos = (i + 1) * BLOCK_MIN_SIZE;
+
+					// 如果结束位置，大于或等于文件大小，则不再分新的块
+					if (endPos >= fileSize) {
+						endPos = fileSize;
+						finished = true;
+					}
+					addSplitter(new TaskSplitter(startPos, endPos, 0,
+							getSplitters().size() + ""));
+					this.blocks++;
+					if (finished)
+						break;
+				}
+
+				return;
+			}
+
+			// 正常的分割情况(每块大小，大于或者等于最小块的限制
+			for (int i = 0; i < (block - 1); i++) {
+				addSplitter(new TaskSplitter(i * blockSize,
+						(i + 1) * blockSize, 0, getSplitters().size() + ""));
+				this.blocks++;
+			}
+			addSplitter(new TaskSplitter((block - 1) * blockSize, fileSize, 0,
+					getSplitters().size() + ""));
+			return;
+		}
+	}
+
+	/**
+	 * 下载完成后，重命名文件
+	 * 
+	 * @param savedFile
+	 */
+	public void renameSavedFile() {
+		String finalFileName = getFilePath() + File.separator + getFileName();
+		while (FileUtils.existsFile(finalFileName)) {
+			String name = getFileName();
+			int length = name.length();
+			int idx = name.lastIndexOf(".");
+			name = name.substring(0, idx) + FILENAME_SUFFIX
+					+ name.substring(idx, length);
+			setFileName(name);
+
+			finalFileName = getFilePath() + File.separator + getFileName();
+		}
+		getTempSavedFile().renameTo(new File(finalFileName));
+	}
+
+	/**
+	 * 获取保存的临时文件名
+	 * 
+	 * @return
+	 */
+	public File getTempSavedFile() {
+		// 创建文件保存目录
+		FileUtils.createDirectory(getFilePath());
+		writeMessage("Task", "检查/创建目录" + getFilePath());
+		String fileName = getFilePath() + File.separator + getFileName();
+
+		// 检查文件是否已经存在
+		while (FileUtils.existsFile(fileName)) {
+			String name = getFileName();
+			int length = name.length();
+			int idx = name.lastIndexOf(".");
+			name = name.substring(0, idx) + FILENAME_SUFFIX
+					+ name.substring(idx, length);
+			setFileName(name);
+			fileName = getFilePath() + File.separator + getFileName();
+		}
+		// 修改任务文件名
+		fileName += FILENAME_DOWNLOAD_SUFFIX;
+		return new File(fileName);
 	}
 
 }
