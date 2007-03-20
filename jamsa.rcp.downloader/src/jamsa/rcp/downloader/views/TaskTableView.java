@@ -5,7 +5,7 @@ import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
-import jamsa.rcp.downloader.models.TaskThreadsManager;
+import jamsa.rcp.downloader.models.TaskThreadManager;
 import jamsa.rcp.downloader.utils.Logger;
 
 import java.util.Observable;
@@ -130,11 +130,11 @@ public class TaskTableView extends ViewPart {
 						Task task = (Task) incoming.getFirstElement();
 						if (task.getStatus() == Task.STATUS_ERROR
 								|| task.getStatus() == Task.STATUS_STOP) {
-							TaskThreadsManager.getInstance().start(task);
+							TaskThreadManager.getInstance().start(task);
 							return;
 						}
 						if (task.getStatus() == Task.STATUS_RUNNING) {
-							TaskThreadsManager.getInstance().stop(task);
+							TaskThreadManager.getInstance().stop(task);
 							return;
 						}
 

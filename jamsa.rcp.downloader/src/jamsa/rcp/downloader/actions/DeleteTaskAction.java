@@ -3,7 +3,7 @@ package jamsa.rcp.downloader.actions;
 import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
-import jamsa.rcp.downloader.models.TaskThreadsManager;
+import jamsa.rcp.downloader.models.TaskThreadManager;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -65,7 +65,7 @@ public class DeleteTaskAction extends Action implements ISelectionListener,
 			confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
 					"要删除正在运行的任务吗？");
 			if (confirm)
-				TaskThreadsManager.getInstance().stop(task);
+				TaskThreadManager.getInstance().stop(task);
 		}
 
 		// 如果是已经被删除的任务就要提示是否要删除文件

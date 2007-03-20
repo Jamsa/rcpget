@@ -2,7 +2,7 @@ package jamsa.rcp.downloader.actions;
 
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
-import jamsa.rcp.downloader.models.TaskThreadsManager;
+import jamsa.rcp.downloader.models.TaskThreadManager;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -43,10 +43,8 @@ public class RestartTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
-		TaskModel.getInstance().deleteTask(task, true);
-		task.setDeleted(false);
-		TaskModel.getInstance().addTask(task);
-		TaskThreadsManager.getInstance().restart(task);
+		
+		TaskThreadManager.getInstance().restart(task);
 		// setEnabled(false);
 	}
 

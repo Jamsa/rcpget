@@ -1,7 +1,7 @@
 package jamsa.rcp.downloader.actions;
 
 import jamsa.rcp.downloader.models.Task;
-import jamsa.rcp.downloader.models.TaskThreadsManager;
+import jamsa.rcp.downloader.models.TaskThreadManager;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -48,7 +48,7 @@ public class RunTaskAction extends Action implements ISelectionListener,
 	}
 
 	public void run() {
-		TaskThreadsManager.getInstance().start(task);
+		TaskThreadManager.getInstance().start(task);
 		// setEnabled(false);
 	}
 

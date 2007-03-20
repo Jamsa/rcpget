@@ -21,13 +21,6 @@ import java.util.Properties;
 public class TaskThread2 extends Thread {
 	private static Logger logger = new Logger(TaskThread2.class);
 
-	// 每个块最小
-	private static final long BLOCK_MIN_SIZE = 100000;
-
-	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
-
-	public static final String FILENAME_SUFFIX = "_1";
-
 	private Task task;
 
 	private TaskModel taskModel;
@@ -102,12 +95,21 @@ public class TaskThread2 extends Thread {
 					&& !this.isInterrupted()) {
 				long currentSize = 0;
 				boolean finished = true;
-				for (Iterator iter = threads.iterator(); iter.hasNext();) {
-					DownloadThread thread = (DownloadThread) iter.next();
-					currentSize += thread.getFinishedSize();
-					if (thread.isRunn() && thread.isAlive()) {
+				
+				for(Iterator it = task.getSplitters().iterator();it.hasNext();){
+					TaskSplitter splitter = (TaskSplitter)it.next();
+					currentSize += splitter.getFinished();
+					if(splitter.isRun()){
 						finished = false;
-						// break;
+					}else{
+						//如果发现未完成的就启动它 TODO:需要添加更多的检查
+						if(!splitter.isFinish()){
+							DownloadThread t = new DownloadThread(task, savedFile, splitter);
+							threads.add(t);
+							t.start();
+							task.writeMessage("Task", "启动下载线程" + splitter.getName());
+							Thread.sleep(500);
+						}
 					}
 				}
 
@@ -130,6 +132,7 @@ public class TaskThread2 extends Thread {
 					task.setStatus(Task.STATUS_FINISHED);
 
 				taskModel.updateTask(task);
+				// checkTaskStatus();
 				sleep(1000);
 			}
 
@@ -140,11 +143,10 @@ public class TaskThread2 extends Thread {
 				logger.info("下载停止");
 				task.writeMessage("Task", "下载停止");
 				changeStatus(Task.STATUS_STOP);
-				// 中断所有下载线程
-				for (Iterator iter = threads.iterator(); iter.hasNext();) {
-					DownloadThread downThread = (DownloadThread) iter.next();
-					downThread.setRunn(false);
-					downThread.interrupt();
+				// 停止所有下载线程
+				for(Iterator it = task.getSplitters().iterator();it.hasNext();){
+					TaskSplitter splitter = (TaskSplitter)it.next();
+					splitter.setRun(false);
 				}
 				return;
 			}

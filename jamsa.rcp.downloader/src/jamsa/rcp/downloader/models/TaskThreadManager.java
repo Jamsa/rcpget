@@ -12,48 +12,56 @@ import java.util.Map;
  * @author 朱杰
  * 
  */
-public class TaskThreadsManager {
+public class TaskThreadManager {
 	Logger logger = new Logger(this.getClass());
 
 	private Map threads = Collections.synchronizedMap(new HashMap());
 
-	private TaskThreadsManager() {
+	private TaskThreadManager() {
 	}
 
-	private static TaskThreadsManager instance = new TaskThreadsManager();
+	private static TaskThreadManager instance = new TaskThreadManager();
 
-	public static TaskThreadsManager getInstance() {
+	public static TaskThreadManager getInstance() {
 		return instance;
 	}
 
+	/**
+	 * 启动下载任务
+	 * @param task
+	 */
 	public void start(Task task) {
-		// 旧的单线程下载
-		// TaskThread thread = (TaskThread) threads.get(task.getFileUrl());
-		// if (thread == null || !thread.isAlive()) {
-		// thread = new TaskThread(task);
-		// }
 		TaskThread2 thread = (TaskThread2) threads.get(task.getFileUrl());
 		if (thread == null || !thread.isAlive()) {
 			thread = new TaskThread2(task);
 		}
-		thread.start();
 		threads.put(task.getFileUrl(), thread);
+		thread.start();
 		logger.debug("启动任务" + thread);
 		TaskModel.getInstance().updateTask(task);
 	}
 
+	/**
+	 * 重启下载任务
+	 * @param task
+	 */
 	public void restart(Task task) {
+		TaskModel.getInstance().deleteTask(task, true);
+		task.setDeleted(false);
+		TaskModel.getInstance().addTask(task);
 		task.reset();
 		this.start(task);
 		TaskModel.getInstance().updateTask(task);
 	}
 
+	/**
+	 * 停止下载任务
+	 * @param task
+	 */
 	public void stop(Task task) {
-		// TaskThread thread = (TaskThread) threads.get(task.getFileUrl());
 		TaskThread2 thread = (TaskThread2) threads.get(task.getFileUrl());
 		task.setStatus(Task.STATUS_STOP);
 		if (thread != null) {
-			// thread.interrupt();
 			logger.debug("停止任务" + thread);
 			threads.remove(task.getFileUrl());
 		}

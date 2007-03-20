@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.models;
 
 import jamsa.rcp.downloader.http.HttpClientUtils;
+import jamsa.rcp.downloader.preference.PreferenceManager;
 import jamsa.rcp.downloader.utils.Logger;
 
 import java.io.IOException;
@@ -17,12 +18,7 @@ import java.util.Properties;
  */
 public class DownloadThread extends Thread {
 	private static final Logger logger = new Logger(DownloadThread.class);
-
-	// 5秒后重试
-	private static int RETRY_DELAY = 2000;
-
-	// 重试10次，如果为0则一直重试下去
-	private static int RETRY_TIMES = 10;
+	private PreferenceManager pm;
 
 	// 文件对象
 	private RandomAccessFile file;
@@ -30,11 +26,10 @@ public class DownloadThread extends Thread {
 	// 任务对象
 	private Task task;
 
+	/**
+	 * 当前下载块
+	 */
 	private TaskSplitter splitter;
-
-	// 状态
-	private boolean runn = false;
-
 
 	/**
 	 * 构造器
@@ -51,24 +46,7 @@ public class DownloadThread extends Thread {
 		this.file = file;
 		this.task = task;
 		this.splitter = splitter;
-	}
-
-	/**
-	 * 获取下载线程状态
-	 * 
-	 * @return
-	 */
-	public boolean isRunn() {
-		return runn;
-	}
-
-	/**
-	 * 设置下载线程状态
-	 * 
-	 * @param runn
-	 */
-	public void setRunn(boolean runn) {
-		this.runn = runn;
+		pm=PreferenceManager.getInstance();
 	}
 
 	/**
@@ -80,6 +58,11 @@ public class DownloadThread extends Thread {
 		return this.splitter.getFinished();
 	}
 
+	/**
+	 * 获取远程文件输入流
+	 * 
+	 * @return
+	 */
 	public InputStream getInputStream() {
 		Properties prop = new Properties();
 		prop.put("User-Agent", "RCP Get");
@@ -90,16 +73,16 @@ public class DownloadThread extends Thread {
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
 		}
-		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, 5000, prop,
+		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, pm.getRetryDelay()*1000, prop,
 				task, splitter.getName());
 	}
 
 	public void run() {
-		runn = true;
+		splitter.setRun(true);
 		InputStream input = getInputStream();
 
 		if (input == null) {
-			runn = false;
+			splitter.setRun(false);
 			return;
 		}
 		try {
@@ -109,7 +92,7 @@ public class DownloadThread extends Thread {
 			// 流缓存
 			byte[] buf = new byte[2048];
 			while ((size = input.read(buf, 0, buf.length)) > 0
-					&& runn
+					&& splitter.isRun()
 					&& !this.isInterrupted()
 					&& (((splitter.getFinished() + splitter.getStartPos()) < splitter
 							.getEndPos()) || splitter.getEndPos() == 0)) {// 结束位置为0表示大小未知
@@ -138,7 +121,7 @@ public class DownloadThread extends Thread {
 
 			return;
 		} finally {
-			runn = false;
+			splitter.setRun(false);
 			try {
 				if (input != null)
 					input.close();

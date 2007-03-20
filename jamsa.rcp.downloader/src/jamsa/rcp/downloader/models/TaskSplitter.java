@@ -9,10 +9,6 @@ import java.io.Serializable;
  * 
  */
 public class TaskSplitter implements Serializable {
-	// /**
-	// * 消息
-	// */
-	// private List messages = new ArrayList(20);
 
 	/**
 	 * 
@@ -38,6 +34,11 @@ public class TaskSplitter implements Serializable {
 	 * 块结束位置
 	 */
 	private long endPos;
+
+	/**
+	 * 线程状态
+	 */
+	private boolean run;
 
 	public long getEndPos() {
 		return endPos;
@@ -82,19 +83,12 @@ public class TaskSplitter implements Serializable {
 		return (this.getFinished() - (this.getEndPos() - this.getStartPos())) >= 0;
 	}
 
-	// public List getMessages() {
-	// return messages;
-	// }
-	//
-	// public void setMessages(List messages) {
-	// this.messages = messages;
-	// }
-	//	
-	// public void addMessage(String message){
-	// this.messages.add(message);
-	// }
-	//	
-	// public void removeMessage(String message){
-	// this.messages.remove(message);
-	// }
+	public boolean isRun() {
+		return run;
+	}
+
+	public void setRun(boolean run) {
+		this.run = run;
+	}
+
 }

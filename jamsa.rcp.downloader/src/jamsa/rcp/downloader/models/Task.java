@@ -399,9 +399,9 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	 */
 	private void split() {
 		// 块数量
-		int block = getBlocks();
+		int block = this.blocks;
 		// 文件大小
-		long fileSize = getFileSize();
+		long fileSize = this.fileSize;
 
 		// 如果文件大小未知，或者块数量为零，是只分一块
 		if (fileSize == 0 || block == 0) {
@@ -421,6 +421,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			long blockSize = fileSize / block;
 			// 如果每块的大小，小于最小块限制，则按最小块限制进行分割
 			if (blockSize < BLOCK_MIN_SIZE) {
+				this.blocks=0;
 				for (int i = 0; i < ++block; i++) {
 
 					boolean finished = false;// 分割完成
@@ -443,6 +444,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			}
 
 			// 正常的分割情况(每块大小，大于或者等于最小块的限制
+			this.blocks=0;
 			for (int i = 0; i < (block - 1); i++) {
 				addSplitter(new TaskSplitter(i * blockSize,
 						(i + 1) * blockSize, 0, getSplitters().size() + ""));

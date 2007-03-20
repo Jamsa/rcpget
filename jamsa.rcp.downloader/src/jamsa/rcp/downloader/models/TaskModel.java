@@ -163,7 +163,7 @@ public class TaskModel extends Observable {
 				+ task.getFileName();
 		// 修改任务文件名
 		if (task.getStatus() != Task.STATUS_FINISHED)
-			fileName += TaskThread2.FILENAME_DOWNLOAD_SUFFIX;
+			fileName += Task.FILENAME_DOWNLOAD_SUFFIX;
 		return new File(fileName);
 	}
 
