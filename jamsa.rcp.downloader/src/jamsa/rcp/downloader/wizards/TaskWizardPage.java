@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -34,7 +35,6 @@ import org.eclipse.swt.widgets.Text;
 public class TaskWizardPage extends WizardPage {
 	private Task task;
 
-	private Combo blocksCombo;
 
 	private Text memoText;
 
@@ -45,6 +45,7 @@ public class TaskWizardPage extends WizardPage {
 	private Combo categoryCombo;
 
 	private Text fileUrlText;
+	private Spinner blocksSpinner;
 
 	private boolean isModify = false;
 
@@ -145,18 +146,18 @@ public class TaskWizardPage extends WizardPage {
 			return false;
 		}
 
-		if (StringUtils.isEmpty(blocksCombo.getText())) {
-			setErrorMessage("请选择下载线程数量");
-			setPageComplete(false);
-			return false;
-		}
-
-		if (Integer.parseInt(blocksCombo.getText()) < task.getBlocks()) {
-			setErrorMessage("不允许减少下载线程数量");
-			setPageComplete(false);
-			return false;
-
-		}
+//		if (StringUtils.isEmpty(blocksCombo.getText())) {
+//			setErrorMessage("请选择下载线程数量");
+//			setPageComplete(false);
+//			return false;
+//		}
+//
+//		if (Integer.parseInt(blocksCombo.getText()) < task.getBlocks()) {
+//			setErrorMessage("不允许减少下载线程数量");
+//			setPageComplete(false);
+//			return false;
+//
+//		}
 
 		this.setPageComplete(true);
 		return true;
@@ -167,7 +168,6 @@ public class TaskWizardPage extends WizardPage {
 	 * 
 	 */
 	private void addValidateListener() {
-		blocksCombo.addModifyListener(validateListener);
 		memoText.addModifyListener(validateListener);
 		fileNameText.addModifyListener(validateListener);
 		savePathCombo.addModifyListener(validateListener);
@@ -186,7 +186,7 @@ public class TaskWizardPage extends WizardPage {
 				categoryCombo.getText().trim()));
 		task.setFilePath(savePathCombo.getText().trim());
 		task.setMemo(memoText.getText().trim() + "");
-		task.setBlocks(Integer.parseInt(blocksCombo.getText().trim()));
+		task.setBlocks(blocksSpinner.getSelection());
 	}
 
 	/**
@@ -200,7 +200,8 @@ public class TaskWizardPage extends WizardPage {
 				.getFileName());
 
 		fileUrlText.setText(task.getFileUrl() == null ? "" : task.getFileUrl());
-		blocksCombo.select(task.getBlocks() == 0 ? 1 : (task.getBlocks() - 1));
+		//blocksCombo.select(task.getBlocks() == 0 ? 1 : (task.getBlocks() - 1));
+		blocksSpinner.setSelection(task.getBlocks());
 		savePathCombo.setText(task.getFilePath() == null ? "" : task
 				.getFilePath());
 		String[] items = categoryCombo.getItems();
@@ -298,14 +299,15 @@ public class TaskWizardPage extends WizardPage {
 		final Label blocksLabel = new Label(group_1, SWT.NONE);
 		blocksLabel.setText("线程数量");
 
-		blocksCombo = new Combo(group_1, SWT.NONE);
+		blocksSpinner = new Spinner(group_1, SWT.BORDER);
+		blocksSpinner.setMinimum(1);
+		blocksSpinner.setMaximum(10);
+		blocksSpinner.setLayoutData(new GridData());
 
-		for (int i = 1; i < 11; i++) {
-			blocksCombo.add(i + "", i - 1);
-		}
-		blocksCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
-
+//		for (int i = 1; i < 11; i++) {
+//			blocksCombo.add(i + "", i - 1);
+//		}
+		blocksSpinner.setSelection(5);
 		new Label(group_1, SWT.NONE);
 
 		this.setControl();
