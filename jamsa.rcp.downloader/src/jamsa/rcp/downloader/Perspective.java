@@ -5,6 +5,7 @@ import jamsa.rcp.downloader.views.ConsoleView;
 import jamsa.rcp.downloader.views.TaskInfoView;
 import jamsa.rcp.downloader.views.TaskTableView;
 
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
@@ -20,10 +21,10 @@ public class Perspective implements IPerspectiveFactory {
 		// 0.7f, layout.getEditorArea());
 		layout.addView(TaskTableView.ID, IPageLayout.TOP, 0.7f, layout
 				.getEditorArea());
-		layout.addView(TaskInfoView.ID, IPageLayout.BOTTOM, 0.4f, layout
+		IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.BOTTOM, 0.4f, layout
 				.getEditorArea());
-		layout.addView(ConsoleView.ID, IPageLayout.BOTTOM, 0.4f, layout
-				.getEditorArea());
+		folderLayout.addView(TaskInfoView.ID);
+		folderLayout.addView(ConsoleView.ID);
 		layout.setEditorAreaVisible(false);
 	}
 }
