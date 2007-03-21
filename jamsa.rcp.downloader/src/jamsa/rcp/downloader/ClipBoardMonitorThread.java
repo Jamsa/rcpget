@@ -8,7 +8,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchWindow;
 
 public class ClipBoardMonitorThread extends Thread {
 	private static ClipBoardMonitorThread instance = new ClipBoardMonitorThread();
@@ -22,7 +21,7 @@ public class ClipBoardMonitorThread extends Thread {
 	public void run() {
 		Display display = null;
 		Clipboard clipboard = null;
-		while(display!=null && clipboard!=null){
+		while (display != null && clipboard != null) {
 			display = Activator.getDefault().getWorkbench().getDisplay();
 			clipboard = new Clipboard(display);
 		}
@@ -47,9 +46,6 @@ public class ClipBoardMonitorThread extends Thread {
 				run = false;
 			}
 		}
-		// if (textData.startsWith("http://")) {
-		// fileUrlText.setText(textData);
-		// }
 	}
 
 	public boolean isRun() {

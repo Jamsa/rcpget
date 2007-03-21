@@ -1,17 +1,11 @@
 package jamsa.rcp.downloader;
 
-import jamsa.rcp.downloader.dialogs.Gather;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -86,9 +80,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			hookPopupMenu(window);
 			hookMinimize(window);
 		}
-		
-//		Gather gather = new Gather(window.getShell().getDisplay(),SWT.NONE);
-//		gather.open();
+
+		// Gather gather = new Gather(window.getShell().getDisplay(),SWT.NONE);
+		// gather.open();
 	}
 
 	private TrayItem initTaskItem(IWorkbenchWindow window) {
