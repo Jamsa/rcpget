@@ -76,6 +76,10 @@ public class DeleteTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
+//		if (tasks.isEmpty()) {
+//			setEnabled(false);
+//			return;
+//		}
 		if (this.tasks != null)
 			setEnabled(true);
 		else

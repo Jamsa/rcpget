@@ -34,12 +34,16 @@ public class CopyTaskURLAction extends BaseTaskAction {
 			Task task = (Task) it.next();
 			urls.append(task.getFileUrl()).append(IConstants.LINE_SEPARATOR);
 		}
-		
+
 		clipboard.setContents(new Object[] { String.valueOf(urls) },
 				new TextTransfer[] { textTransfer });
 	}
 
 	public void update(Observable o, Object arg) {
+//		if (tasks.isEmpty()) {
+//			setEnabled(false);
+//			return;
+//		}
 		setEnabled(true);
 	}
 }

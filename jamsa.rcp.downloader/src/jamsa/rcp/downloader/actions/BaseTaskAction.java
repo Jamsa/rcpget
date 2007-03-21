@@ -2,6 +2,7 @@ package jamsa.rcp.downloader.actions;
 
 import jamsa.rcp.downloader.models.Task;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
@@ -14,11 +15,12 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 
-public abstract class BaseTaskAction extends Action implements ISelectionListener,
-		ActionFactory.IWorkbenchAction, Observer {
+public abstract class BaseTaskAction extends Action implements
+		ISelectionListener, ActionFactory.IWorkbenchAction, Observer {
 	protected IWorkbenchWindow window;
-	protected List tasks;
-	
+
+	protected List tasks = new ArrayList(5);
+
 	public BaseTaskAction(IWorkbenchWindow window, String label) {
 		this.window = window;
 		try {
@@ -28,7 +30,7 @@ public abstract class BaseTaskAction extends Action implements ISelectionListene
 		}
 		setEnabled(false);
 	}
-	
+
 	protected void addObserver() {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (Iterator it = tasks.iterator(); it.hasNext();) {
@@ -57,20 +59,24 @@ public abstract class BaseTaskAction extends Action implements ISelectionListene
 				this.tasks = incoming.toList();
 				this.addObserver();
 				this.update(null, null);
+			} else {
+				this.tasks = new ArrayList();
+				this.setEnabled(false);
 			}
 		} else {
-			setEnabled(false);
+			this.tasks = new ArrayList();
+			this.setEnabled(false);
 		}
 	}
 
 	public void dispose() {
 		window.getSelectionService().removeSelectionListener(this);
-		
+
 	}
 
 	// public void update(Observable o, Object arg) {
 	// // TODO Auto-generated method stub
 	//		
-	//	}
+	// }
 
 }

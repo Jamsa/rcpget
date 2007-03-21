@@ -4,7 +4,6 @@ import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskThreadManager;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Observable;
 
 import org.eclipse.ui.IWorkbenchWindow;
@@ -31,6 +30,11 @@ public class StopTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
+//		if (tasks.isEmpty()) {
+//			setEnabled(false);
+//			return;
+//		}
+
 		boolean enable = false;
 
 		// 只要有一个处于运行状态就可以用

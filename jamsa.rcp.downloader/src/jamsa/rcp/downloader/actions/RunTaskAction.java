@@ -29,6 +29,11 @@ public class RunTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
+//		if (tasks.isEmpty()) {
+//			setEnabled(false);
+//			return;
+//		}
+		
 		boolean enable = false;
 
 		// 只要有一个处于停止或者错误状态就可以启动

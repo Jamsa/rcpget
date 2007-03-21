@@ -128,6 +128,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	protected void fillTrayItem(IMenuManager trayItem) {
 		trayItem.add(newTaskAction);
+		trayItem.add(prefAction);
 		trayItem.add(aboutAction);
 		trayItem.add(quitAction);
 	}

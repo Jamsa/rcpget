@@ -29,6 +29,11 @@ public class RestartTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
+//		if (tasks.isEmpty()) {
+//			setEnabled(false);
+//			return;
+//		}
+		
 		boolean enable = false;
 
 		if (tasks != null && !tasks.isEmpty()) {
