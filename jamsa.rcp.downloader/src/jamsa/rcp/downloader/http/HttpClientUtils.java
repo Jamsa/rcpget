@@ -28,17 +28,13 @@ public class HttpClientUtils {
 	 */
 	public static RemoteFileInfo getRemoteFileInfo(String urlString,
 			int retryTimes, int retryDelay, Properties properties,
-			IConsoleWriter writer, String label) throws Exception {
+			IConsoleWriter writer, String label) {
 		if (writer == null)
 			writer = new DefaultConsoleWriter();
-		HttpURLConnection conn = null;
-		try {
-			conn = getHttpURLConnection(urlString, retryTimes, retryDelay,
-					properties, writer, label);
-		} catch (Exception e) {
-			throw e;
-
-		}
+		HttpURLConnection conn = getHttpURLConnection(urlString, retryTimes,
+				retryDelay, properties, writer, label);
+		if (conn == null)
+			return null;
 		return getRemoteSiteFile(conn, writer, label);
 	}
 
@@ -67,7 +63,6 @@ public class HttpClientUtils {
 		}
 
 		String contentLength = null;
-
 		String header = null;
 		for (int i = 1;; i++) {
 			header = conn.getHeaderFieldKey(i);
@@ -110,7 +105,7 @@ public class HttpClientUtils {
 	 */
 	public static HttpURLConnection getHttpURLConnection(String urlString,
 			int retryTimes, int retryDelay, Properties properties,
-			IConsoleWriter writer, String label) throws Exception {
+			IConsoleWriter writer, String label) {
 		if (writer == null)
 			writer = new DefaultConsoleWriter();
 		if (label == null)
@@ -122,7 +117,7 @@ public class HttpClientUtils {
 		try {
 			while (conn == null && retryTimes >= count) {
 				count++;
-				writer.writeMessage(label, "第" + count + "次连接！");
+				writer.writeMessage(label, "第" + count + "次连接...");
 				URL url = new URL(urlString);
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -148,36 +143,37 @@ public class HttpClientUtils {
 					printResponseHeader(conn, writer, label);
 				}
 
-				// if (code != HttpURLConnection.HTTP_OK)
-				// throw new Exception("连接错误!错误代码：" + code);
-				if (code >= 400)
-					throw new Exception("连接错误！错误代码：" + code);
-
-				// if (conn.getHeaderField("Connection").equals("close")) {
-				// writer.writeMessage(label, "连接被远程主机关闭！");
-				// if (conn != null) {
-				// conn.disconnect();
-				// conn = null;
-				// }
-				// }
+				// 连接错误时，将conn设置为null，等侍重试
+				if (code >= 400) {
+					printResponseHeader(conn, writer, label);
+					conn = null;
+				}
 
 				// 等侍并重新连接
-				if (conn == null)
+				if (conn == null){
+					writer.writeMessage(label, "连接失败,"+retryDelay/1000+"秒后重试...");
 					Thread.sleep(retryDelay);
-				else
+				}else
 					writer.writeMessage(label, "连接成功！");
 			}
 
-			// 如果返回的为null则表示连接被拒绝
-			return conn;
 		} catch (MalformedURLException e) {
-			throw new Exception("URL错误：" + e.getLocalizedMessage(), e);
+			// throw new Exception("URL错误：" + e.getLocalizedMessage(), e);
+			e.printStackTrace();
+			writer.writeMessage(label, "URL错误：" + e.getLocalizedMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new Exception("I/O错误：" + e.getLocalizedMessage(), e);
+			// throw new Exception("I/O错误：" + e.getLocalizedMessage(), e);
+			writer.writeMessage(label, "I/O错误：" + e.getLocalizedMessage());
 		} catch (Exception e) {
-			throw e;
+			e.printStackTrace();
+			writer.writeMessage(label, "错误：" + e.getLocalizedMessage());
+			// throw e;
 		}
+
+		// 如果返回的为null则表示连接被拒绝
+		return conn;
+
 	}
 
 	/**
@@ -195,13 +191,14 @@ public class HttpClientUtils {
 			int retryDelay, Properties properties, IConsoleWriter writer,
 			String label) {
 		InputStream ret = null;
-		HttpURLConnection conn = null;
-		try {
-			conn = HttpClientUtils.getHttpURLConnection(urlString, retryTimes,
-					retryDelay, properties, writer, label);
-			ret = conn.getInputStream();
-		} catch (Exception e) {
-
+		HttpURLConnection conn = HttpClientUtils.getHttpURLConnection(
+				urlString, retryTimes, retryDelay, properties, writer, label);
+		if (conn != null) {
+			try {
+				ret = conn.getInputStream();
+			} catch (Exception e) {
+				writer.writeMessage(label, e.getLocalizedMessage());
+			}
 		}
 
 		return ret;

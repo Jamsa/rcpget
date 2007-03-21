@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -223,19 +223,19 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	public void setBlocks(int blocks) {
-		if (blocks <= 0)
-			return;
-		else {
-			if (blocks > this.blocks)
-				for (int i = 0; i < (blocks - this.blocks); i++)
-					this.addSplitter();
-
-			if (blocks < this.blocks)
-				for (int i = 0; i < (this.blocks - blocks); i++)
-					this.removeSplitter();
-
-		}
-		// this.blocks = blocks;
+		// if (blocks <= 0)
+		// return;
+		// else {
+		// if (blocks > this.blocks)
+		// for (int i = 0; i < (blocks - this.blocks); i++)
+		// this.addSplitter();
+		//
+		// if (blocks < this.blocks)
+		// for (int i = 0; i < (this.blocks - blocks); i++)
+		// this.removeSplitter();
+		//
+		// }
+		this.blocks = blocks;
 	}
 
 	public void addSplitter(TaskSplitter splitter) {
@@ -256,11 +256,12 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	 * @param status
 	 */
 	public void setStatus(int status) {
-		if (this.beginTime == 0 && status == STATUS_RUNNING)
-			beginTime = System.currentTimeMillis();
-
 		if (this.status != status) {
 			this.status = status;
+			// 如果状态为错误或者停止
+			if (this.status == STATUS_ERROR || this.status == this.STATUS_STOP) {
+				this._stopAllSplitters();
+			}
 			this.setChanged();
 			this.notifyObservers();
 		}
@@ -301,7 +302,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	/**
 	 * 终端消息
 	 */
-	private Map messages = Collections.synchronizedMap(new HashMap(6));
+	private Map messages = Collections.synchronizedMap(new LinkedHashMap(6));
 
 	public Map getMessages() {
 		return messages;
@@ -329,6 +330,16 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		setChanged();
 		notifyObservers(new String[] { "线程：" + threadName, message });
 	}
+	
+	/**
+	 * 清除消息
+	 *
+	 */
+	public void clearMessage(){
+		messages.clear();
+		setChanged();
+		notifyObservers();
+	}
 
 	/**
 	 * 块检查，应该在每次下载之前调用
@@ -339,6 +350,14 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			this.split();
 			return;
 		}
+
+		// 如果块数量不一致,splitters大于blocks是正常的,因为用户有可能减少下载线程
+		if (this.splitters.size() < this.blocks) {
+			int diff = this.blocks - this.splitters.size();
+			for (int i = 0; i < Math.abs(diff); i++) {
+				this.addSplitter();
+			}
+		}
 	}
 
 	/**
@@ -347,7 +366,13 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	 * @return
 	 */
 	public TaskSplitter removeSplitter() {
-		// TODO: 添加减少任务块的代码
+		for (Iterator it = splitters.iterator(); it.hasNext();) {
+			TaskSplitter splitter = (TaskSplitter) it.next();
+			if (!splitter.isFinish() && splitter.isRun()) {
+				splitter.setRun(true);
+				return splitter;
+			}
+		}
 		return null;
 	}
 
@@ -394,7 +419,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * 自动分割任务
+	 * 按blocks属性自动分割任务
 	 * 
 	 */
 	private void split() {
@@ -403,7 +428,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		// 文件大小
 		long fileSize = this.fileSize;
 
-		// 如果文件大小未知，或者块数量为零，是只分一块
+		// 如果文件大小未知，或者块数量为零，则只分一块
 		if (fileSize == 0 || block == 0) {
 			TaskSplitter splitter = new TaskSplitter(0, 0, 0, getSplitters()
 					.size()
@@ -421,7 +446,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			long blockSize = fileSize / block;
 			// 如果每块的大小，小于最小块限制，则按最小块限制进行分割
 			if (blockSize < BLOCK_MIN_SIZE) {
-				this.blocks=0;
+				this.blocks = 0;
 				for (int i = 0; i < ++block; i++) {
 
 					boolean finished = false;// 分割完成
@@ -444,7 +469,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			}
 
 			// 正常的分割情况(每块大小，大于或者等于最小块的限制
-			this.blocks=0;
+			this.blocks = 0;
 			for (int i = 0; i < (block - 1); i++) {
 				addSplitter(new TaskSplitter(i * blockSize,
 						(i + 1) * blockSize, 0, getSplitters().size() + ""));
@@ -500,6 +525,48 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		// 修改任务文件名
 		fileName += FILENAME_DOWNLOAD_SUFFIX;
 		return new File(fileName);
+	}
+
+	/**
+	 * 获取处于运行状态的块数量
+	 * 
+	 * @return
+	 */
+	public int getRunBlocks() {
+		int ret = 0;
+		for (Iterator iter = this.splitters.iterator(); iter.hasNext();) {
+			TaskSplitter splitter = (TaskSplitter) iter.next();
+			if (splitter.isRun())
+				ret++;
+		}
+		return ret;
+	}
+
+	/**
+	 * 获取一个未完成的块
+	 * 
+	 * @return
+	 */
+	public TaskSplitter getUnfinishedSplitter() {
+		// 如果正在运行的块数量小于,任务设置的块数量
+		if (getRunBlocks() < blocks) {
+			// 检查是否有线程未完成且没有运行
+			for (Iterator iter = splitters.iterator(); iter.hasNext();) {
+				TaskSplitter s = (TaskSplitter) iter.next();
+				if (!s.isFinish() && !s.isRun()) {
+					return s;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private void _stopAllSplitters() {
+		for (Iterator it = splitters.iterator(); it.hasNext();) {
+			TaskSplitter splitter = (TaskSplitter) it.next();
+			splitter.setRun(false);
+		}
 	}
 
 }

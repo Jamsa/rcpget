@@ -18,6 +18,7 @@ import java.util.Properties;
  */
 public class DownloadThread extends Thread {
 	private static final Logger logger = new Logger(DownloadThread.class);
+
 	private PreferenceManager pm;
 
 	// 文件对象
@@ -46,7 +47,7 @@ public class DownloadThread extends Thread {
 		this.file = file;
 		this.task = task;
 		this.splitter = splitter;
-		pm=PreferenceManager.getInstance();
+		pm = PreferenceManager.getInstance();
 	}
 
 	/**
@@ -73,15 +74,15 @@ public class DownloadThread extends Thread {
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
 		}
-		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, pm.getRetryDelay()*1000, prop,
-				task, splitter.getName());
+		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, pm
+				.getRetryDelay() * 1000, prop, task, splitter.getName());
 	}
 
 	public void run() {
 		splitter.setRun(true);
 		InputStream input = getInputStream();
-
 		if (input == null) {
+			task.writeMessage(splitter.getName(), "获取不到远程文件的输入流，线程终止!");
 			splitter.setRun(false);
 			return;
 		}
@@ -110,15 +111,19 @@ public class DownloadThread extends Thread {
 				Arrays.fill(buf, (byte) 0);
 				sleep(10);
 			}
-			logger.info(splitter.getName() + "线程任务完成!");
-			task.writeMessage(splitter.getName(), "线程任务完成!");
+			if (splitter.isFinish()) {
+				logger.info(splitter.getName() + "线程任务完成!");
+				task.writeMessage(splitter.getName(), "线程任务完成!");
+			}else{
+				logger.info(splitter.getName() + "线程停止!");
+				task.writeMessage(splitter.getName(), "线程停止!");
+			}
 		} catch (IOException e) {
 			task.writeMessage(splitter.getName(), "流操作异常："
 					+ e.getLocalizedMessage());
 			return;
 		} catch (InterruptedException e) {
 			task.writeMessage(splitter.getName(), "线程被中断！");
-
 			return;
 		} finally {
 			splitter.setRun(false);

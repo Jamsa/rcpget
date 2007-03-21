@@ -128,8 +128,8 @@ public class ConsoleView extends ViewPart {
 			List msgs = (List) messages.get(name);
 			msgs.add(msg);
 			// msgs.add(0, msg);
-			listViewer.scrollDown(0, 1);
 			listViewer.refresh();
+			listViewer.scrollDown(0, 1);
 		} else {
 			createTabItem(name);
 			addMessage(name, msg);
