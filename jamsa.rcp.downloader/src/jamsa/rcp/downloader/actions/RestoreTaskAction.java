@@ -3,16 +3,10 @@ package jamsa.rcp.downloader.actions;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 
+import java.util.Iterator;
 import java.util.Observable;
-import java.util.Observer;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * 还原任务动作
@@ -20,59 +14,34 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author 朱杰
  * 
  */
-public class RestoreTaskAction extends Action implements ISelectionListener,
-		ActionFactory.IWorkbenchAction, Observer {
-	public static final String ID = DeleteTaskAction.class.getName();
-
-	private IWorkbenchWindow window;
-
-	private Task task;
+public class RestoreTaskAction extends BaseTaskAction {
+	public static final String ID = RestoreTaskAction.class.getName();
 
 	public RestoreTaskAction(IWorkbenchWindow window, String label) {
+		super(window, label);
 		setId(ID);
 		setText(label);
 		setToolTipText("还原");
-		this.window = window;
-		try {
-			window.getSelectionService().addSelectionListener(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		setEnabled(false);
+
 	}
 
 	public void run() {
-		TaskModel.getInstance().restoreTask(task);
-	}
-
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
-			IStructuredSelection incoming = (IStructuredSelection) selection;
-			if (incoming.size() == 1
-					&& incoming.getFirstElement() instanceof Task) {
-				Task newTask = (Task) incoming.getFirstElement();
-				// if (newTask != this.ta) {
-				if (this.task != null)
-					this.task.deleteObserver(this);
-				this.task = newTask;
-				this.update(null, null);
-				this.task.addObserver(this);
-				// }
-			}
-		} else {
-			setEnabled(false);
-		}
+		TaskModel.getInstance().restoreTask(tasks);
 	}
 
 	public void update(Observable o, Object arg) {
-		// 根据线程状态修改菜单状态
-		if (this.task.isDeleted())
-			setEnabled(true);
-		else
-			setEnabled(false);
-	}
+		boolean enable = false;
 
-	public void dispose() {
-		window.getSelectionService().removeSelectionListener(this);
+		if (tasks != null && !tasks.isEmpty()) {
+			for (Iterator it = tasks.iterator(); it.hasNext();) {
+				Task task = (Task) it.next();
+				if (TaskModel.getInstance().isAllowRestore(task)) {
+					enable = true;
+					break;
+				}
+			}
+		}
+
+		setEnabled(enable);
 	}
 }

@@ -76,7 +76,7 @@ public class TaskTableView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		display = parent.getDisplay();
-		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI);
 		Table table = tableViewer.getTable();
 		TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText("״̬");

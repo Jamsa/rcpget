@@ -26,6 +26,9 @@ public interface IConstants {
 	public static final String PATH_SEPARATOR = System
 			.getProperty("path.separator");
 
+	public static final String LINE_SEPARATOR = System
+			.getProperty("line.separator");
+
 	/*
 	 * java.version Java 运行时环境版本 java.vendor Java 运行时环境供应商 java.vendor.url Java
 	 * 供应商的 URL java.home Java 安装目录 java.vm.specification.version Java 虚拟机规范版本

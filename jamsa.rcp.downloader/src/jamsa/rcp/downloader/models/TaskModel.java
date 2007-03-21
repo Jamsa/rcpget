@@ -140,6 +140,13 @@ public class TaskModel extends Observable {
 		// this.saveTasks();
 	}
 
+	public void deleteTask(List tasks) {
+		for (Iterator it = tasks.iterator(); it.hasNext();) {
+			Task task = (Task) it.next();
+			deleteTask(task);
+		}
+	}
+
 	/**
 	 * 删除任务和文件
 	 * 
@@ -151,6 +158,13 @@ public class TaskModel extends Observable {
 		if (deleteFile)
 			this._deleteTaskFile(task);
 		this.deleteTask(task);
+	}
+
+	public void deleteTask(List tasks, boolean deleteFile) {
+		for (Iterator it = tasks.iterator(); it.hasNext();) {
+			Task task = (Task) it.next();
+			this.deleteTask(task, deleteFile);
+		}
 	}
 
 	/**
@@ -197,6 +211,20 @@ public class TaskModel extends Observable {
 	public void restoreTask(Task task) {
 		task.setDeleted(false);
 		updateTask(task);
+	}
+
+	public boolean isAllowRestore(Task task) {
+		if (task.isDeleted())
+			return true;
+		return false;
+	}
+
+	public void restoreTask(List tasks) {
+		for (Iterator it = tasks.iterator(); it.hasNext();) {
+			Task task = (Task) it.next();
+			if (isAllowRestore(task))
+				this.restoreTask(task);
+		}
 	}
 
 	/**
