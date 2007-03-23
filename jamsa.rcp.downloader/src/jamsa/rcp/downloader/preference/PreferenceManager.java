@@ -8,8 +8,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * 首选项管理
+ * 
  * @author 朱杰
- *
+ * 
  */
 public class PreferenceManager {
 	private static PreferenceManager instance;
@@ -32,16 +33,17 @@ public class PreferenceManager {
 	 * 
 	 */
 	public void checkPreference() {
-		Boolean inited = store.getDefaultBoolean(IPreferenceKeys.INIT);
-		if (inited == null || !inited.booleanValue())
+		// Boolean inited = store.getDefaultBoolean(IPreferenceKeys.INIT);
+		// if (inited == null || !inited.booleanValue())
 			this.initDefault();
 	}
 
 	private void initDefault() {
 		store.setDefault(IPreferenceKeys.INIT, true);
 
-		store.setDefault(IPreferenceKeys.NETWORK_MAX_RUNTASKS, 5);
+		store.setDefault(IPreferenceKeys.NETWORK_MAX_RUNTASKS, 15);
 		store.setDefault(IPreferenceKeys.NETWORK_RETRY_DELAY, 5);
+		store.setDefault(IPreferenceKeys.NETWORK_RETRY_TIMES, 5);
 
 		store.setDefault(IPreferenceKeys.TASK_DEFAULT_CATEGORY, CategoryModel
 				.getInstance().getFinished().getName());
@@ -50,15 +52,17 @@ public class PreferenceManager {
 		store.setDefault(IPreferenceKeys.TASK_DEFAULT_START_METHOD,
 				IPreferenceValues.TASK_START_METHOD_AUTO);
 		store.setDefault(IPreferenceKeys.TASK_DEFAULT_SAVEPATH, "C:\\temp");
+
 	}
 
 	/**
 	 * 恢复所有选项为默认值
 	 * 
 	 */
-	public void setDefault() {
+	public void setToDefault() {
 		setConnectionDefault();
 		setTaskDefault();
+		setGeneralDefault();
 	}
 
 	/**
@@ -68,6 +72,7 @@ public class PreferenceManager {
 	public void setTaskDefault() {
 		store.setToDefault(IPreferenceKeys.NETWORK_MAX_RUNTASKS);
 		store.setToDefault(IPreferenceKeys.NETWORK_RETRY_DELAY);
+		store.setToDefault(IPreferenceKeys.NETWORK_RETRY_TIMES);
 	}
 
 	/**
@@ -79,6 +84,10 @@ public class PreferenceManager {
 		store.setToDefault(IPreferenceKeys.TASK_DEFAULT_CATEGORY_TYPE);
 		store.setToDefault(IPreferenceKeys.TASK_DEFAULT_START_METHOD);
 		store.setToDefault(IPreferenceKeys.TASK_DEFAULT_SAVEPATH);
+	}
+
+	public void setGeneralDefault() {
+		store.setDefault(IPreferenceKeys.MINIMIZE_TO_TRAY, true);
 	}
 
 	/**
@@ -114,6 +123,23 @@ public class PreferenceManager {
 		store.setValue(IPreferenceKeys.NETWORK_RETRY_DELAY, value);
 	}
 
+	public int getRetryTimes() {
+		int result = store.getInt(IPreferenceKeys.NETWORK_RETRY_TIMES);
+		return result;
+	}
+
+	public void setRetryTimes(int value) {
+		store.setValue(IPreferenceKeys.NETWORK_RETRY_TIMES, value);
+	}
+
+	public boolean getMinimizeToTray() {
+		return store.getBoolean(IPreferenceKeys.MINIMIZE_TO_TRAY);
+	}
+
+	public void setMinimizeToTray(boolean value) {
+		store.setValue(IPreferenceKeys.MINIMIZE_TO_TRAY, value);
+	}
+
 	/**
 	 * 返回默认下载分类
 	 * 
@@ -126,8 +152,8 @@ public class PreferenceManager {
 				: result;
 		return result;
 	}
-	
-	public void setDefaultCategory(String value){
+
+	public void setDefaultCategory(String value) {
 		store.setValue(IPreferenceKeys.TASK_DEFAULT_CATEGORY, value);
 	}
 
@@ -144,8 +170,8 @@ public class PreferenceManager {
 				: result;
 		return result;
 	}
-	
-	public void setDefaultCategoryType(String value){
+
+	public void setDefaultCategoryType(String value) {
 		store.setValue(IPreferenceKeys.TASK_DEFAULT_CATEGORY_TYPE, value);
 	}
 
@@ -161,8 +187,8 @@ public class PreferenceManager {
 				: result;
 		return result;
 	}
-	
-	public void setDefaultSavePath(String value){
+
+	public void setDefaultSavePath(String value) {
 		store.setValue(IPreferenceKeys.TASK_DEFAULT_SAVEPATH, value);
 	}
 
@@ -179,8 +205,8 @@ public class PreferenceManager {
 				: result;
 		return result;
 	}
-	
-	public void setStartTaskMethod(String value){
+
+	public void setStartTaskMethod(String value) {
 		store.setValue(IPreferenceKeys.TASK_DEFAULT_START_METHOD, value);
 	}
 }

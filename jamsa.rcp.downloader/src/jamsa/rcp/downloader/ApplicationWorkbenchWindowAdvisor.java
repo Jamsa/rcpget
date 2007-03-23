@@ -1,5 +1,7 @@
 package jamsa.rcp.downloader;
 
+import jamsa.rcp.downloader.preference.PreferenceManager;
+
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
@@ -42,20 +44,24 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setShowStatusLine(true);
 		configurer.setShowMenuBar(true);
 		configurer.setTitle("RCP Get");
+		
 	}
 
 	private void hookMinimize(final IWorkbenchWindow window) {
 		window.getShell().addShellListener(new ShellAdapter() {
 			public void shellIconified(ShellEvent e) {
-				window.getShell().setVisible(false);
+				if (PreferenceManager.getInstance().getMinimizeToTray())
+					window.getShell().setVisible(false);
 			}
 		});
 		trayItem.addListener(SWT.DefaultSelection, new Listener() {
 			public void handleEvent(Event event) {
-				Shell shell = window.getShell();
-				if (!shell.isVisible()) {
-					shell.setVisible(true);
-					window.getShell().setMinimized(false);
+				if (PreferenceManager.getInstance().getMinimizeToTray()) {
+					Shell shell = window.getShell();
+					if (!shell.isVisible()) {
+						shell.setVisible(true);
+						window.getShell().setMinimized(false);
+					}
 				}
 			}
 		});
@@ -75,6 +81,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowOpen() {
 
 		final IWorkbenchWindow window = getWindowConfigurer().getWindow();
+//		window.getShell().setMaximized(true);
 		trayItem = initTaskItem(window);
 		if (trayItem != null) {
 			hookPopupMenu(window);

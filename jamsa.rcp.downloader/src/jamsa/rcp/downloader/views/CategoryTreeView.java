@@ -30,7 +30,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * 
  */
 public class CategoryTreeView extends ViewPart {
-	public static final String ID = "jamsa.rcp.downloader.views.CategoryTreeView";
+	public static final String ID = CategoryTreeView.class.getName();
 
 	// 树结构模型
 	private CategoryModel model = CategoryModel.getInstance();

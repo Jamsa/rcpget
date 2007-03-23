@@ -117,5 +117,19 @@
             id="jamsa.rcp.downloader.preference.DefaultTask"
             name="任务缺省属性"/>
    </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="jamsa.rcp.downloader.application"
+            name="RCP Get"/>
+   </extension>
+   <extension
+         id="product1"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="jamsa.rcp.downloader.application"
+            name="RCP Get"/>
+   </extension>
 
 </plugin>

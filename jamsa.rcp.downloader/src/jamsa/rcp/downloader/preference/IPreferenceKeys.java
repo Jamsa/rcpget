@@ -2,6 +2,7 @@ package jamsa.rcp.downloader.preference;
 
 public interface IPreferenceKeys {
 	public static String INIT = "INIT";
+
 	// 默认下载分类类型(指定分类或者记录上次选中的分类)
 	public static final String TASK_DEFAULT_CATEGORY_TYPE = "TASK_DEFAULT_CATEGORY_TYPE";
 
@@ -19,4 +20,10 @@ public interface IPreferenceKeys {
 
 	// 最多同时运行任务数量
 	public static final String NETWORK_MAX_RUNTASKS = "NETWORK_MAX_RUNTASKS";
+
+	// 最多重试次数
+	public static final String NETWORK_RETRY_TIMES = "NETWORK_RETRY_TIMES";
+
+	// 最小化到任务栏
+	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
 }

@@ -52,6 +52,10 @@ public class TaskInfoView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		// FigureCanvas canvas = new FigureCanvas(parent);
+		// canvas.
+		// Graphics g = new Graphics();
+
 		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		TableColumn column = new TableColumn(table, SWT.NONE);
@@ -95,7 +99,7 @@ public class TaskInfoView extends ViewPart {
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof Object[]) {
 				Object[] props = (Object[]) element;
-				if(columnIndex<(props.length)){
+				if (columnIndex < (props.length)) {
 					return String.valueOf(props[columnIndex]);
 				}
 			}
@@ -113,23 +117,25 @@ public class TaskInfoView extends ViewPart {
 				result[0] = new String[] { "文件名", task.getFileName() };
 				result[1] = new String[] { "保存位置", task.getFilePath() };
 				result[2] = new String[] { "大小", task.getFileSize() + "" };
-				result[3] = new String[] { "平均速度", task.getAverageSpeed() + "k/s" };
-				result[4] = new String[] { "总耗时", task.getTotalTime()/1000 + "s" };
+				result[3] = new String[] { "平均速度",
+						task.getAverageSpeed() + "k/s" };
+				result[4] = new String[] { "总耗时",
+						task.getTotalTime() / 1000 + "s" };
 				switch (task.getStatus()) {
 				case Task.STATUS_ERROR:
-					result[5] = new String[]{"状态","错误"};
+					result[5] = new String[] { "状态", "错误" };
 					break;
 				case Task.STATUS_FINISHED:
-					result[5] = new String[]{"状态","已完成"};
+					result[5] = new String[] { "状态", "已完成" };
 					break;
 				case Task.STATUS_RUNNING:
-					result[5] = new String[]{"状态","运行中"};
+					result[5] = new String[] { "状态", "运行中" };
 					break;
 				case Task.STATUS_STOP:
-					result[5] = new String[]{"状态","停止"};
+					result[5] = new String[] { "状态", "停止" };
 					break;
 				default:
-					result[5] = new String[]{"状态",""};
+					result[5] = new String[] { "状态", "" };
 					break;
 				}
 				result[6] = new String[] { "URL", task.getFileUrl() };

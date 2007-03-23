@@ -79,7 +79,7 @@ public class TaskThread2 extends Thread {
 		task.getMessages().clear();
 		// ÐÞ¸ÄÈÎÎñ×´Ì¬
 		changeStatus(Task.STATUS_RUNNING);
-		
+
 		if (task.getBeginTime() == 0)
 			task.setBeginTime(System.currentTimeMillis());
 
@@ -197,6 +197,13 @@ public class TaskThread2 extends Thread {
 			e.printStackTrace();
 			changeStatus(Task.STATUS_ERROR);
 		} finally {
+			if (savedFile != null) {
+				try {
+					savedFile.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			taskModel.updateTask(task);
 		}
 

@@ -70,7 +70,7 @@ public class TaskWizardPage extends WizardPage {
 	public TaskWizardPage(Task task, boolean isModify) {
 		super("下载任务");
 		setTitle("下载任务");
-		setDescription("下载任务");
+		setDescription("下载任务属性");
 		setPageComplete(false);
 		setPageComplete(true);
 
@@ -226,7 +226,8 @@ public class TaskWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		Clipboard clipboard = new Clipboard(parent.getDisplay());
 		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout());
+		final GridLayout gridLayout_3 = new GridLayout();
+		container.setLayout(gridLayout_3);
 		setControl(container);
 
 		final Group group = new Group(container, SWT.NONE);
@@ -280,13 +281,10 @@ public class TaskWizardPage extends WizardPage {
 				false));
 
 		final Group group_2 = new Group(container, SWT.NONE);
+		group_2.setText("备注");
 		group_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		final GridLayout gridLayout_2 = new GridLayout();
-		gridLayout_2.numColumns = 2;
 		group_2.setLayout(gridLayout_2);
-
-		final Label memoLabel = new Label(group_2, SWT.NONE);
-		memoLabel.setText("备注");
 
 		memoText = new Text(group_2, SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.FILL, true,

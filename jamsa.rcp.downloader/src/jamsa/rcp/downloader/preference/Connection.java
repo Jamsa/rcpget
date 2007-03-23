@@ -10,23 +10,25 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * 首选项
- * 网络连接设置
+ * 首选项 网络连接设置
+ * 
  * @author Jamsa
- *
+ * 
  */
 public class Connection extends PreferencePage implements
 		IWorkbenchPreferencePage {
 	private PreferenceManager pm;
 
-	private Text maxTasksText;
+	private Spinner retryTimesSpinner;
 
-	private Text retryDelayText;
+	private Spinner retryDelaySpinner;
+
+	private Spinner maxRunTasksSpinner;
 
 	@Override
 	protected Control createContents(Composite parent) {
@@ -38,7 +40,7 @@ public class Connection extends PreferencePage implements
 				false);
 		gridData.widthHint = 302;
 		timeoutGroup.setLayoutData(gridData);
-		timeoutGroup.setText("超时");
+		timeoutGroup.setText("连接");
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		timeoutGroup.setLayout(gridLayout);
@@ -47,12 +49,20 @@ public class Connection extends PreferencePage implements
 		retryDelayLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
 		retryDelayLabel.setText("重试等侍时间");
 
-		retryDelayText = new Text(timeoutGroup, SWT.BORDER);
-		retryDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		retryDelaySpinner = new Spinner(timeoutGroup, SWT.BORDER);
+		retryDelaySpinner.setMaximum(10);
+		retryDelaySpinner.setMinimum(1);
 
 		final Label sLabel = new Label(timeoutGroup, SWT.NONE);
 		sLabel.setText("秒");
+
+		final Label retryTimesLabel = new Label(timeoutGroup, SWT.NONE);
+		retryTimesLabel.setText("重试次数");
+
+		retryTimesSpinner = new Spinner(timeoutGroup, SWT.BORDER);
+		retryTimesSpinner.setMaximum(10);
+		retryTimesSpinner.setMinimum(1);
+		new Label(timeoutGroup, SWT.NONE);
 
 		final Group limitGroup = new Group(container, SWT.NONE);
 		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
@@ -66,9 +76,9 @@ public class Connection extends PreferencePage implements
 		maxTasksLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
 		maxTasksLabel.setText("最多同时运行任务数量");
 
-		maxTasksText = new Text(limitGroup, SWT.BORDER);
-		maxTasksText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		maxRunTasksSpinner = new Spinner(limitGroup, SWT.BORDER);
+		maxRunTasksSpinner.setMaximum(15);
+		maxRunTasksSpinner.setMinimum(1);
 
 		setControl();
 		return container;
@@ -76,14 +86,16 @@ public class Connection extends PreferencePage implements
 
 	private void setControl() {
 		int delay = pm.getRetryDelay();
-		retryDelayText.setText(delay + "");
+		retryDelaySpinner.setSelection(delay);
+		int retry = pm.getRetryTimes();
+		retryTimesSpinner.setSelection(retry);
 		int maxTasks = pm.getMaxRunTasks();
-		maxTasksText.setText(maxTasks + "");
+		maxRunTasksSpinner.setSelection(maxTasks);
 	}
-	
-//	protected void performApply() {
-//		this.performOk();
-//	}
+
+	// protected void performApply() {
+	// this.performOk();
+	// }
 
 	protected void performDefaults() {
 		pm.setConnectionDefault();
@@ -91,12 +103,12 @@ public class Connection extends PreferencePage implements
 	}
 
 	public boolean performOk() {
-		pm.setRetryDelay(Integer.parseInt(retryDelayText.getText().trim()));
-		pm.setMaxRunTasks(Integer.parseInt(maxTasksText.getText().trim()));
+		pm.setMaxRunTasks(maxRunTasksSpinner.getSelection());
+		pm.setRetryDelay(retryDelaySpinner.getSelection());
+		pm.setRetryTimes(retryTimesSpinner.getSelection());
 		return true;
 	}
 
-	
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		pm = PreferenceManager.getInstance();
