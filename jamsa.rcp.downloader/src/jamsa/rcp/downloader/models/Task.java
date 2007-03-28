@@ -95,6 +95,13 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 
 	// 是否被删除
 	private boolean deleted = false;
+	
+	//启动方式
+	private int start = 0;
+	
+	public static final int START_AUTO = 0;
+	public static final int START_MANUAL = 1;
+	
 
 	public boolean isDeleted() {
 		return deleted;
@@ -567,6 +574,14 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			TaskSplitter splitter = (TaskSplitter) it.next();
 			splitter.setRun(false);
 		}
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
 	}
 
 }

@@ -1,10 +1,20 @@
 package jamsa.rcp.downloader.preference;
 
-public interface IPreferenceKeys {
+/**
+ * 首选项常量定义
+ * 
+ * @author 朱杰
+ * 
+ */
+public interface IPreferenceConstants {
 	public static String INIT = "INIT";
 
 	// 默认下载分类类型(指定分类或者记录上次选中的分类)
 	public static final String TASK_DEFAULT_CATEGORY_TYPE = "TASK_DEFAULT_CATEGORY_TYPE";
+
+	public static final String TASK_DEFAULT_CATEGORY_TYPE_LAST = "TASK_DEFAULT_CATEGORY_TYPE_LAST";
+
+	public static final String TASK_DEFAULT_CATEGORY_TYPE_DEFINE = "TASK_DEFAULT_CATEGORY_TYPE_DEFINE";
 
 	// 默认分类
 	public static final String TASK_DEFAULT_CATEGORY = "TASK_DEFAULT_CATEGORY";

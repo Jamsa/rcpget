@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.views;
 
+import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.RCPGetActionFactory;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
@@ -7,6 +8,7 @@ import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.models.TaskThreadManager;
 import jamsa.rcp.downloader.utils.Logger;
+import jamsa.rcp.downloader.wizards.TaskWizard;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -23,7 +25,14 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -73,10 +82,44 @@ public class TaskTableView extends ViewPart {
 		}
 	};
 
+	private void createDNDSupport() {
+		// drop support
+		int ops = DND.DROP_COPY | DND.DROP_MOVE;
+		Transfer[] transfers = new Transfer[] { TextTransfer.getInstance() };
+		tableViewer.addDropSupport(ops, transfers, new ViewerDropAdapter(
+				tableViewer) {
+			@Override
+			public boolean performDrop(Object data) {
+				
+					String url = String.valueOf(data) ;
+					if(url.startsWith("http")){
+						Clipboard clipboard = new Clipboard(Display.getCurrent());
+						TextTransfer textTransfer = TextTransfer.getInstance();
+						clipboard.setContents(new Object[]{url}, new Transfer[]{textTransfer});
+						
+						TaskWizard wizard = new TaskWizard(new Task(), false);
+						WizardDialog dialog = new WizardDialog(tableViewer.getControl().getShell(), wizard);
+						dialog.open();
+					}
+				
+				return true;
+			}
+
+			@Override
+			public boolean validateDrop(Object target, int operation,
+					TransferData transferType) {
+				return true;
+			}
+		});
+	}
+
 	@Override
 	public void createPartControl(Composite parent) {
 		display = parent.getDisplay();
 		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI);
+
+		createDNDSupport();
+
 		Table table = tableViewer.getTable();
 		TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText("״̬");

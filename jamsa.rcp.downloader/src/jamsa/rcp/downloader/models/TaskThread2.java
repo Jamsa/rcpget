@@ -86,7 +86,7 @@ public class TaskThread2 extends Thread {
 		taskModel.updateTask(task);
 
 		RemoteFileInfo remoteFile = HttpClientUtils.getRemoteFileInfo(task
-				.getFileUrl(), 5, preferenceManager.getRetryDelay() * 1000,
+				.getFileUrl(), preferenceManager.getRetryTimes(), preferenceManager.getRetryDelay() * 1000,
 				new Properties(), task, "Task");
 		if (remoteFile == null) {
 			task.writeMessage("Task", "无法获取目标文件信息！");
@@ -204,6 +204,7 @@ public class TaskThread2 extends Thread {
 					e.printStackTrace();
 				}
 			}
+			task.clearMessage();
 			taskModel.updateTask(task);
 		}
 

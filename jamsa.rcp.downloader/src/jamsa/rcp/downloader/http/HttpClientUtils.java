@@ -57,10 +57,14 @@ public class HttpClientUtils {
 
 		String fileName = url.getFile();
 		int start = fileName.lastIndexOf("/") + 1;
-		if (start < fileName.length()) {
-			writer.writeMessage("Task", "远端文件名" + fileName);
+		int end = fileName.indexOf("?");
+		if (end > start)
+			result.setFileName(fileName.substring(start, end));
+		else
 			result.setFileName(fileName.substring(start, fileName.length()));
-		}
+		// if (fileName.length() > start)
+
+		writer.writeMessage("Task", "远端文件名" + result.getFileName());
 
 		String contentLength = null;
 		String header = null;
@@ -150,10 +154,11 @@ public class HttpClientUtils {
 				}
 
 				// 等侍并重新连接
-				if (conn == null){
-					writer.writeMessage(label, "连接失败,"+retryDelay/1000+"秒后重试...");
+				if (conn == null) {
+					writer.writeMessage(label, "连接失败," + retryDelay / 1000
+							+ "秒后重试...");
 					Thread.sleep(retryDelay);
-				}else
+				} else
 					writer.writeMessage(label, "连接成功！");
 			}
 

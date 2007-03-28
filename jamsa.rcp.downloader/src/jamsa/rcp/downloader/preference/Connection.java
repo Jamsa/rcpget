@@ -36,7 +36,7 @@ public class Connection extends PreferencePage implements
 		container.setLayout(new GridLayout());
 
 		final Group timeoutGroup = new Group(container, SWT.NONE);
-		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false,
+		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
 				false);
 		gridData.widthHint = 302;
 		timeoutGroup.setLayoutData(gridData);
@@ -65,7 +65,7 @@ public class Connection extends PreferencePage implements
 		new Label(timeoutGroup, SWT.NONE);
 
 		final Group limitGroup = new Group(container, SWT.NONE);
-		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
 		limitGroup.setText("ÏÞÖÆ");
 		final GridLayout gridLayout_1 = new GridLayout();

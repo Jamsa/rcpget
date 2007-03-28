@@ -2,6 +2,9 @@ package jamsa.rcp.downloader.wizards;
 
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
+import jamsa.rcp.downloader.models.TaskModel;
+import jamsa.rcp.downloader.preference.IPreferenceConstants;
+import jamsa.rcp.downloader.preference.PreferenceManager;
 import jamsa.rcp.downloader.utils.StringUtils;
 
 import java.net.URL;
@@ -35,7 +38,6 @@ import org.eclipse.swt.widgets.Text;
 public class TaskWizardPage extends WizardPage {
 	private Task task;
 
-
 	private Text memoText;
 
 	private Text fileNameText;
@@ -45,9 +47,16 @@ public class TaskWizardPage extends WizardPage {
 	private Combo categoryCombo;
 
 	private Text fileUrlText;
+
 	private Spinner blocksSpinner;
 
 	private boolean isModify = false;
+
+	private Button autoStartButton;
+
+	private Button manualStartButton;
+
+	private PreferenceManager pm;
 
 	/**
 	 * 数据校验监听器
@@ -73,9 +82,10 @@ public class TaskWizardPage extends WizardPage {
 		setDescription("下载任务属性");
 		setPageComplete(false);
 		setPageComplete(true);
-
 		this.task = task;
 		this.isModify = isModify;
+
+		pm = PreferenceManager.getInstance();
 	}
 
 	/**
@@ -85,21 +95,13 @@ public class TaskWizardPage extends WizardPage {
 	 * @return
 	 */
 	private String getFileName(String url) {
-		// String fileUrl = url.trim();
-		// int fileNameIndex = fileUrl.lastIndexOf("/");
-		// int paramIndex = fileUrl.indexOf('?');
-		// int length = fileUrl.length();
-		// if (fileNameIndex > 0 && fileNameIndex + 1 < length && paramIndex <=
-		// 0)
-		// return fileUrl.substring(fileNameIndex + 1, fileUrl.length());
-		// if (fileNameIndex > 0 && fileNameIndex + 1 < length && paramIndex >
-		// 0)
-		// return fileUrl.substring(fileNameIndex + 1, paramIndex);
-
 		try {
 			URL u = new URL(url);
 			String name = u.getFile();
 			int start = name.lastIndexOf("/") + 1;
+			int end = name.indexOf("?");
+			if (end > start)
+				return name.substring(start, end);
 			if (name.length() > start)
 				return name.substring(start, name.length());
 		} catch (Exception e) {
@@ -116,14 +118,21 @@ public class TaskWizardPage extends WizardPage {
 	 */
 	public boolean validate() {
 		setErrorMessage(null);
+
 		if (StringUtils.isEmpty(this.fileUrlText.getText())) {
 			setErrorMessage("请填写URL");
 			setPageComplete(false);
 			return false;
 		}
 
+		if (TaskModel.getInstance().isExist(this.fileUrlText.getText().trim())) {
+			setErrorMessage("该任务已存在");
+			setPageComplete(false);
+			return false;
+		}
+
 		if (!this.fileUrlText.getText().trim().startsWith("http")) {
-			setErrorMessage("Alpha版本，暂只支持Http协议");
+			setErrorMessage("不支持的协议");
 			setPageComplete(false);
 			return false;
 		}
@@ -146,18 +155,18 @@ public class TaskWizardPage extends WizardPage {
 			return false;
 		}
 
-//		if (StringUtils.isEmpty(blocksCombo.getText())) {
-//			setErrorMessage("请选择下载线程数量");
-//			setPageComplete(false);
-//			return false;
-//		}
-//
-//		if (Integer.parseInt(blocksCombo.getText()) < task.getBlocks()) {
-//			setErrorMessage("不允许减少下载线程数量");
-//			setPageComplete(false);
-//			return false;
-//
-//		}
+		// if (StringUtils.isEmpty(blocksCombo.getText())) {
+		// setErrorMessage("请选择下载线程数量");
+		// setPageComplete(false);
+		// return false;
+		// }
+		//
+		// if (Integer.parseInt(blocksCombo.getText()) < task.getBlocks()) {
+		// setErrorMessage("不允许减少下载线程数量");
+		// setPageComplete(false);
+		// return false;
+		//
+		// }
 
 		this.setPageComplete(true);
 		return true;
@@ -187,25 +196,42 @@ public class TaskWizardPage extends WizardPage {
 		task.setFilePath(savePathCombo.getText().trim());
 		task.setMemo(memoText.getText().trim() + "");
 		task.setBlocks(blocksSpinner.getSelection());
+		if (autoStartButton.getSelection())
+			task.setStart(Task.START_AUTO);
+		else
+			task.setStart(Task.START_MANUAL);
+
+		if (pm.getDefaultCategoryType().equals(
+				IPreferenceConstants.TASK_DEFAULT_CATEGORY_TYPE_LAST)) {
+			pm.setDefaultCategoryType(task.getCategory().getName());
+			pm.setDefaultSavePath(task.getCategory().getPath());
+		}
 	}
 
 	/**
 	 * 设置输入元素的值
 	 * 
 	 */
-	private void setControl() {
+	private void setControlValue(Composite parent) {
+		
+		// 选中第一条记录
+		categoryCombo.select(1);
+		
+
 		memoText.setText(task.getMemo() == null ? "" : task.getMemo());
 
 		fileNameText.setText(task.getFileName() == null ? "" : task
 				.getFileName());
 
 		fileUrlText.setText(task.getFileUrl() == null ? "" : task.getFileUrl());
-		//blocksCombo.select(task.getBlocks() == 0 ? 1 : (task.getBlocks() - 1));
+
 		blocksSpinner.setSelection(task.getBlocks());
-		savePathCombo.setText(task.getFilePath() == null ? "" : task
-				.getFilePath());
+
+		// savePathCombo.setText(task.getFilePath() == null ? "" : task
+		// .getFilePath());
+
 		String[] items = categoryCombo.getItems();
-		if (items != null) {
+		if (items != null && task.getCategory() != null) {
 			for (int i = 0; i < items.length; i++) {
 				String item = items[i];
 				if (item.trim().equals(task.getCategory().getName())) {
@@ -213,130 +239,99 @@ public class TaskWizardPage extends WizardPage {
 					break;
 				}
 			}
+		} else {
+			categoryCombo.select(1);
 		}
+
+		if (task.getStart() == Task.START_AUTO) {
+			autoStartButton.setSelection(true);
+			manualStartButton.setSelection(false);
+		} else {
+			autoStartButton.setSelection(false);
+			manualStartButton.setSelection(true);
+		}
+
 		if (isModify) {
 			fileNameText.setEnabled(false);
 			fileUrlText.setEnabled(false);
 			categoryCombo.setEnabled(false);
 			savePathCombo.setEnabled(false);
+			autoStartButton.setEnabled(false);
+			manualStartButton.setEnabled(false);
+		} else {
+//			 从剪贴板粘贴url
+			Clipboard clipboard = new Clipboard(parent.getDisplay());
+			TextTransfer textTransfer = TextTransfer.getInstance();
+			String textData = (String) clipboard.getContents(textTransfer);
+
+			if (!StringUtils.isEmpty(textData) && textData.startsWith("http://")) {
+				textData = textData.trim();
+				textData = textData.split(" ")[0];
+				textData = textData.split("\n")[0];
+				fileUrlText.setText(textData);
+			}
+			
+			if (pm.getStartTaskMethod() == Task.START_AUTO) {
+				autoStartButton.setSelection(true);
+				manualStartButton.setSelection(false);
+			} else {
+				autoStartButton.setSelection(false);
+				manualStartButton.setSelection(true);
+			}
+
+			String categoryName = pm.getDefaultCategory();
+
+			String[] categories = categoryCombo.getItems();
+			for (int i = 0; i < categories.length; i++) {
+				if (categories[i].equals(categoryName)) {
+					categoryCombo.select(i);
+					break;
+				}
+			}
+			String savePath = pm.getDefaultSavePath();
+			savePathCombo.setText(savePath);
 		}
 
 	}
 
 	public void createControl(Composite parent) {
-		Clipboard clipboard = new Clipboard(parent.getDisplay());
 		Composite container = new Composite(parent, SWT.NONE);
-		final GridLayout gridLayout_3 = new GridLayout();
-		container.setLayout(gridLayout_3);
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		setControl(container);
 
-		final Group group = new Group(container, SWT.NONE);
-		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false,
-				false);
-		gridData.widthHint = 475;
-		group.setLayoutData(gridData);
-		final GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-		group.setLayout(gridLayout);
+		final Shell shell = parent.getShell();
+		final GridLayout gridLayout_3 = new GridLayout();
+		gridLayout_3.numColumns = 3;
+		container.setLayout(gridLayout_3);
 
-		final Label fileUrlLabel = new Label(group, SWT.NONE);
+		// 文件地址
+		final Label fileUrlLabel = new Label(container, SWT.NONE);
+		fileUrlLabel.setLayoutData(new GridData());
 		fileUrlLabel.setText("URL");
 
-		fileUrlText = new Text(group, SWT.BORDER);
-		fileUrlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
-
-		final Group group_1 = new Group(container, SWT.NONE);
-		group_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		final GridLayout gridLayout_1 = new GridLayout();
-		gridLayout_1.numColumns = 3;
-		group_1.setLayout(gridLayout_1);
-
-		final Label categoryLabel = new Label(group_1, SWT.NONE);
-		categoryLabel.setText("分类");
-
-		categoryCombo = new Combo(group_1, SWT.READ_ONLY);
-		categoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
-
-		final Button addCategoryButton = new Button(group_1, SWT.NONE);
-		addCategoryButton.setText("添加(&A)");
-
-		final Label savePathLabel = new Label(group_1, SWT.NONE);
-		savePathLabel.setText("保存目录");
-
-		savePathCombo = new Combo(group_1, SWT.NONE);
-		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
-
-		final Button selectSavePathButton = new Button(group_1, SWT.NONE);
-
-		selectSavePathButton.setText("选择(&S)");
-
-		final Label fileNameLabel = new Label(group_1, SWT.NONE);
-		fileNameLabel.setText("文件名");
-
-		fileNameText = new Text(group_1, SWT.BORDER);
-		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
-
-		final Group group_2 = new Group(container, SWT.NONE);
-		group_2.setText("备注");
-		group_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		final GridLayout gridLayout_2 = new GridLayout();
-		group_2.setLayout(gridLayout_2);
-
-		memoText = new Text(group_2, SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
-		final GridData gridData_1 = new GridData(SWT.FILL, SWT.FILL, true,
-				false);
-		gridData_1.heightHint = 50;
-		memoText.setLayoutData(gridData_1);
-
-		new Label(group_1, SWT.NONE);
-
-		final Label blocksLabel = new Label(group_1, SWT.NONE);
-		blocksLabel.setText("线程数量");
-
-		blocksSpinner = new Spinner(group_1, SWT.BORDER);
-		blocksSpinner.setMinimum(1);
-		blocksSpinner.setMaximum(10);
-		blocksSpinner.setLayoutData(new GridData());
-
-//		for (int i = 1; i < 11; i++) {
-//			blocksCombo.add(i + "", i - 1);
-//		}
-		blocksSpinner.setSelection(5);
-		new Label(group_1, SWT.NONE);
-
-		this.setControl();
-
-		final Shell shell = parent.getShell();
-		// 选择保存目录
-		selectSavePathButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dialog = new DirectoryDialog(shell);
-				dialog.setFilterPath(savePathCombo.getText());
-				savePathCombo.setText(dialog.open());
-			}
-		});
+		fileUrlText = new Text(container, SWT.BORDER);
+		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 2, 1);
+		// gridData.widthHint = 410;
+		fileUrlText.setLayoutData(gridData);
 
 		// 监听url修改事件
 		fileUrlText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				fileNameText.setText(getFileName(fileUrlText.getText()));
-
 			}
 
 		});
 
-		// 从剪贴板粘贴url
-		TextTransfer textTransfer = TextTransfer.getInstance();
-		String textData = (String) clipboard.getContents(textTransfer);
+		// 下载分类
+		final Label categoryLabel = new Label(container, SWT.NONE);
+		categoryLabel.setLayoutData(new GridData());
+		categoryLabel.setText("分类");
 
-		if (!StringUtils.isEmpty(textData) && textData.startsWith("http://")) {
-			textData = textData.trim();
-			fileUrlText.setText(textData);
-		}
+		categoryCombo = new Combo(container, SWT.READ_ONLY);
+		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		// gridData_1.widthHint = 241;
+		categoryCombo.setLayoutData(gridData_1);
 
 		// 设置分类选择框
 		categoryCombo.setItems(CategoryModel.getInstance()
@@ -351,10 +346,88 @@ public class TaskWizardPage extends WizardPage {
 
 		});
 
-		// 选中第一条记录
-		categoryCombo.select(1);
+		final Button addCategoryButton = new Button(container, SWT.NONE);
+		addCategoryButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		addCategoryButton.setText("添加(&A)");
 
+		// 保存目录
+		final Label savePathLabel = new Label(container, SWT.NONE);
+		savePathLabel.setLayoutData(new GridData());
+		savePathLabel.setText("保存目录");
+
+		savePathCombo = new Combo(container, SWT.NONE);
+		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final Button selectSavePathButton = new Button(container, SWT.NONE);
+		selectSavePathButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+
+		selectSavePathButton.setText("选择(&S)");
+		// 选择保存目录
+		selectSavePathButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				DirectoryDialog dialog = new DirectoryDialog(shell);
+				dialog.setFilterPath(savePathCombo.getText());
+				savePathCombo.setText(dialog.open());
+			}
+		});
+
+		// 文件名
+		final Label fileNameLabel = new Label(container, SWT.NONE);
+		fileNameLabel.setLayoutData(new GridData());
+		fileNameLabel.setText("文件名");
+
+		fileNameText = new Text(container, SWT.BORDER);
+		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
+		new Label(container, SWT.NONE);
+
+		// 线程数量
+		final Label blocksLabel = new Label(container, SWT.NONE);
+		blocksLabel.setLayoutData(new GridData());
+		blocksLabel.setText("线程数量");
+
+		blocksSpinner = new Spinner(container, SWT.BORDER);
+		blocksSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		blocksSpinner.setMinimum(1);
+		blocksSpinner.setMaximum(10);
+		blocksSpinner.setSelection(5);
+		new Label(container, SWT.NONE);
+
+		// 备注
+		final Group memoGroup = new Group(container, SWT.NONE);
+		memoGroup.setText("备注");
+		final GridData gridData_2 = new GridData(SWT.FILL, SWT.FILL, false,
+				true, 2, 1);
+		// gridData_2.heightHint = 110;
+		memoGroup.setLayoutData(gridData_2);
+		memoGroup.setLayout(new GridLayout());
+
+		memoText = new Text(memoGroup, SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		final GridData gridData_3 = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 2, 1);
+		// gridData_3.widthHint = 306;
+		// gridData_3.heightHint = 93;
+		memoText.setLayoutData(gridData_3);
+
+		// 启动方式
+		final Group startGroup = new Group(container, SWT.NONE);
+		startGroup.setText("启动方式");
+		startGroup
+				.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
+		startGroup.setLayout(new GridLayout());
+
+		autoStartButton = new Button(startGroup, SWT.RADIO);
+		autoStartButton.setSelection(true);
+		autoStartButton.setText("立即");
+
+		manualStartButton = new Button(startGroup, SWT.RADIO);
+		manualStartButton.setText("手动");
+
+		this.setControlValue(parent);
 		addValidateListener();
+		if (!isModify)
+			setPageComplete(false);
+
 	}
 
 }

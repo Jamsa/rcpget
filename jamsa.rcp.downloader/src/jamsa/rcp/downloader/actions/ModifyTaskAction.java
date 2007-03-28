@@ -33,10 +33,10 @@ public class ModifyTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
-//		if (tasks.isEmpty()) {
-//			setEnabled(false);
-//			return;
-//		}
+		if (tasks.isEmpty()) {
+			setEnabled(false);
+			return;
+		}
 		
 		if (tasks.size() > 1) {
 			setEnabled(false);

@@ -52,6 +52,9 @@ public class TaskModel extends Observable {
 	 */
 	private Map tasks = Collections.synchronizedMap(new HashMap(10));
 
+	public boolean isExist(String url){
+		return tasks.get(url)!=null;
+	}
 	/**
 	 * 获取保存任务状态文件的路径
 	 * 

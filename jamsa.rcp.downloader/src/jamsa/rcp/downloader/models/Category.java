@@ -1,7 +1,7 @@
 package jamsa.rcp.downloader.models;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,12 +10,12 @@ import java.util.Map;
  * @author 朱杰
  * 
  */
-public class Category implements Serializable{
+public class Category implements Serializable {
 	// 父分类
 	private Category parent;
 
 	// 子分类
-	private Map children = new HashMap(0);
+	private Map children = new LinkedHashMap(0);
 
 	// 分类名称
 	private String name;

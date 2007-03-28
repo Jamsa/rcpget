@@ -2,9 +2,9 @@ package jamsa.rcp.downloader.wizards;
 
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
+import jamsa.rcp.downloader.models.TaskThreadManager;
 import jamsa.rcp.downloader.utils.Logger;
 
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
@@ -40,19 +40,12 @@ public class TaskWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		// Task task = new Task();
-		// task.setCategory(CategoryModel.getInstance().getCategory(
-		// taskWizardPage.getCategoryCombo().getText()));
-		// task.setFilePath(taskWizardPage.getSavePathCombo().getText().trim());//.replaceAll("\n",
-		// "").replace("\r", ""));
-		// task.setFileName(taskWizardPage.getFileNameText().getText().trim());//.replaceAll("\n",
-		// "").replace("\r", ""));
-		// task.setFileUrl(taskWizardPage.getFileUrlText().getText().trim());//.replaceAll("\n",
-		// "").replace("\r", ""));
-		// task.setMemo(taskWizardPage.getMemoText().getText());
-		// task.setBlocks(Integer.parseInt(taskWizardPage.getBlocksCombo().getText().trim()));
 		taskWizardPage.saveTask();
 		taskModel.addTask(task);
+		if (!isModify) {
+			if (task.getStart() == Task.START_AUTO)
+				TaskThreadManager.getInstance().start(task);
+		}
 		logger.info("添加了新任务");
 		return true;
 	}

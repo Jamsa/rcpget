@@ -4,6 +4,7 @@ import jamsa.rcp.downloader.Activator;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -28,6 +29,7 @@ public class General extends PreferencePage implements IWorkbenchPreferencePage 
 		container.setLayout(new GridLayout());
 
 		minimizeToTrayButton = new Button(container, SWT.CHECK);
+		minimizeToTrayButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		minimizeToTrayButton.setText("最小化到任务栏");
 
 		setControl();

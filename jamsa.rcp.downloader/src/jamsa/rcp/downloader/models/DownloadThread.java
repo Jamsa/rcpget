@@ -74,7 +74,7 @@ public class DownloadThread extends Thread {
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
 		}
-		return HttpClientUtils.getInputStream(task.getFileUrl(), 5, pm
+		return HttpClientUtils.getInputStream(task.getFileUrl(), pm.getRetryTimes(), pm
 				.getRetryDelay() * 1000, prop, task, splitter.getName());
 	}
 

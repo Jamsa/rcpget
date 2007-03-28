@@ -52,6 +52,7 @@ public class CategoryDialog extends TitleAreaDialog {
 	protected Control createDialogArea(Composite parent) {
 		// super.createDialogArea(parent);
 		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		// container.setSize(320, 240);
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -64,7 +65,7 @@ public class CategoryDialog extends TitleAreaDialog {
 
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true,
 				false);
-		gridData_1.widthHint = 365;
+		// gridData_1.widthHint = 365;
 		categoryText.setLayoutData(gridData_1);
 		new Label(container, SWT.NONE);
 
@@ -74,7 +75,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		directoryText = new Text(container, SWT.BORDER);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
 				false);
-		gridData.widthHint = 118;
+		// gridData.widthHint = 118;
 		directoryText.setLayoutData(gridData);
 
 		final Button selectButton = new Button(container, SWT.NONE);

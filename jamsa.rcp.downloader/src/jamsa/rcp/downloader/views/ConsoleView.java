@@ -2,8 +2,6 @@ package jamsa.rcp.downloader.views;
 
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.utils.Logger;
-import jamsa.rcp.downloader.utils.StringUtils;
-import jamsa.rcp.downloader.wizards.TaskWizard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,27 +11,20 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.progress.UIJob;
 
 /**
  * œﬂ≥Ã÷’∂À ”Õº
@@ -87,43 +78,6 @@ public class ConsoleView extends ViewPart {
 		tabFolder = new CTabFolder(parent, SWT.NONE);
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
-
-//		try{
-//			UIJob job = new UIJob("monitor") {
-//				private TextTransfer textTransfer = TextTransfer.getInstance();
-//
-//				private Clipboard clipboard = new Clipboard((new Shell()).getDisplay());
-//
-//				private String url = "";
-//
-//				@Override
-//				public IStatus runInUIThread(IProgressMonitor monitor) {
-//					while (true) {
-//						String textData = (String) clipboard
-//								.getContents(textTransfer);
-//
-//						if (!StringUtils.isEmpty(textData)
-//								&& textData.startsWith("http://")
-//								&& !textData.equals(url)) {
-//							TaskWizard wizard = new TaskWizard(new Task(), false);
-//							WizardDialog dialog = new WizardDialog(new Shell(), wizard);
-//							dialog.open();
-//
-//						}
-//						url = textData;
-//						try {
-//							Thread.sleep(1000);
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
-//					// return Status.OK_STATUS;
-//				}
-//			};
-//			job.schedule();
-//			}catch (Exception e) {
-//				e.printStackTrace();
-//			}
 	}
 
 	/**
@@ -174,7 +128,6 @@ public class ConsoleView extends ViewPart {
 			msgs.add(msg);
 			// msgs.add(0, msg);
 			listViewer.refresh();
-			listViewer.scrollDown(0, 1);
 		} else {
 			createTabItem(name);
 			addMessage(name, msg);
@@ -240,7 +193,7 @@ public class ConsoleView extends ViewPart {
 	}
 
 	public void dispose() {
-//		super.dispose();
+		// super.dispose();
 		disposeTabItems();
 		if (this.task != null)
 			task.deleteObserver(msgObserver);
