@@ -33,7 +33,6 @@ public class NewTaskAction extends Action implements
 	}
 
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+
 	}
 }

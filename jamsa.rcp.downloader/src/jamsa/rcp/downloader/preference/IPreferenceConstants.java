@@ -36,4 +36,6 @@ public interface IPreferenceConstants {
 
 	// 最小化到任务栏
 	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
+	
+	public static final String MONITOR_CLIPBOARD = "MONITOR_CLIPBOARD";
 }

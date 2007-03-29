@@ -1,17 +1,14 @@
 package jamsa.rcp.downloader;
 
-import jamsa.rcp.downloader.dialogs.DockerDialog;
+import jamsa.rcp.downloader.monitor.ClipBoardMonitor;
 import jamsa.rcp.downloader.preference.PreferenceManager;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Decorations;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -48,7 +45,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setShowStatusLine(true);
 		configurer.setShowMenuBar(true);
 		configurer.setTitle("RCP Get");
-		
+
 	}
 
 	private void hookMinimize(final IWorkbenchWindow window) {
@@ -85,27 +82,15 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowOpen() {
 
 		final IWorkbenchWindow window = getWindowConfigurer().getWindow();
-//		window.getShell().setMaximized(true);
+		// window.getShell().setMaximized(true);
 		trayItem = initTaskItem(window);
 		if (trayItem != null) {
 			hookPopupMenu(window);
 			hookMinimize(window);
 		}
 		
-		
-//		Display display = Display.getDefault();
-//		DockerDialog shell = new DockerDialog(display,SWT.NORMAL);// SWT.NO_TRIM SWT.NONE
-//		shell.setSize(50, 50);
-//		
-//		shell.open();
-//		shell.layout();
-//		while (!shell.isDisposed()) {
-//			if (!display.readAndDispatch())
-//				display.sleep();
-//		}
-		
-		// Gather gather = new Gather(window.getShell().getDisplay(),SWT.NONE);
-		// gather.open();
+		// º‡ ”ºÙÃ˘∞Â
+		ClipBoardMonitor.getInstance().start();
 	}
 
 	private TrayItem initTaskItem(IWorkbenchWindow window) {
