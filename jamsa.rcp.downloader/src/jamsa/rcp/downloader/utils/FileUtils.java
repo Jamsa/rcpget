@@ -6,6 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * 文件操作工具类
+ * 
+ * @author 朱杰
+ * 
+ */
 public class FileUtils {
 
 	/**
@@ -20,6 +26,11 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * 创建目录
+	 * 
+	 * @param path
+	 */
 	public static void createDirectory(String path) {
 		File directory = new File(path);
 		while (!directory.exists()) {
@@ -27,21 +38,46 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * 检查目录是否已经存在
+	 * 
+	 * @param path
+	 * @return
+	 */
 	public static boolean existsDirectory(String path) {
 		File directory = new File(path);
 		return directory.exists();
 	}
 
+	/**
+	 * 检查文件是否已经存在
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public static boolean existsFile(String fileName) {
 		File file = new File(fileName);
 		return file.exists();
 	}
-	
-	public static boolean isFile(String fileName){
+
+	/**
+	 * 检查是否为文件
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean isFile(String fileName) {
 		File file = new File(fileName);
 		return file.isFile();
 	}
 
+	/**
+	 * 读取文件
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
 	public static String readFile(File file) throws IOException {
 		StringBuffer result = new StringBuffer();
 		FileInputStream fis = new FileInputStream(file);
@@ -54,6 +90,13 @@ public class FileUtils {
 		return String.valueOf(result);
 	}
 
+	/**
+	 * 写入文件
+	 * 
+	 * @param file
+	 * @param source
+	 * @throws IOException
+	 */
 	public static void writeFile(File file, String source) throws IOException {
 		FileOutputStream fos = new FileOutputStream(file);
 		byte buf[] = buf = source.getBytes("iso8859-1");
