@@ -14,15 +14,23 @@ import org.eclipse.jface.wizard.Wizard;
  * 
  */
 public class TaskWizard extends Wizard {
+	/**
+	 * 向导的状态，防止打开多个向导
+	 */
+	private static boolean open = false;
+
 	Logger logger = new Logger(this.getClass());
 
 	private Task task;
 
 	private boolean isModify = false;
 
-	public TaskWizard(Task task, boolean isModify) {
+	public TaskWizard(Task task, boolean isModify) throws Exception {
+		if (open)
+			throw new Exception("向导已经打开！");
 		this.task = task;
 		this.isModify = isModify;
+		open = true;
 	}
 
 	private TaskWizardPage taskWizardPage;
@@ -48,6 +56,15 @@ public class TaskWizard extends Wizard {
 		}
 		logger.info("添加了新任务");
 		return true;
+	}
+
+	public static boolean isOpen() {
+		return open;
+	}
+
+	public void dispose() {
+		open = false;
+		super.dispose();
 	}
 
 }

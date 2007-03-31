@@ -119,13 +119,14 @@ public class HttpClientUtils {
 		int count = 0;
 		HttpURLConnection conn = null;
 		try {
+			URL url = new URL(urlString);
 			while (conn == null && retryTimes >= count) {
 				count++;
 				writer.writeMessage(label, "第" + count + "次连接...");
-				URL url = new URL(urlString);
 				conn = (HttpURLConnection) url.openConnection();
-				conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
+				conn.setRequestProperty("User-Agent",
+						"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 				if (properties != null && !properties.isEmpty()) {
 					for (Iterator it = properties.keySet().iterator(); it
 							.hasNext();) {
@@ -140,11 +141,16 @@ public class HttpClientUtils {
 				printResponseHeader(conn, writer, label);
 
 				// 检查返回码
-				if (code == HttpURLConnection.HTTP_BAD_METHOD) {
-					// 如果返回码是
-					conn.setRequestMethod("POST");
-					code = conn.getResponseCode();
-					printResponseHeader(conn, writer, label);
+				// if (code == HttpURLConnection.HTTP_BAD_METHOD) {
+				// // 如果返回码是
+				// conn.setRequestMethod("POST");
+				// code = conn.getResponseCode();
+				// printResponseHeader(conn, writer, label);
+				// }
+				String newURLString = String.valueOf(conn.getURL());
+				if (code == 404 && !urlString.equals(newURLString)) {
+					url = new URL(new String(
+							newURLString.getBytes("iso8859-1"), "GBK"));
 				}
 
 				// 连接错误时，将conn设置为null，等侍重试

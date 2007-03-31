@@ -27,9 +27,12 @@ public class ModifyTaskAction extends BaseTaskAction {
 
 	public void run() {
 		Task task = (Task) tasks.get(0);
-		TaskWizard wizard = new TaskWizard(task, true);
-		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
-		dialog.open();
+		try {
+			TaskWizard wizard = new TaskWizard(task, true);
+			WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
+			dialog.open();
+		} catch (Exception e) {
+		}
 	}
 
 	public void update(Observable o, Object arg) {
@@ -37,7 +40,7 @@ public class ModifyTaskAction extends BaseTaskAction {
 			setEnabled(false);
 			return;
 		}
-		
+
 		if (tasks.size() > 1) {
 			setEnabled(false);
 			return;
@@ -45,7 +48,7 @@ public class ModifyTaskAction extends BaseTaskAction {
 
 		Task task = (Task) tasks.get(0);
 		if (task.getStatus() == Task.STATUS_RUNNING)// || this.task.getStatus()
-													// == Task.STATUS_FINISHED)
+			// == Task.STATUS_FINISHED)
 			setEnabled(false);
 		else
 			setEnabled(true);

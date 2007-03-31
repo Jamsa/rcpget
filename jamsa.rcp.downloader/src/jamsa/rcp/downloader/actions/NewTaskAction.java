@@ -27,9 +27,13 @@ public class NewTaskAction extends Action implements
 	}
 
 	public void run() {
-		TaskWizard wizard = new TaskWizard(new Task(), false);
-		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
-		dialog.open();
+		try {
+			TaskWizard wizard = new TaskWizard(new Task(), false);
+			WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
+			dialog.open();
+		} catch (Exception e) {
+
+		}
 	}
 
 	public void dispose() {

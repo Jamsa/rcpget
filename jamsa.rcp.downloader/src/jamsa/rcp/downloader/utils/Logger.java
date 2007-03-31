@@ -17,6 +17,9 @@ public class Logger {
 		this.className = className;
 	}
 
+	/**
+	 * 默认日志级别
+	 */
 	private static final int LEVEL = 0;
 
 	private static final int DEBUG = 2;

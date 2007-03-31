@@ -103,6 +103,7 @@ public class TaskThreadManager {
 		if (thread != null) {
 			logger.debug("Í£Ö¹ÈÎÎñ" + thread);
 			threads.remove(task.getFileUrl());
+			thread.interrupt();
 		}
 		TaskModel.getInstance().updateTask(task);
 	}

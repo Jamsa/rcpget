@@ -126,11 +126,16 @@ public class TaskTableView extends ViewPart {
 					public void clipboardChange(String text) {
 						text = StringUtils.getURLString(text);
 						if (!StringUtils.isEmpty(text)) {
-							TaskWizard wizard = new TaskWizard(new Task(),
-									false);
-							WizardDialog dialog = new WizardDialog(tableViewer
-									.getControl().getShell(), wizard);
-							dialog.open();
+							try {
+								TaskWizard wizard = new TaskWizard(new Task(),
+										false);
+								WizardDialog dialog = new WizardDialog(
+										tableViewer.getControl().getShell(),
+										wizard);
+								dialog.open();
+							} catch (Exception e) {
+								return;
+							}
 							IWorkbenchWindow window = Activator.getDefault()
 									.getWorkbench().getActiveWorkbenchWindow();
 							if (window.getShell().getMinimized()) {
