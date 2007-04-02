@@ -51,13 +51,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	private void hookMinimize(final IWorkbenchWindow window) {
 		window.getShell().addShellListener(new ShellAdapter() {
 			public void shellIconified(ShellEvent e) {
-				if (PreferenceManager.getInstance().getMinimizeToTray())
+				if (PreferenceManager.getInstance().isMinimizeToTray())
 					window.getShell().setVisible(false);
 			}
 		});
 		trayItem.addListener(SWT.DefaultSelection, new Listener() {
 			public void handleEvent(Event event) {
-				if (PreferenceManager.getInstance().getMinimizeToTray()) {
+				if (PreferenceManager.getInstance().isMinimizeToTray()) {
 					Shell shell = window.getShell();
 					if (!shell.isVisible()) {
 						shell.setVisible(true);
@@ -80,7 +80,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	}
 
 	public void postWindowOpen() {
-
 		final IWorkbenchWindow window = getWindowConfigurer().getWindow();
 		// window.getShell().setMaximized(true);
 		trayItem = initTaskItem(window);
@@ -88,9 +87,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			hookPopupMenu(window);
 			hookMinimize(window);
 		}
-		
+
 		// º‡ ”ºÙÃ˘∞Â
-		ClipBoardMonitor.getInstance().start();
+		if (PreferenceManager.getInstance().isMonitorClipboard()) {
+			ClipBoardMonitor.getInstance().start();
+		}
 	}
 
 	private TrayItem initTaskItem(IWorkbenchWindow window) {

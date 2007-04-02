@@ -10,6 +10,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.widgets.Display;
@@ -23,8 +24,8 @@ import org.eclipse.ui.progress.UIJob;
  */
 public class ClipBoardMonitor {
 	private static Logger log = new Logger(ClipBoardMonitor.class);
-	
-	private static final int INTERVAL = 1000;
+
+	private static final int INTERVAL = 500;
 
 	private Display display;
 
@@ -32,7 +33,7 @@ public class ClipBoardMonitor {
 
 	TextTransfer textTransfer;
 
-	private boolean run = true;
+	private boolean run = false;
 
 	private String last;
 
@@ -69,12 +70,19 @@ public class ClipBoardMonitor {
 	};
 
 	public void start() {
-		run = true;
-		job.schedule(INTERVAL);
+		if (!run) {
+			run = true;
+			// 如果job已经存在就不需要再次启动。防止用户反复启用或者禁用监视引起的启动多个监视任务
+			if (job.getState() == Job.NONE) {
+				job.schedule(INTERVAL);
+			}
+		}
 	}
 
 	public void stop() {
-		run = false;
+		if (run) {
+			run = false;
+		}
 	}
 
 	public static ClipBoardMonitor getInstance() {

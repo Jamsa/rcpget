@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.monitor.ClipBoardMonitor;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -61,7 +62,12 @@ public class Monitor extends PreferencePage implements IWorkbenchPreferencePage 
 	}
 
 	public boolean performOk() {
-		pm.setMonitorClipboard(monitorButton.getSelection());
+		boolean monitor = monitorButton.getSelection();
+		if(monitor)
+			ClipBoardMonitor.getInstance().start();
+		else
+			ClipBoardMonitor.getInstance().stop();
+		pm.setMonitorClipboard(monitor);
 		pm.setMonitorFileType(fileextText.getText().trim());
 		return true;
 	}

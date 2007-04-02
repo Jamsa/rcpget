@@ -9,6 +9,7 @@ import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.models.TaskThreadManager;
 import jamsa.rcp.downloader.monitor.ClipBoardMonitor;
 import jamsa.rcp.downloader.monitor.IClipboardChangeListener;
+import jamsa.rcp.downloader.preference.PreferenceManager;
 import jamsa.rcp.downloader.utils.Logger;
 import jamsa.rcp.downloader.utils.StringUtils;
 import jamsa.rcp.downloader.wizards.TaskWizard;
@@ -31,7 +32,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -96,13 +96,15 @@ public class TaskTableView extends ViewPart {
 				tableViewer) {
 			@Override
 			public boolean performDrop(Object data) {
-
 				String url = String.valueOf(data);
 				if (url.startsWith("http")) {
-					Clipboard clipboard = new Clipboard(Display.getCurrent());
-					TextTransfer textTransfer = TextTransfer.getInstance();
-					clipboard.setContents(new Object[] { url },
-							new Transfer[] { textTransfer });
+					// Clipboard clipboard = new
+					// Clipboard(Display.getCurrent());
+					// TextTransfer textTransfer = TextTransfer.getInstance();
+					// clipboard.setContents(new Object[] { url },
+					// new Transfer[] { textTransfer });
+					// 与监视剪贴板不同，播放的链接不需要严格的文件类型检查
+					openWizard(url);
 				}
 
 				return true;
@@ -116,6 +118,26 @@ public class TaskTableView extends ViewPart {
 		});
 	}
 
+	private void openWizard(String text) {
+		if (!StringUtils.isEmpty(text)) {
+			try {
+				TaskWizard wizard = new TaskWizard(new Task(), false);
+				WizardDialog dialog = new WizardDialog(tableViewer.getControl()
+						.getShell(), wizard);
+				dialog.open();
+			} catch (Exception e) {
+				return;
+			}
+			IWorkbenchWindow window = Activator.getDefault().getWorkbench()
+					.getActiveWorkbenchWindow();
+			if (window.getShell().getMinimized()) {
+				window.getShell().setMinimized(false);
+			}
+			window.getShell().setActive();
+			window.getShell().moveAbove(null);
+		}
+	}
+
 	/**
 	 * 监视剪贴板数据变化
 	 * 
@@ -124,26 +146,12 @@ public class TaskTableView extends ViewPart {
 		ClipBoardMonitor.getInstance().addClipboardChangeListener(
 				new IClipboardChangeListener() {
 					public void clipboardChange(String text) {
-						text = StringUtils.getURLString(text);
-						if (!StringUtils.isEmpty(text)) {
-							try {
-								TaskWizard wizard = new TaskWizard(new Task(),
-										false);
-								WizardDialog dialog = new WizardDialog(
-										tableViewer.getControl().getShell(),
-										wizard);
-								dialog.open();
-							} catch (Exception e) {
-								return;
-							}
-							IWorkbenchWindow window = Activator.getDefault()
-									.getWorkbench().getActiveWorkbenchWindow();
-							if (window.getShell().getMinimized()) {
-								window.getShell().setMinimized(false);
-							}
-							window.getShell().setActive();
-							window.getShell().moveAbove(null);
-						}
+						String types[] = PreferenceManager.getInstance()
+								.getMonitorFileType().split(";");
+						// 此处不需要检查文件类型
+						text = StringUtils.getURLString(text, types);
+						// text = StringUtils.getURLString(text);
+						openWizard(text);
 					}
 
 				});
