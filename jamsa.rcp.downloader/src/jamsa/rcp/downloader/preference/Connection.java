@@ -98,7 +98,7 @@ public class Connection extends PreferencePage implements
 	// }
 
 	protected void performDefaults() {
-		pm.setConnectionDefault();
+		pm.setConnectionToDefault();
 		setControl();
 	}
 
