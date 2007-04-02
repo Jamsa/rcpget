@@ -173,7 +173,8 @@ public class DefaultTask extends PreferencePage implements
 	}
 
 	protected void performDefaults() {
-		pm.setConnectionDefault();
+		super.performDefaults();
+		pm.setConnectionToDefault();
 		setControlValue();
 	}
 

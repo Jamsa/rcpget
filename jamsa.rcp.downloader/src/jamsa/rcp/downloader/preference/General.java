@@ -29,10 +29,11 @@ public class General extends PreferencePage implements IWorkbenchPreferencePage 
 		container.setLayout(new GridLayout());
 
 		minimizeToTrayButton = new Button(container, SWT.CHECK);
-		minimizeToTrayButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		minimizeToTrayButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false));
 		minimizeToTrayButton.setText("最小化到任务栏");
 
-		setControl();
+		setControlValue();
 		return container;
 	}
 
@@ -41,8 +42,14 @@ public class General extends PreferencePage implements IWorkbenchPreferencePage 
 		return true;
 	}
 
-	private void setControl() {
-		minimizeToTrayButton.setSelection(pm.getMinimizeToTray());
+	protected void performDefaults() {
+		super.performDefaults();
+		pm.setGeneralToDefault();
+		setControlValue();
+	}
+
+	private void setControlValue() {
+		minimizeToTrayButton.setSelection(pm.isMinimizeToTray());
 	}
 
 	public void init(IWorkbench workbench) {

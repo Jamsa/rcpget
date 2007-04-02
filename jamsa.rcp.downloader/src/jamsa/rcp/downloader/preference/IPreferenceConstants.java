@@ -36,6 +36,13 @@ public interface IPreferenceConstants {
 
 	// 最小化到任务栏
 	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
-	
+
+	// 监视剪贴板
 	public static final String MONITOR_CLIPBOARD = "MONITOR_CLIPBOARD";
+
+	// 监视文件类型
+	public static final String MONITOR_FILE_TYPE = "MONITOR_FILE_TYPE";
+
+	// 默认监视文件类型
+	public static final String MONITOR_DEFAULT_FILE_TYPE = ".asf;.avi;.exe;.iso;.mp3;.mpeg;.mpg;.mpga;.ra;.rar;.rm;.rmvb;.tar;.wma;.wmp;.wmv;.zip;.3gp;.chm;.mdf;";
 }
