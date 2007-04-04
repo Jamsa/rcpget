@@ -95,13 +95,13 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 
 	// 是否被删除
 	private boolean deleted = false;
-	
-	//启动方式
+
+	// 启动方式
 	private int start = 0;
-	
+
 	public static final int START_AUTO = 0;
+
 	public static final int START_MANUAL = 1;
-	
 
 	public boolean isDeleted() {
 		return deleted;
@@ -337,12 +337,12 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		setChanged();
 		notifyObservers(new String[] { "线程：" + threadName, message });
 	}
-	
+
 	/**
 	 * 清除消息
-	 *
+	 * 
 	 */
-	public void clearMessage(){
+	public void clearMessage() {
 		messages.clear();
 		setChanged();
 		notifyObservers();
@@ -484,6 +484,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			}
 			addSplitter(new TaskSplitter((block - 1) * blockSize, fileSize, 0,
 					getSplitters().size() + ""));
+			this.blocks++;
 			return;
 		}
 	}

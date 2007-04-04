@@ -66,8 +66,9 @@ public class DownloadThread extends Thread {
 	 */
 	public InputStream getInputStream() {
 		Properties prop = new Properties();
-//		prop.put("User-Agent", "RCP Get");
-		prop.put("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
+		// prop.put("User-Agent", "RCP Get");
+		prop.put("User-Agent",
+				"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 
 		if (splitter.getEndPos() != 0) {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-"
@@ -75,8 +76,9 @@ public class DownloadThread extends Thread {
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");
 		}
-		return HttpClientUtils.getInputStream(task.getFileUrl(), pm.getRetryTimes(), pm
-				.getRetryDelay() * 1000, prop, task, splitter.getName());
+		return HttpClientUtils.getInputStream(task.getFileUrl(), pm
+				.getRetryTimes(), pm.getRetryDelay() * 1000,
+				pm.getTimeout() * 1000, prop, "GET", task, splitter.getName());
 	}
 
 	public void run() {
@@ -115,7 +117,7 @@ public class DownloadThread extends Thread {
 			if (splitter.isFinish()) {
 				logger.info(splitter.getName() + "线程任务完成!");
 				task.writeMessage(splitter.getName(), "线程任务完成!");
-			}else{
+			} else {
 				logger.info(splitter.getName() + "线程停止!");
 				task.writeMessage(splitter.getName(), "线程停止!");
 			}

@@ -11,8 +11,6 @@ import java.net.URL;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -213,10 +211,9 @@ public class TaskWizardPage extends WizardPage {
 	 * 
 	 */
 	private void setControlValue(Composite parent) {
-		
+
 		// 选中第一条记录
 		categoryCombo.select(1);
-		
 
 		memoText.setText(task.getMemo() == null ? "" : task.getMemo());
 
@@ -259,18 +256,19 @@ public class TaskWizardPage extends WizardPage {
 			autoStartButton.setEnabled(false);
 			manualStartButton.setEnabled(false);
 		} else {
-//			 从剪贴板粘贴url
-			Clipboard clipboard = new Clipboard(parent.getDisplay());
-			TextTransfer textTransfer = TextTransfer.getInstance();
-			String textData = (String) clipboard.getContents(textTransfer);
+			// 从剪贴板粘贴url
+			// Clipboard clipboard = new Clipboard(parent.getDisplay());
+			// TextTransfer textTransfer = TextTransfer.getInstance();
+			// String textData = (String) clipboard.getContents(textTransfer);
+			//
+			// if (!StringUtils.isEmpty(textData)
+			// && textData.startsWith("http://")) {
+			// textData = textData.trim();
+			// textData = textData.split(" ")[0];
+			// textData = textData.split("\n")[0];
+			// fileUrlText.setText(textData);
+			//			}
 
-			if (!StringUtils.isEmpty(textData) && textData.startsWith("http://")) {
-				textData = textData.trim();
-				textData = textData.split(" ")[0];
-				textData = textData.split("\n")[0];
-				fileUrlText.setText(textData);
-			}
-			
 			if (pm.getStartTaskMethod() == Task.START_AUTO) {
 				autoStartButton.setSelection(true);
 				manualStartButton.setSelection(false);
@@ -329,7 +327,8 @@ public class TaskWizardPage extends WizardPage {
 		categoryLabel.setText("分类");
 
 		categoryCombo = new Combo(container, SWT.READ_ONLY);
-		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true,
+				false);
 		// gridData_1.widthHint = 241;
 		categoryCombo.setLayoutData(gridData_1);
 
@@ -347,7 +346,8 @@ public class TaskWizardPage extends WizardPage {
 		});
 
 		final Button addCategoryButton = new Button(container, SWT.NONE);
-		addCategoryButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		addCategoryButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false));
 		addCategoryButton.setText("添加(&A)");
 
 		// 保存目录
@@ -356,10 +356,12 @@ public class TaskWizardPage extends WizardPage {
 		savePathLabel.setText("保存目录");
 
 		savePathCombo = new Combo(container, SWT.NONE);
-		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
 
 		final Button selectSavePathButton = new Button(container, SWT.NONE);
-		selectSavePathButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		selectSavePathButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false));
 
 		selectSavePathButton.setText("选择(&S)");
 		// 选择保存目录
@@ -387,7 +389,8 @@ public class TaskWizardPage extends WizardPage {
 		blocksLabel.setText("线程数量");
 
 		blocksSpinner = new Spinner(container, SWT.BORDER);
-		blocksSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		blocksSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
 		blocksSpinner.setMinimum(1);
 		blocksSpinner.setMaximum(10);
 		blocksSpinner.setSelection(5);
@@ -398,15 +401,12 @@ public class TaskWizardPage extends WizardPage {
 		memoGroup.setText("备注");
 		final GridData gridData_2 = new GridData(SWT.FILL, SWT.FILL, false,
 				true, 2, 1);
-		// gridData_2.heightHint = 110;
 		memoGroup.setLayoutData(gridData_2);
 		memoGroup.setLayout(new GridLayout());
 
 		memoText = new Text(memoGroup, SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gridData_3 = new GridData(SWT.FILL, SWT.FILL, true,
 				true, 2, 1);
-		// gridData_3.widthHint = 306;
-		// gridData_3.heightHint = 93;
 		memoText.setLayoutData(gridData_3);
 
 		// 启动方式
@@ -423,8 +423,8 @@ public class TaskWizardPage extends WizardPage {
 		manualStartButton = new Button(startGroup, SWT.RADIO);
 		manualStartButton.setText("手动");
 
-		this.setControlValue(parent);
 		addValidateListener();
+		this.setControlValue(parent);
 		if (!isModify)
 			setPageComplete(false);
 

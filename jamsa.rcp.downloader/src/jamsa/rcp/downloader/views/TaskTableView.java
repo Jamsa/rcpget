@@ -97,6 +97,7 @@ public class TaskTableView extends ViewPart {
 			@Override
 			public boolean performDrop(Object data) {
 				String url = String.valueOf(data);
+				url = StringUtils.getURLString(url);
 				if (url.startsWith("http")) {
 					// Clipboard clipboard = new
 					// Clipboard(Display.getCurrent());
@@ -121,7 +122,9 @@ public class TaskTableView extends ViewPart {
 	private void openWizard(String text) {
 		if (!StringUtils.isEmpty(text)) {
 			try {
-				TaskWizard wizard = new TaskWizard(new Task(), false);
+				Task task = new Task();
+				task.setFileUrl(text);
+				TaskWizard wizard = new TaskWizard(task, false);
 				WizardDialog dialog = new WizardDialog(tableViewer.getControl()
 						.getShell(), wizard);
 				dialog.open();
@@ -151,7 +154,8 @@ public class TaskTableView extends ViewPart {
 						// 此处不需要检查文件类型
 						text = StringUtils.getURLString(text, types);
 						// text = StringUtils.getURLString(text);
-						openWizard(text);
+						if (!TaskModel.getInstance().isExist(text))
+							openWizard(text);
 					}
 
 				});

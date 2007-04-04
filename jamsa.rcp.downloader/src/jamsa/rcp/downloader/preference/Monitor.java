@@ -15,6 +15,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/**
+ * 首选项 剪贴板监视设置
+ * 
+ * @author 朱杰
+ * 
+ */
 public class Monitor extends PreferencePage implements IWorkbenchPreferencePage {
 	private PreferenceManager pm;
 
@@ -63,7 +69,7 @@ public class Monitor extends PreferencePage implements IWorkbenchPreferencePage 
 
 	public boolean performOk() {
 		boolean monitor = monitorButton.getSelection();
-		if(monitor)
+		if (monitor)
 			ClipBoardMonitor.getInstance().start();
 		else
 			ClipBoardMonitor.getInstance().stop();

@@ -22,6 +22,8 @@ public class Logger {
 	 */
 	private static final int LEVEL = 0;
 
+//	private static final int TRACE = 1;
+
 	private static final int DEBUG = 2;
 
 	private static final int INFO = 3;
@@ -31,6 +33,12 @@ public class Logger {
 	private static final int ERROR = 5;
 
 	private static final int FATAL = 6;
+
+	// public void trace(Object message) {
+	// if (TRACE >= LEVEL)
+	// System.out.println("trace: " + className + ":"
+	// + String.valueOf(message));
+	//	}
 
 	public void debug(Object message) {
 		if (DEBUG >= LEVEL)

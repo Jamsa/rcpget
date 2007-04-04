@@ -28,8 +28,12 @@ public interface IConstants {
 
 	public static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
-	
-	public static final String FILE_ENCODING = System.getProperty("file.encoding");
+
+	// 系统默认编码
+	public static final String FILE_ENCODING =  System.getProperty("file.encoding");
+
+	//
+	public static final String DEFAULT_ENCODING = "iso-8859-1";
 
 	/*
 	 * java.version Java 运行时环境版本 java.vendor Java 运行时环境供应商 java.vendor.url Java

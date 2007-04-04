@@ -1,5 +1,11 @@
 package jamsa.rcp.downloader.http;
 
+/**
+ * 远程文件信息
+ * 
+ * @author 朱杰
+ * 
+ */
 public class RemoteFileInfo {
 	private String fileName;
 
@@ -39,6 +45,17 @@ public class RemoteFileInfo {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+
+		result.append("hostname:").append(hostname).append("\n");
+		result.append("port:").append(port).append("\n");
+		result.append("fileName:").append(fileName).append("\n");
+		result.append("fileSize:").append(fileSize).append("\n");
+
+		return String.valueOf(result);
 	}
 
 }

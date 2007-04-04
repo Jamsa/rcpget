@@ -53,6 +53,7 @@ public class TaskThread2 extends Thread {
 	private void checkFile(String remoteFileName, long remoteFileSize) {
 		if (task.getFileSize() > 0 && task.getFileSize() != remoteFileSize) {
 			task.writeMessage("Task", "文件大小不一致，重新下载！");
+			logger.info("文件大小不一至和，重新下载！");
 			task.reset();
 			task.setStatus(Task.STATUS_RUNNING);
 		}
@@ -86,8 +87,10 @@ public class TaskThread2 extends Thread {
 		taskModel.updateTask(task);
 
 		RemoteFileInfo remoteFile = HttpClientUtils.getRemoteFileInfo(task
-				.getFileUrl(), preferenceManager.getRetryTimes(), preferenceManager.getRetryDelay() * 1000,
-				new Properties(), task, "Task");
+				.getFileUrl(), preferenceManager.getRetryTimes(),
+				preferenceManager.getRetryDelay() * 1000, preferenceManager
+						.getTimeout() * 1000, new Properties(), "HEAD", task,
+				"Task");
 		if (remoteFile == null) {
 			task.writeMessage("Task", "无法获取目标文件信息！");
 			task.setStatus(Task.STATUS_ERROR);
@@ -193,6 +196,9 @@ public class TaskThread2 extends Thread {
 			changeStatus(Task.STATUS_FINISHED);
 			logger.info("下载完成");
 			task.writeMessage("Task", "下载完成");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			changeStatus(Task.STATUS_STOP);
 		} catch (Exception e) {
 			e.printStackTrace();
 			changeStatus(Task.STATUS_ERROR);

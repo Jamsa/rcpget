@@ -1,8 +1,6 @@
 package jamsa.rcp.downloader.utils;
 
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 字符串处理工具类
@@ -11,17 +9,7 @@ import java.util.regex.Pattern;
  * 
  */
 public class StringUtils {
-	public static void main(String[] args) {
-		Pattern p = Pattern.compile("[a-z]+");
-		Matcher m = p.matcher("aaaa");
-		System.out.println(Pattern.matches("aaaa", "aaaa"));
-		System.out.println(m.matches());
-		System.out.println("#" + m.group() + "#");
-
-		System.out.println(isEmpty("dfaf\t\t\tdfa"));
-		System.out
-				.println(getURLString("http://431431.42342.4232.com/fdasdfa.html   \t\t\tfasfa"));
-	}
+	private static Logger logger = new Logger(StringUtils.class);
 
 	/**
 	 * 检查字符串是否为空
@@ -54,7 +42,7 @@ public class StringUtils {
 			URL u = new URL(ret);
 			ret = String.valueOf(u);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info(url + "不是一个URL地址");
 			ret = "";
 		}
 		return ret;

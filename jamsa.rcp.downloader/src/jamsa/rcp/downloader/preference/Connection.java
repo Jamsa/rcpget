@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * 首选项 网络连接设置
  * 
- * @author Jamsa
+ * @author 朱杰
  * 
  */
 public class Connection extends PreferencePage implements
@@ -30,6 +30,8 @@ public class Connection extends PreferencePage implements
 
 	private Spinner maxRunTasksSpinner;
 
+	private Spinner timeoutSpinner;
+
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
@@ -38,7 +40,7 @@ public class Connection extends PreferencePage implements
 		final Group timeoutGroup = new Group(container, SWT.NONE);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
 				false);
-		gridData.widthHint = 302;
+		// gridData.widthHint = 302;
 		timeoutGroup.setLayoutData(gridData);
 		timeoutGroup.setText("连接");
 		final GridLayout gridLayout = new GridLayout();
@@ -46,7 +48,7 @@ public class Connection extends PreferencePage implements
 		timeoutGroup.setLayout(gridLayout);
 
 		final Label retryDelayLabel = new Label(timeoutGroup, SWT.NONE);
-		retryDelayLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
+		// retryDelayLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
 		retryDelayLabel.setText("重试等侍时间");
 
 		retryDelaySpinner = new Spinner(timeoutGroup, SWT.BORDER);
@@ -64,9 +66,19 @@ public class Connection extends PreferencePage implements
 		retryTimesSpinner.setMinimum(1);
 		new Label(timeoutGroup, SWT.NONE);
 
+		final Label timeoutLabel = new Label(timeoutGroup, SWT.NONE);
+		timeoutLabel.setText("超时");
+
+		timeoutSpinner = new Spinner(timeoutGroup, SWT.BORDER);
+		timeoutSpinner.setMaximum(5);
+		timeoutSpinner.setMinimum(1);
+
+		final Label label_1 = new Label(timeoutGroup, SWT.NONE);
+		label_1.setText("秒");
+
 		final Group limitGroup = new Group(container, SWT.NONE);
-		limitGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		limitGroup
+				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		limitGroup.setText("限制");
 		final GridLayout gridLayout_1 = new GridLayout();
 		gridLayout_1.numColumns = 2;
@@ -91,6 +103,8 @@ public class Connection extends PreferencePage implements
 		retryTimesSpinner.setSelection(retry);
 		int maxTasks = pm.getMaxRunTasks();
 		maxRunTasksSpinner.setSelection(maxTasks);
+		int timeout = pm.getTimeout();
+		timeoutSpinner.setSelection(timeout);
 	}
 
 	// protected void performApply() {
@@ -106,6 +120,7 @@ public class Connection extends PreferencePage implements
 		pm.setMaxRunTasks(maxRunTasksSpinner.getSelection());
 		pm.setRetryDelay(retryDelaySpinner.getSelection());
 		pm.setRetryTimes(retryTimesSpinner.getSelection());
+		pm.setTimeout(timeoutSpinner.getSelection());
 		return true;
 	}
 

@@ -45,4 +45,7 @@ public interface IPreferenceConstants {
 
 	// 默认监视文件类型
 	public static final String MONITOR_DEFAULT_FILE_TYPE = ".asf;.avi;.exe;.iso;.mp3;.mpeg;.mpg;.mpga;.ra;.rar;.rm;.rmvb;.tar;.wma;.wmp;.wmv;.zip;.3gp;.chm;.mdf;";
+
+	// 连接超时
+	public static final String NETWORK_TIMEOUT = "NETWORK_TIMEOUT";
 }

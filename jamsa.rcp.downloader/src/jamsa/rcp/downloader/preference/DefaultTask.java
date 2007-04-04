@@ -27,7 +27,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * 首选项 默认任务属性
  * 
- * @author Jamsa
+ * @author 朱杰
  * 
  */
 public class DefaultTask extends PreferencePage implements

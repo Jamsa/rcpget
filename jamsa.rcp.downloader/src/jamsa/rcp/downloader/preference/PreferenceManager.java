@@ -116,6 +116,7 @@ public class PreferenceManager {
 		store.setDefault(IPreferenceConstants.NETWORK_MAX_RUNTASKS, 15);
 		store.setDefault(IPreferenceConstants.NETWORK_RETRY_DELAY, 5);
 		store.setDefault(IPreferenceConstants.NETWORK_RETRY_TIMES, 5);
+		store.setDefault(IPreferenceConstants.NETWORK_TIMEOUT, 2);
 	}
 
 	/**
@@ -126,6 +127,7 @@ public class PreferenceManager {
 		store.setToDefault(IPreferenceConstants.NETWORK_MAX_RUNTASKS);
 		store.setToDefault(IPreferenceConstants.NETWORK_RETRY_DELAY);
 		store.setToDefault(IPreferenceConstants.NETWORK_RETRY_TIMES);
+		store.setToDefault(IPreferenceConstants.NETWORK_TIMEOUT);
 	}
 
 	/**
@@ -240,6 +242,24 @@ public class PreferenceManager {
 	 */
 	public void setRetryTimes(int value) {
 		store.setValue(IPreferenceConstants.NETWORK_RETRY_TIMES, value);
+	}
+
+	/**
+	 * 获取超时设置
+	 * 
+	 * @return
+	 */
+	public int getTimeout() {
+		return store.getInt(IPreferenceConstants.NETWORK_TIMEOUT);
+	}
+
+	/**
+	 * 设置超时时间
+	 * 
+	 * @param value
+	 */
+	public void setTimeout(int value) {
+		store.setValue(IPreferenceConstants.NETWORK_TIMEOUT, value);
 	}
 
 	/**

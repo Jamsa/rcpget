@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * 首选项 常规设置
  * 
- * @author Jamsa
+ * @author 朱杰
  * 
  */
 public class General extends PreferencePage implements IWorkbenchPreferencePage {
