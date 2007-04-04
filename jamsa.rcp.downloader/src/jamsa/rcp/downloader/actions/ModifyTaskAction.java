@@ -21,7 +21,7 @@ public class ModifyTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("修改任务");
+//		setToolTipText("修改任务");
 
 	}
 

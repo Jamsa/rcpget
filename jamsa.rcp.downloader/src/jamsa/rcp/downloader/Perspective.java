@@ -21,8 +21,8 @@ public class Perspective implements IPerspectiveFactory {
 		// 0.7f, layout.getEditorArea());
 		layout.addView(TaskTableView.ID, IPageLayout.TOP, 0.7f, layout
 				.getEditorArea());
-		IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.BOTTOM, 0.4f, layout
-				.getEditorArea());
+		IFolderLayout folderLayout = layout.createFolder("folder",
+				IPageLayout.BOTTOM, 0.4f, layout.getEditorArea());
 		folderLayout.addView(TaskInfoView.ID);
 		folderLayout.addView(ConsoleView.ID);
 		layout.setEditorAreaVisible(false);

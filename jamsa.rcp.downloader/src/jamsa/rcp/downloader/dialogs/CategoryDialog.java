@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.dialogs;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.utils.FileUtils;
@@ -59,7 +60,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		container.setLayout(gridLayout);
 
 		final Label categoryLabel = new Label(container, SWT.NONE);
-		categoryLabel.setText("分类名称");
+		categoryLabel.setText(Messages.CategoryDialog_Text);
 
 		categoryText = new Text(container, SWT.BORDER);
 
@@ -70,7 +71,7 @@ public class CategoryDialog extends TitleAreaDialog {
 		new Label(container, SWT.NONE);
 
 		final Label directoryLabel = new Label(container, SWT.NONE);
-		directoryLabel.setText("保存目录");
+		directoryLabel.setText(Messages.CategoryDialog_SavePath);
 
 		directoryText = new Text(container, SWT.BORDER);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -88,9 +89,9 @@ public class CategoryDialog extends TitleAreaDialog {
 			}
 		});
 		selectButton.setLayoutData(new GridData());
-		selectButton.setText("选择(&S)");
+		selectButton.setText(Messages.CategoryDialog_Select);
 
-		setTitle("分类设置");
+		setTitle(Messages.CategoryDialog_Setting);
 
 		if (category.getName() != null)
 			categoryText.setText(category.getName());
@@ -115,7 +116,7 @@ public class CategoryDialog extends TitleAreaDialog {
 
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("分类设置");
+		newShell.setText(Messages.CategoryDialog_Setting);
 	}
 
 	private boolean validate() {
@@ -123,17 +124,17 @@ public class CategoryDialog extends TitleAreaDialog {
 		String categoryName = categoryText.getText().trim();
 
 		if (StringUtils.isEmpty(categoryName)) {
-			setErrorMessage("分类名不能为空");
+			setErrorMessage(Messages.CategoryDialog_NameCanNotNull);
 			return false;
 		}
 		if (StringUtils.isEmpty(directory)) {
-			setErrorMessage("分类路径不能为空");
+			setErrorMessage(Messages.CategoryDialog_PathCanNotNull);
 			return false;
 		}
 
 		if (CategoryModel.getInstance().contains(categoryName)
 				&& CategoryModel.getInstance().getCategory(categoryName) != category) {
-			setErrorMessage("该分类已存在");
+			setErrorMessage(Messages.CategoryDialog_Existed);
 			return false;
 		}
 
@@ -143,7 +144,7 @@ public class CategoryDialog extends TitleAreaDialog {
 			FileUtils.createDirectory(directory);
 
 			if (!FileUtils.existsDirectory(directory)) {
-				setErrorMessage("不能创建分类目录");
+				setErrorMessage(Messages.CategoryDialog_CanNotCreateDirectory);
 				return false;
 			}
 		}

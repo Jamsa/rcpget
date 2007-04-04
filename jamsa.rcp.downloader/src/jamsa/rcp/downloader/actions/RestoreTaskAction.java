@@ -21,7 +21,7 @@ public class RestoreTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("还原");
+//		setToolTipText("还原");
 
 	}
 

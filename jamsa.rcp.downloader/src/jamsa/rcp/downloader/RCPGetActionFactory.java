@@ -25,9 +25,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new NewTaskAction(window, "新建任务");
+			IWorkbenchAction action = new NewTaskAction(window,
+					Messages.NewTaskAction_text);//$NON-NLS-N$"新建任务"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.NewTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.NEW_TASK));
@@ -41,9 +42,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new RunTaskAction(window, "运行任务");
+			IWorkbenchAction action = new RunTaskAction(window,
+					Messages.RunTaskAction_text);//$NON-NLS-N$"运行任务"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.RunTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.RUN_TASK));
@@ -57,9 +59,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new ModifyTaskAction(window, "任务属性");
+			IWorkbenchAction action = new ModifyTaskAction(window,
+					Messages.ModifyTaskAction_text);// $NLS$"任务属性"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.ModifyTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.MODIFY_TASK));
@@ -73,9 +76,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new StopTaskAction(window, "停止任务");
+			IWorkbenchAction action = new StopTaskAction(window,
+					Messages.StopTaskAction_text);//$NON-NLS-N$"停止任务"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.StopTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.STOP_TASK));
@@ -89,9 +93,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new RestartTaskAction(window, "重新下载");
+			IWorkbenchAction action = new RestartTaskAction(window,
+					Messages.RestartTaskAction_text);//$NON-NLS-N$"重新下载"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.RestartTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.RESTART_TASK));
@@ -105,9 +110,10 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new DeleteTaskAction(window, "删除任务");
+			IWorkbenchAction action = new DeleteTaskAction(window,
+					Messages.DeleteTaskAction_text);//$NON-NLS-N$"删除任务"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.DeleteTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.DELETE_TASK));
@@ -121,34 +127,36 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new RestoreTaskAction(window, "恢复任务");
+			IWorkbenchAction action = new RestoreTaskAction(window,
+					Messages.RestoreTaskAction_text);//$NON-NLS-N$"恢复任务"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.RestoreTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
 					.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 							IImageKeys.RESTORE_TASK));
 			return action;
 		}
 	};
-	
+
 	public static final ActionFactory COPY_URL = new ActionFactory(
 			CopyTaskURLAction.ID) {
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			if (window == null) {
 				throw new IllegalArgumentException();
 			}
-			IWorkbenchAction action = new CopyTaskURLAction(window, "复制URL");
+			IWorkbenchAction action = new CopyTaskURLAction(window,
+					Messages.CopyTaskURLAction_text);//$NON-NLS-N$"复制URL"
 			action.setId(getId());
-			action.setToolTipText(action.getText());
+			action.setToolTipText(Messages.CopyTaskURLAction_ToolTipText);
 			return action;
 		}
 	};
 
-	public static final ActionFactory ABOUT = new ActionFactory("about") {
+	public static final ActionFactory ABOUT = new ActionFactory("about") { //$NON-NLS-1$
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.ABOUT.create(window);
 			if (action != null) {
-				action.setText("关于(&A)");
+				action.setText(Messages.About_text);//$NON-NLS-N$"关于(&A)"
 				action.setImageDescriptor(AbstractUIPlugin
 						.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 								IImageKeys.ABOUT));
@@ -158,11 +166,11 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 		}
 	};
 
-	public static final ActionFactory QUIT = new ActionFactory("quit") {
+	public static final ActionFactory QUIT = new ActionFactory("quit") { //$NON-NLS-1$
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.QUIT.create(window);
 			if (action != null) {
-				action.setText("退出(&Q)");
+				action.setText(Messages.Quit_text);//$NON-NLS-N$"退出(&Q)"
 				action.setImageDescriptor(AbstractUIPlugin
 						.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 								IImageKeys.QUIT));
@@ -173,11 +181,11 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 	};
 
 	public static final ActionFactory PREFERENCES = new ActionFactory(
-			"preferences") {
+			"preferences") { //$NON-NLS-1$
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.PREFERENCES.create(window);
 			if (action != null) {
-				action.setText("首选项(&P)");
+				action.setText(Messages.Preference_text);//$NON-NLS-N$"首选项(&P)"
 			}
 			return action;
 		}

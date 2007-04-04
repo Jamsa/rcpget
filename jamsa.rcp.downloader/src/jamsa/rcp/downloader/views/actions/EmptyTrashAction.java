@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.views.actions;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
@@ -51,16 +52,16 @@ public class EmptyTrashAction extends ActionDelegate implements
 		}
 	}
 
-	private static final String DELETE_FILE_IN_TRASH = "DELETE_FILE_IN_TRASH";
+	private static final String DELETE_FILE_IN_TRASH = "DELETE_FILE_IN_TRASH"; //$NON-NLS-1$
 
 	public void run(IAction action) {
 		// boolean confirm = MessageDialog.openConfirm(view.getViewSite()
 		// .getShell(), "清空回收站", "要同时清空回收站中的文件吗？");
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setValue(DELETE_FILE_IN_TRASH, "");
+		store.setValue(DELETE_FILE_IN_TRASH, ""); //$NON-NLS-1$
 		MessageDialogWithToggle dialog = MessageDialogWithToggle
-				.openOkCancelConfirm(view.getViewSite().getShell(), "清空回收站",
-						"确定要清空回收站吗？", "同时删除文件", false, store,
+				.openOkCancelConfirm(view.getViewSite().getShell(), Messages.EmptyTrashAction_EmptyTrash,
+						Messages.EmptyTrashAction_EmptyTrashConfirm, Messages.EmptyTrashAction_DeleteTrashFile, false, store,
 						DELETE_FILE_IN_TRASH);
 		boolean confirm = dialog.getReturnCode() == MessageDialogWithToggle.OK;
 		boolean deleteFile = MessageDialogWithToggle.ALWAYS.equals(store

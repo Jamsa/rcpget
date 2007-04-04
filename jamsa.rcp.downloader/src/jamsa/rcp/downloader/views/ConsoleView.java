@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.views;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.utils.Logger;
 
@@ -91,7 +92,7 @@ public class ConsoleView extends ViewPart {
 			List msgs = (List) messages.get(key);
 			for (Iterator iter = msgs.iterator(); iter.hasNext();) {
 				String msg = (String) iter.next();
-				addMessage("线程：" + key, msg);
+				addMessage(Messages.ConsoleView_Thread + key, msg);
 			}
 		}
 	}
@@ -174,7 +175,7 @@ public class ConsoleView extends ViewPart {
 
 						writeMessages(task.getMessages());
 					}
-					logger.info("当前选中任务：" + task.getFileName());
+					logger.info("当前选中任务：" + task.getFileName()); //$NON-NLS-1$
 				}
 			}
 		}

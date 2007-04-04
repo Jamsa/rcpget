@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.monitor.ClipBoardMonitor;
 
 import org.eclipse.jface.preference.PreferencePage;
@@ -36,11 +37,11 @@ public class Monitor extends PreferencePage implements IWorkbenchPreferencePage 
 		monitorButton = new Button(container, SWT.CHECK);
 		monitorButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		monitorButton.setText("监视剪贴板");
+		monitorButton.setText(Messages.Preference_Monitor_MonitorClipboard);
 
 		final Group group = new Group(container, SWT.NONE);
 		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		group.setText("监视文件类型");
+		group.setText(Messages.Preference_Monitor_MonitorFileType);
 		group.setLayout(new GridLayout());
 
 		fileextText = new Text(group, SWT.BORDER);

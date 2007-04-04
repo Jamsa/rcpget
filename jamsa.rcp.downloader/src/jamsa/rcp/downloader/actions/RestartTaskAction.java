@@ -21,7 +21,7 @@ public class RestartTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("重新下载");
+//		setToolTipText("重新下载");
 	}
 
 	public void run() {

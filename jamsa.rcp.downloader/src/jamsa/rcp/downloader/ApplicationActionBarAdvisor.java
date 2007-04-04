@@ -1,5 +1,7 @@
 package jamsa.rcp.downloader;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
@@ -80,7 +82,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
-		MenuManager fileMenu = new MenuManager("文件(&F)",
+		MenuManager fileMenu = new MenuManager(MessageFormat.format(
+				Messages.File_text, new String[] {}),//$NON-NLS-N$"文件(&F)"
 				IWorkbenchActionConstants.M_FILE);
 		menuBar.add(fileMenu);
 		fileMenu.add(newTaskAction);
@@ -98,13 +101,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// taskMenu.add(new Separator());
 		// menuBar.add(taskMenu);
 
-		MenuManager windowMenu = new MenuManager("窗口(&W)",
+		MenuManager windowMenu = new MenuManager(MessageFormat.format(
+				Messages.Window_text, new String[] {}),//$NON-NLS-N$"窗口(&W)"
 				IWorkbenchActionConstants.M_WINDOW);
 		menuBar.add(windowMenu);
 		windowMenu.add(prefAction);
 		windowMenu.add(viewList);
 
-		MenuManager helpMenu = new MenuManager("帮助(&H)",
+		MenuManager helpMenu = new MenuManager(MessageFormat.format(
+				Messages.Help_text, new String[] {}),//$NON-NLS-N$"帮助(&H)"
 				IWorkbenchActionConstants.M_HELP);
 		menuBar.add(helpMenu);
 		helpMenu.add(aboutAction);

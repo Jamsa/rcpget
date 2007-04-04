@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.views.actions;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 
@@ -18,7 +19,7 @@ import org.eclipse.ui.actions.ActionDelegate;
  */
 public class DeleteCategoryAction extends ActionDelegate implements
 		IViewActionDelegate {
-	public static final String ID = "jamsa.rcp.downloader.views.actions.DeleteCategoryAction";
+	public static final String ID = "jamsa.rcp.downloader.views.actions.DeleteCategoryAction"; //$NON-NLS-1$
 
 	private Category category;
 
@@ -43,7 +44,7 @@ public class DeleteCategoryAction extends ActionDelegate implements
 
 	public void run(IAction action) {
 		boolean confirm = MessageDialog.openConfirm(view.getViewSite()
-				.getShell(), "删除分类", "确定要删除该分类吗？");
+				.getShell(), Messages.DeleteCategoryAction_DeleteCategory, Messages.DeleteCategoryAction_DeleteCategoryConfirm);
 		if (confirm)
 			CategoryModel.getInstance().deleteCategory(category);
 	}

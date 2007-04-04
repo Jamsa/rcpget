@@ -21,7 +21,7 @@ public class StopTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("停止任务");
+		// setToolTipText("停止任务");
 
 	}
 
@@ -30,10 +30,10 @@ public class StopTaskAction extends BaseTaskAction {
 	}
 
 	public void update(Observable o, Object arg) {
-//		if (tasks.isEmpty()) {
-//			setEnabled(false);
-//			return;
-//		}
+		// if (tasks.isEmpty()) {
+		// setEnabled(false);
+		// return;
+		// }
 
 		boolean enable = false;
 

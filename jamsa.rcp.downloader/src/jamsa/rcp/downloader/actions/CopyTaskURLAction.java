@@ -23,7 +23,7 @@ public class CopyTaskURLAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("¸´ÖÆURL");
+//		setToolTipText("¸´ÖÆURL");
 	}
 
 	public void run() {

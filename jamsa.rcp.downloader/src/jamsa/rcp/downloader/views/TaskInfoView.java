@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.views;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.utils.Logger;
 
@@ -28,7 +29,7 @@ import org.eclipse.ui.part.ViewPart;
 public class TaskInfoView extends ViewPart {
 	private static final Logger logger = new Logger(TaskInfoView.class);
 
-	public static final String ID = "jamsa.rcp.downloader.views.TaskInfoView";
+	public static final String ID = "jamsa.rcp.downloader.views.TaskInfoView"; //$NON-NLS-1$
 
 	private TableViewer tableViewer;
 
@@ -43,7 +44,7 @@ public class TaskInfoView extends ViewPart {
 						&& incoming.getFirstElement() instanceof Task) {
 					task = (Task) incoming.getFirstElement();
 					tableViewer.setInput(task);
-					logger.info("当前选中任务：" + task.getFileName());
+					logger.info("当前选中任务：" + task.getFileName()); //$NON-NLS-1$
 				}
 			}
 		}
@@ -59,11 +60,11 @@ public class TaskInfoView extends ViewPart {
 		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		TableColumn column = new TableColumn(table, SWT.NONE);
-		column.setText("属性");
+		column.setText(Messages.TaskInfoView_Key);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("值");
+		column.setText(Messages.TaskInfoView_Value);
 		column.setWidth(300);
 		// table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -114,33 +115,33 @@ public class TaskInfoView extends ViewPart {
 			if (inputElement instanceof Task) {
 				Task task = (Task) inputElement;
 				Object[] result = new Object[9];
-				result[0] = new String[] { "文件名", task.getFileName() };
-				result[1] = new String[] { "保存位置", task.getFilePath() };
-				result[2] = new String[] { "大小", task.getFileSize() + "" };
-				result[3] = new String[] { "平均速度",
-						task.getAverageSpeed() + "k/s" };
-				result[4] = new String[] { "总耗时",
-						task.getTotalTime() / 1000 + "s" };
+				result[0] = new String[] { Messages.TaskInfoView_FileName, task.getFileName() };
+				result[1] = new String[] { Messages.TaskInfoView_SavePath, task.getFilePath() };
+				result[2] = new String[] { Messages.TaskInfoView_FileSize, task.getFileSize() + "" }; //$NON-NLS-2$
+				result[3] = new String[] { Messages.TaskInfoView_AverageSpeed,
+						task.getAverageSpeed() + "k/s" }; //$NON-NLS-1$
+				result[4] = new String[] { Messages.TaskInfoView_TotalTime,
+						task.getTotalTime() / 1000 + "s" }; //$NON-NLS-1$
 				switch (task.getStatus()) {
 				case Task.STATUS_ERROR:
-					result[5] = new String[] { "状态", "错误" };
+					result[5] = new String[] { Messages.TaskInfoView_Status, Messages.TaskInfoView_Error };
 					break;
 				case Task.STATUS_FINISHED:
-					result[5] = new String[] { "状态", "已完成" };
+					result[5] = new String[] { Messages.TaskInfoView_Status, Messages.TaskInfoView_Finish };
 					break;
 				case Task.STATUS_RUNNING:
-					result[5] = new String[] { "状态", "运行中" };
+					result[5] = new String[] { Messages.TaskInfoView_Status, Messages.TaskInfoView_Running };
 					break;
 				case Task.STATUS_STOP:
-					result[5] = new String[] { "状态", "停止" };
+					result[5] = new String[] { Messages.TaskInfoView_Status, Messages.TaskInfoView_Stop };
 					break;
 				default:
-					result[5] = new String[] { "状态", "" };
+					result[5] = new String[] { Messages.TaskInfoView_Status, "" }; //$NON-NLS-2$
 					break;
 				}
-				result[6] = new String[] { "URL", task.getFileUrl() };
-				result[7] = new String[] { "文件类型", task.getFileType() };
-				result[8] = new String[] { "备注", task.getMemo() };
+				result[6] = new String[] { Messages.TaskInfoView_URL, task.getFileUrl() };
+				result[7] = new String[] { Messages.TaskInfoView_FileType, task.getFileType() };
+				result[8] = new String[] { Messages.TaskInfoView_Memo, task.getMemo() };
 
 				return result;
 			}

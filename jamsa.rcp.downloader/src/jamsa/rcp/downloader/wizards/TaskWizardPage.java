@@ -123,7 +123,9 @@ public class TaskWizardPage extends WizardPage {
 			return false;
 		}
 
-		if (TaskModel.getInstance().isExist(this.fileUrlText.getText().trim())) {
+		if (!isModify
+				&& TaskModel.getInstance().isExist(
+						this.fileUrlText.getText().trim())) {
 			setErrorMessage("该任务已存在");
 			setPageComplete(false);
 			return false;
@@ -267,7 +269,7 @@ public class TaskWizardPage extends WizardPage {
 			// textData = textData.split(" ")[0];
 			// textData = textData.split("\n")[0];
 			// fileUrlText.setText(textData);
-			//			}
+			// }
 
 			if (pm.getStartTaskMethod() == Task.START_AUTO) {
 				autoStartButton.setSelection(true);
@@ -425,8 +427,8 @@ public class TaskWizardPage extends WizardPage {
 
 		addValidateListener();
 		this.setControlValue(parent);
-		if (!isModify)
-			setPageComplete(false);
+		// if (!isModify)
+		// setPageComplete(false);
 
 	}
 

@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.actions;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.models.TaskThreadManager;
@@ -26,7 +27,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		setToolTipText("删除选中任务");
+//		setToolTipText("删除选中任务");
 	}
 
 	private boolean someTaskRun() {
@@ -38,7 +39,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 		return false;
 	}
 
-	private static final String DELETE_FILE_IN_DELETE_TASK = "DELETE_FILE_IN_DELETE_TASK";
+	private static final String DELETE_FILE_IN_DELETE_TASK = "DELETE_FILE_IN_DELETE_TASK"; //$NON-NLS-1$
 
 	public void run() {
 		// 一般情况，且任务不是在回收站中
@@ -51,11 +52,11 @@ public class DeleteTaskAction extends BaseTaskAction {
 		boolean confirm = false;
 		boolean deleteFile = false;
 		MessageDialogWithToggle dialog = null;
-		store.setValue(DELETE_FILE_IN_DELETE_TASK, "");
+		store.setValue(DELETE_FILE_IN_DELETE_TASK, ""); //$NON-NLS-1$
 		// 任务正在运行时的删除
 		if (someTaskRun() && !((Task) tasks.get(0)).isDeleted()) {
-			confirm = MessageDialog.openConfirm(window.getShell(), "删除任务",
-					"要删除正在运行的任务吗？");
+			confirm = MessageDialog.openConfirm(window.getShell(), Messages.DeleteTaskAction_DeleteTask,
+					Messages.DeleteTaskAction_DeleteRunningTaskConfirm);
 			if (confirm)
 				TaskThreadManager.getInstance().stop(tasks);
 		}
@@ -63,7 +64,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 		// 如果是已经被删除的任务就要提示是否要删除文件
 		if (((Task) tasks.get(0)).isDeleted()) {
 			dialog = MessageDialogWithToggle.openOkCancelConfirm(window
-					.getShell(), "删除任务", "确定要删除该任务吗？", "同时删除文件", false, store,
+					.getShell(), Messages.DeleteTaskAction_DeleteTask, Messages.DeleteTaskAction_DeleteTaskConfirm, Messages.DeleteTaskAction_DeleteTaskFile, false, store,
 					DELETE_FILE_IN_DELETE_TASK);
 			confirm = dialog.getReturnCode() == MessageDialogWithToggle.OK;
 			deleteFile = MessageDialogWithToggle.ALWAYS.equals(store

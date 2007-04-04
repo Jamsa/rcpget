@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
@@ -57,7 +58,7 @@ public class DefaultTask extends PreferencePage implements
 		final Group categoryGroup = new Group(container, SWT.NONE);
 		categoryGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		categoryGroup.setText("默认分类");
+		categoryGroup.setText(Messages.Preference_DefaultTask_DefaultCategory);
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 6;
 		categoryGroup.setLayout(gridLayout);
@@ -78,10 +79,10 @@ public class DefaultTask extends PreferencePage implements
 
 		});
 		definedButton.setSelection(true);
-		definedButton.setText("设定值");
+		definedButton.setText(Messages.Preference_DefaultTask_SettingCategory);
 
 		final Label categoryLabel = new Label(categoryGroup, SWT.NONE);
-		categoryLabel.setText("分类");
+		categoryLabel.setText(Messages.Preference_DefaultTask_Category);
 
 		categoryCombo = new Combo(categoryGroup, SWT.NONE);
 		categoryCombo.addModifyListener(new ModifyListener() {
@@ -97,7 +98,7 @@ public class DefaultTask extends PreferencePage implements
 				false));
 
 		final Label savePathLabel = new Label(categoryGroup, SWT.NONE);
-		savePathLabel.setText("目录");
+		savePathLabel.setText(Messages.Preference_DefaultTask_Directory);
 
 		savePathText = new Text(categoryGroup, SWT.BORDER);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -106,10 +107,10 @@ public class DefaultTask extends PreferencePage implements
 		savePathText.setLayoutData(gridData);
 
 		final Button selectButton = new Button(categoryGroup, SWT.NONE);
-		selectButton.setText("...");
+		selectButton.setText("..."); //$NON-NLS-1$
 
 		memoLastButton = new Button(categoryGroup, SWT.RADIO);
-		memoLastButton.setText("记住上次的设置");
+		memoLastButton.setText(Messages.Preference_DefaultTask_LastSelectCategory);
 		memoLastButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -131,15 +132,15 @@ public class DefaultTask extends PreferencePage implements
 		final Group startGroup = new Group(container, SWT.NONE);
 		startGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		startGroup.setText("任务启动");
+		startGroup.setText(Messages.Preference_DefaultTask_RunTask);
 		startGroup.setLayout(new GridLayout());
 
 		autoButton = new Button(startGroup, SWT.RADIO);
 		autoButton.setSelection(true);
-		autoButton.setText("立即");
+		autoButton.setText(Messages.Preference_DefaultTask_Auto);
 
 		manualButton = new Button(startGroup, SWT.RADIO);
-		manualButton.setText("手工");
+		manualButton.setText(Messages.Preference_DefaultTask_Manual);
 
 		setControlValue();
 		return container;

@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -42,24 +43,24 @@ public class Connection extends PreferencePage implements
 				false);
 		// gridData.widthHint = 302;
 		timeoutGroup.setLayoutData(gridData);
-		timeoutGroup.setText("连接");
+		timeoutGroup.setText(Messages.Preference_Connection_Connection);
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		timeoutGroup.setLayout(gridLayout);
 
 		final Label retryDelayLabel = new Label(timeoutGroup, SWT.NONE);
 		// retryDelayLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
-		retryDelayLabel.setText("重试等侍时间");
+		retryDelayLabel.setText(Messages.Preference_Connection_RetryDelay);
 
 		retryDelaySpinner = new Spinner(timeoutGroup, SWT.BORDER);
 		retryDelaySpinner.setMaximum(10);
 		retryDelaySpinner.setMinimum(1);
 
 		final Label sLabel = new Label(timeoutGroup, SWT.NONE);
-		sLabel.setText("秒");
+		sLabel.setText(Messages.Preference_Connection_Second);
 
 		final Label retryTimesLabel = new Label(timeoutGroup, SWT.NONE);
-		retryTimesLabel.setText("重试次数");
+		retryTimesLabel.setText(Messages.Preference_Connection_RetryTimes);
 
 		retryTimesSpinner = new Spinner(timeoutGroup, SWT.BORDER);
 		retryTimesSpinner.setMaximum(10);
@@ -67,26 +68,26 @@ public class Connection extends PreferencePage implements
 		new Label(timeoutGroup, SWT.NONE);
 
 		final Label timeoutLabel = new Label(timeoutGroup, SWT.NONE);
-		timeoutLabel.setText("超时");
+		timeoutLabel.setText(Messages.Preference_Connection_Timeout);
 
 		timeoutSpinner = new Spinner(timeoutGroup, SWT.BORDER);
 		timeoutSpinner.setMaximum(5);
 		timeoutSpinner.setMinimum(1);
 
 		final Label label_1 = new Label(timeoutGroup, SWT.NONE);
-		label_1.setText("秒");
+		label_1.setText(Messages.Preference_Connection_Second);
 
 		final Group limitGroup = new Group(container, SWT.NONE);
 		limitGroup
 				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		limitGroup.setText("限制");
+		limitGroup.setText(Messages.Preference_Connection_Limit);
 		final GridLayout gridLayout_1 = new GridLayout();
 		gridLayout_1.numColumns = 2;
 		limitGroup.setLayout(gridLayout_1);
 
 		final Label maxTasksLabel = new Label(limitGroup, SWT.NONE);
 		maxTasksLabel.setLayoutData(new GridData(125, SWT.DEFAULT));
-		maxTasksLabel.setText("最多同时运行任务数量");
+		maxTasksLabel.setText(Messages.Preference_Connection_MaxRunTasks);
 
 		maxRunTasksSpinner = new Spinner(limitGroup, SWT.BORDER);
 		maxRunTasksSpinner.setMaximum(15);

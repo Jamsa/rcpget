@@ -21,7 +21,7 @@ public class RunTaskAction extends BaseTaskAction {
 		super(window,label);
 		setId(ID);
 		setText(label);
-		setToolTipText("运行任务");
+//		setToolTipText("运行任务");
 	}
 
 	public void run() {

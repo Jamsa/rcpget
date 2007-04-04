@@ -1,7 +1,5 @@
 package jamsa.rcp.downloader.dialogs;
 
-import jamsa.rcp.downloader.utils.StringUtils;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -15,6 +13,7 @@ public class DockerDialog extends Shell {
 
 	/**
 	 * Create the shell
+	 * 
 	 * @param display
 	 * @param style
 	 */
@@ -35,15 +34,15 @@ public class DockerDialog extends Shell {
 		});
 		button.setText("button");
 		button.setBounds(0, 0, 48, 22);
-//		getShell().setVisible(false);
-		
+		// getShell().setVisible(false);
+
 		Clipboard clipboard = new Clipboard(getDisplay());
 		TextTransfer textTransfer = TextTransfer.getInstance();
-		
-		String last = (String)clipboard.getContents(textTransfer);
-		while(!this.isDisposed()){
+
+		String last = (String) clipboard.getContents(textTransfer);
+		while (!this.isDisposed()) {
 			String current = (String) clipboard.getContents(textTransfer);
-			if(!current.equals(last)){
+			if (!current.equals(last)) {
 				System.out.println("剪贴板发生改变！");
 				last = current;
 			}

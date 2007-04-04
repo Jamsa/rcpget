@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.preference;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -31,7 +32,7 @@ public class General extends PreferencePage implements IWorkbenchPreferencePage 
 		minimizeToTrayButton = new Button(container, SWT.CHECK);
 		minimizeToTrayButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false));
-		minimizeToTrayButton.setText("最小化到任务栏");
+		minimizeToTrayButton.setText(Messages.Preference_General_MininizeToSystemTray);
 
 		setControlValue();
 		return container;

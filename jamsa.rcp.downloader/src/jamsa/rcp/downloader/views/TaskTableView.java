@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.views;
 
 import jamsa.rcp.downloader.Activator;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.RCPGetActionFactory;
 import jamsa.rcp.downloader.models.Category;
 import jamsa.rcp.downloader.models.CategoryModel;
@@ -79,7 +80,7 @@ public class TaskTableView extends ViewPart {
 					else
 						tableViewer.setInput(model.getTasks(CategoryModel
 								.getInstance().getRunning()));
-					logger.info("当前选中分类：" + category.getName());
+					logger.info("当前选中分类：" + category.getName()); //$NON-NLS-1$
 				}
 			}
 		}
@@ -98,7 +99,7 @@ public class TaskTableView extends ViewPart {
 			public boolean performDrop(Object data) {
 				String url = String.valueOf(data);
 				url = StringUtils.getURLString(url);
-				if (url.startsWith("http")) {
+				if (url.startsWith("http")) { //$NON-NLS-1$
 					// Clipboard clipboard = new
 					// Clipboard(Display.getCurrent());
 					// TextTransfer textTransfer = TextTransfer.getInstance();
@@ -150,7 +151,7 @@ public class TaskTableView extends ViewPart {
 				new IClipboardChangeListener() {
 					public void clipboardChange(String text) {
 						String types[] = PreferenceManager.getInstance()
-								.getMonitorFileType().split(";");
+								.getMonitorFileType().split(";"); //$NON-NLS-1$
 						// 此处不需要检查文件类型
 						text = StringUtils.getURLString(text, types);
 						// text = StringUtils.getURLString(text);
@@ -172,35 +173,35 @@ public class TaskTableView extends ViewPart {
 
 		Table table = tableViewer.getTable();
 		TableColumn column = new TableColumn(table, SWT.NONE);
-		column.setText("状态");
+		column.setText(Messages.TaskTableView_Status);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("文件名");
+		column.setText(Messages.TaskTableView_FileName);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("文件大小");
+		column.setText(Messages.TaskTableView_FileSize);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("进度");
+		column.setText(Messages.TaskTableView_FinishedPercent);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("已完成");
+		column.setText(Messages.TaskTableView_FinishedSize);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("即时速度");
+		column.setText(Messages.TaskTableView_Speed);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("平均速度");
+		column.setText(Messages.TaskTableView_AverageSpeed);
 		column.setWidth(100);
 
 		column = new TableColumn(table, SWT.NONE);
-		column.setText("用时");
+		column.setText(Messages.TaskTableView_Time);
 		column.setWidth(100);
 
 		table.setHeaderVisible(true);
@@ -316,51 +317,51 @@ public class TaskTableView extends ViewPart {
 				case 0:
 					switch (task.getStatus()) {
 					case Task.STATUS_ERROR:
-						return "错误";
+						return Messages.TaskTableView_Error;
 					case Task.STATUS_FINISHED:
-						return "已完成";
+						return Messages.TaskTableView_Finish;
 					case Task.STATUS_RUNNING:
-						return "运行中";
+						return Messages.TaskTableView_Running;
 					case Task.STATUS_STOP:
-						return "停止";
+						return Messages.TaskTableView_Stop;
 					default:
-						return "";
+						return ""; //$NON-NLS-1$
 					}
 				case 1:
 					return task.getFileName();
 				case 2:
 					if (task.getFileSize() == 0)
-						return "未知大小";
+						return Messages.TaskTableView_UnknownSize;
 					else
-						return task.getFileSize() / 1000 + "k";
+						return task.getFileSize() / 1000 + "k"; //$NON-NLS-1$
 				case 3:
 					if (task.getFileSize() == 0 || task.getFinishedSize() == 0)
-						return "";
+						return ""; //$NON-NLS-1$
 					else
 						return (task.getFinishedSize() * 100)
-								/ task.getFileSize() + "%";
+								/ task.getFileSize() + "%"; //$NON-NLS-1$
 				case 4:
 					if (task.getFinishedSize() == 0)
-						return "";
+						return ""; //$NON-NLS-1$
 					else
-						return task.getFinishedSize() / 1000 + "k";
+						return task.getFinishedSize() / 1000 + "k"; //$NON-NLS-1$
 				case 5:
 					if (task.getSpeed() == 0)
-						return "";
+						return ""; //$NON-NLS-1$
 					else
-						return task.getSpeed() + "k/s";
+						return task.getSpeed() + "k/s"; //$NON-NLS-1$
 				case 6:
 					if (task.getAverageSpeed() == 0)
-						return "";
+						return ""; //$NON-NLS-1$
 					else
-						return task.getAverageSpeed() + "k/s";
+						return task.getAverageSpeed() + "k/s"; //$NON-NLS-1$
 				case 7:
 					if (task.getTotalTime() >= 0)
-						return task.getTotalTime() / 1000 + "s";
+						return task.getTotalTime() / 1000 + "s"; //$NON-NLS-1$
 					else
-						return "";
+						return ""; //$NON-NLS-1$
 				default:
-					return "";
+					return ""; //$NON-NLS-1$
 					// break;
 				}
 			}
