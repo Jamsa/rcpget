@@ -377,8 +377,10 @@ public class CategoryModel extends Observable {
 				Category category = new Category();
 				category.setName(children[i].getString(TAG_NAME));
 				category.setPath(children[i].getString(TAG_PATH));
-				category.setParent((Category) categories.get(children[i]
-						.getString(TAG_PARENT)));
+				Category parent = (Category) categories.get(children[i]
+				           						.getString(TAG_PARENT));
+				if(parent!=null)
+					parent.addChild(category);
 				if (children[i].getString(TAG_PARENT)
 						.equals(finished.getName())) {
 					finished.addChild(category);

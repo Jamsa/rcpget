@@ -184,9 +184,10 @@ public class TaskThread2 extends Thread {
 			 * 任务线程被停止或者打断时中断所有下载线程
 			 */
 			if (task.getStatus() == Task.STATUS_STOP || this.isInterrupted()) {
+				stopAll();
+				changeStatus(Task.STATUS_STOP);
 				logger.info("下载停止");
 				task.writeMessage("Task", "下载停止");
-				changeStatus(Task.STATUS_STOP);
 				return;
 			}
 
@@ -210,10 +211,20 @@ public class TaskThread2 extends Thread {
 					e.printStackTrace();
 				}
 			}
+			stopAll();
 			task.clearMessage();
 			taskModel.updateTask(task);
 		}
 
+	}
+
+	private void stopAll() {
+		// 停止所有任务，清空线程队列
+		for (Iterator it = task.getSplitters().iterator(); it.hasNext();) {
+			TaskSplitter splitter = (TaskSplitter) it.next();
+			splitter.setRun(false);
+		}
+		threads.clear();
 	}
 
 }

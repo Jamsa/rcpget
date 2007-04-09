@@ -1,9 +1,11 @@
 package jamsa.rcp.downloader;
 
+import jamsa.rcp.downloader.models.TaskModel;
 import jamsa.rcp.downloader.monitor.ClipBoardMonitor;
 import jamsa.rcp.downloader.preference.PreferenceManager;
 
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -36,6 +38,21 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			IActionBarConfigurer configurer) {
 		this.actionBarAdvisor = new ApplicationActionBarAdvisor(configurer);
 		return this.actionBarAdvisor;
+	}
+
+	/**
+	 * 退出前检查是否有任务在运行
+	 */
+	public boolean preWindowShellClose() {
+		if (TaskModel.getInstance().isSomeTaskRun()) {
+			boolean confirm = MessageDialog.openConfirm(getWindowConfigurer()
+					.getWindow().getShell(), "退出", "下载任务运行中，确定要退出吗？");
+			if (confirm)
+				TaskModel.getInstance().stopAll();
+			else
+				return false;
+		}
+		return super.preWindowShellClose();
 	}
 
 	public void preWindowOpen() {

@@ -52,9 +52,10 @@ public class TaskModel extends Observable {
 	 */
 	private Map tasks = Collections.synchronizedMap(new HashMap(10));
 
-	public boolean isExist(String url){
-		return tasks.get(url)!=null;
+	public boolean isExist(String url) {
+		return tasks.get(url) != null;
 	}
+
 	/**
 	 * 获取保存任务状态文件的路径
 	 * 
@@ -74,6 +75,31 @@ public class TaskModel extends Observable {
 	private File getTaskFile(Task task) {
 		return Activator.getDefault().getStateLocation().append("tasks")
 				.append(Md5Encrypt.MD5Encode(task.getFileUrl())).toFile();
+	}
+
+	/**
+	 * 检查是否有任务处于运行状态
+	 * @return
+	 */
+	public boolean isSomeTaskRun() {
+		for (Iterator it = tasks.keySet().iterator(); it.hasNext();) {
+			Task task = (Task)tasks.get(it.next());
+			if (task.getStatus() == Task.STATUS_RUNNING)
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 停止所有任务
+	 *
+	 */
+	public void stopAll(){
+		for (Iterator it = tasks.keySet().iterator(); it.hasNext();) {
+			Task task = (Task)tasks.get(it.next());
+			if (task.getStatus() == Task.STATUS_RUNNING)
+				TaskThreadManager.getInstance().stop(task);
+		}
 	}
 
 	/**

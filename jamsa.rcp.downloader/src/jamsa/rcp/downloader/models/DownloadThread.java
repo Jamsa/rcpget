@@ -71,7 +71,7 @@ public class DownloadThread extends Thread {
 				"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 
 		if (splitter.getEndPos() != 0) {
-			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-"
+			prop.put("RANGE", "bytes=" + (splitter.getStartPos()+splitter.getFinished()) + "-"
 					+ splitter.getEndPos());
 		} else {
 			prop.put("RANGE", "bytes=" + splitter.getStartPos() + "-");

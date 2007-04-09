@@ -37,7 +37,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	public static final int STATUS_ERROR = 4;
 
 	// 每个块最小 100K
-	private static final long BLOCK_MIN_SIZE = 100000;
+	private static final long BLOCK_MIN_SIZE = 50000;
 
 	// 下载临时文件扩展名
 	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
