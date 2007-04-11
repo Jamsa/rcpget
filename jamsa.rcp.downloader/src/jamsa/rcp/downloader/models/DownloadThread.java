@@ -23,6 +23,7 @@ public class DownloadThread extends Thread {
 
 	// 文件对象
 	private RandomAccessFile file;
+	
 
 	// 任务对象
 	private Task task;

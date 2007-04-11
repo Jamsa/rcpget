@@ -325,6 +325,11 @@ public class TaskModel extends Observable {
 				result.add(task);
 				continue;
 			}
+			
+			//如果发现分类信息为null则将任务设置为默认分类
+			if(task.getCategory()==null){
+				task.setCategory(CategoryModel.getInstance().getFinished());
+			}
 
 			if (task.getCategory().getName() == categoryName
 					&& task.getStatus() == Task.STATUS_FINISHED

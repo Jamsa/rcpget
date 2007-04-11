@@ -26,8 +26,10 @@ public class TaskWizard extends Wizard {
 	private boolean isModify = false;
 
 	public TaskWizard(Task task, boolean isModify) throws Exception {
-		if (open)
-			throw new Exception("向导已经打开！");
+		if (open) {
+//			throw new Exception("向导已经打开！");
+			return;
+		}
 		this.task = task;
 		this.isModify = isModify;
 		open = true;

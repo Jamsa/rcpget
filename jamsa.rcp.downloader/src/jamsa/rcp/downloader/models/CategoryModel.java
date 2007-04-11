@@ -3,6 +3,7 @@ package jamsa.rcp.downloader.models;
 import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.IConstants;
 import jamsa.rcp.downloader.utils.Logger;
+import jamsa.rcp.downloader.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -181,19 +182,8 @@ public class CategoryModel extends Observable {
 			return;
 		}
 
-		if (category.getParent() != null)
-			category.getParent().removeChild(category);
-		Task[] tasks = TaskModel.getInstance().getTasks(category);
-		if (tasks != null) {
-			for (int i = 0; i < tasks.length; i++) {
-				Task task = tasks[i];
-				task.setCategory(category.getParent());
-				TaskModel.getInstance().updateTask(task);
-			}
-		}
-
-		categories.remove(category.getName());
-
+		
+		//先处理子分类的删除
 		if (category.getChildren() != null) {
 			for (Iterator it = category.getChildren().values().iterator(); it
 					.hasNext();) {
@@ -201,6 +191,21 @@ public class CategoryModel extends Observable {
 				_deleteCategory(child);
 			}
 		}
+		
+		//将分类下的任务移至父级分类
+		Task[] tasks = TaskModel.getInstance().getTasks(category);
+		if (tasks != null) {
+			for (int i = 0; i < tasks.length; i++) {
+				Task task = tasks[i];
+				Category parent = category.getParent()==null?finished:category.getParent(); 
+				task.setCategory(parent);
+				TaskModel.getInstance().updateTask(task);
+			}
+		}
+		if (category.getParent() != null)
+			category.getParent().removeChild(category);
+		
+		categories.remove(category.getName());
 	}
 
 	/**

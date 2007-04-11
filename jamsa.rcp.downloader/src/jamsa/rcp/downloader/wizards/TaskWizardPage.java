@@ -213,65 +213,37 @@ public class TaskWizardPage extends WizardPage {
 	 * 
 	 */
 	private void setControlValue(Composite parent) {
-
-		// 选中第一条记录
-		categoryCombo.select(1);
-
-		memoText.setText(task.getMemo() == null ? "" : task.getMemo());
-
-		fileNameText.setText(task.getFileName() == null ? "" : task
-				.getFileName());
-
-		fileUrlText.setText(task.getFileUrl() == null ? "" : task.getFileUrl());
-
-		blocksSpinner.setSelection(task.getBlocks());
-
-		// savePathCombo.setText(task.getFilePath() == null ? "" : task
-		// .getFilePath());
-
-		String[] items = categoryCombo.getItems();
-		if (items != null && task.getCategory() != null) {
-			for (int i = 0; i < items.length; i++) {
-				String item = items[i];
-				if (item.trim().equals(task.getCategory().getName())) {
-					categoryCombo.select(i);
-					break;
-				}
-			}
-		} else {
+		try {
+			// 选中第一条记录
 			categoryCombo.select(1);
-		}
 
-		if (task.getStart() == Task.START_AUTO) {
-			autoStartButton.setSelection(true);
-			manualStartButton.setSelection(false);
-		} else {
-			autoStartButton.setSelection(false);
-			manualStartButton.setSelection(true);
-		}
+			memoText.setText(task.getMemo() == null ? "" : task.getMemo());
 
-		if (isModify) {
-			fileNameText.setEnabled(false);
-			fileUrlText.setEnabled(false);
-			categoryCombo.setEnabled(false);
-			savePathCombo.setEnabled(false);
-			autoStartButton.setEnabled(false);
-			manualStartButton.setEnabled(false);
-		} else {
-			// 从剪贴板粘贴url
-			// Clipboard clipboard = new Clipboard(parent.getDisplay());
-			// TextTransfer textTransfer = TextTransfer.getInstance();
-			// String textData = (String) clipboard.getContents(textTransfer);
-			//
-			// if (!StringUtils.isEmpty(textData)
-			// && textData.startsWith("http://")) {
-			// textData = textData.trim();
-			// textData = textData.split(" ")[0];
-			// textData = textData.split("\n")[0];
-			// fileUrlText.setText(textData);
-			// }
+			fileNameText.setText(task.getFileName() == null ? "" : task
+					.getFileName());
 
-			if (pm.getStartTaskMethod() == Task.START_AUTO) {
+			fileUrlText.setText(task.getFileUrl() == null ? "" : task
+					.getFileUrl());
+
+			blocksSpinner.setSelection(task.getBlocks());
+
+			// savePathCombo.setText(task.getFilePath() == null ? "" : task
+			// .getFilePath());
+
+			String[] items = categoryCombo.getItems();
+			if (items != null && task.getCategory() != null) {
+				for (int i = 0; i < items.length; i++) {
+					String item = items[i];
+					if (item.trim().equals(task.getCategory().getName())) {
+						categoryCombo.select(i);
+						break;
+					}
+				}
+			} else {
+				categoryCombo.select(1);
+			}
+
+			if (task.getStart() == Task.START_AUTO) {
 				autoStartButton.setSelection(true);
 				manualStartButton.setSelection(false);
 			} else {
@@ -279,19 +251,52 @@ public class TaskWizardPage extends WizardPage {
 				manualStartButton.setSelection(true);
 			}
 
-			String categoryName = pm.getDefaultCategory();
+			if (isModify) {
+				fileNameText.setEnabled(false);
+				fileUrlText.setEnabled(false);
+				categoryCombo.setEnabled(false);
+				savePathCombo.setEnabled(false);
+				autoStartButton.setEnabled(false);
+				manualStartButton.setEnabled(false);
+			} else {
+				// 从剪贴板粘贴url
+				// Clipboard clipboard = new Clipboard(parent.getDisplay());
+				// TextTransfer textTransfer = TextTransfer.getInstance();
+				// String textData = (String)
+				// clipboard.getContents(textTransfer);
+				//
+				// if (!StringUtils.isEmpty(textData)
+				// && textData.startsWith("http://")) {
+				// textData = textData.trim();
+				// textData = textData.split(" ")[0];
+				// textData = textData.split("\n")[0];
+				// fileUrlText.setText(textData);
+				// }
 
-			String[] categories = categoryCombo.getItems();
-			for (int i = 0; i < categories.length; i++) {
-				if (categories[i].equals(categoryName)) {
-					categoryCombo.select(i);
-					break;
+				if (pm.getStartTaskMethod() == Task.START_AUTO) {
+					autoStartButton.setSelection(true);
+					manualStartButton.setSelection(false);
+				} else {
+					autoStartButton.setSelection(false);
+					manualStartButton.setSelection(true);
 				}
-			}
-			String savePath = pm.getDefaultSavePath();
-			savePathCombo.setText(savePath);
-		}
 
+				String categoryName = pm.getDefaultCategory();
+
+				String[] categories = categoryCombo.getItems();
+				for (int i = 0; i < categories.length; i++) {
+					if (categories[i].equals(categoryName)) {
+						categoryCombo.select(i);
+						break;
+					}
+				}
+
+				String savePath = pm.getDefaultSavePath();
+				savePathCombo.setText(savePath);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void createControl(Composite parent) {
