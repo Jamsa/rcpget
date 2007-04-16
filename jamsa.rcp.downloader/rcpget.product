@@ -16,12 +16,14 @@
 
    <windowImages/>
 
+
    <launcher name="rcpget">
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>

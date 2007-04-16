@@ -17,6 +17,7 @@ import java.util.Properties;
 
 public class HttpClientUtils {
 	private static Logger logger = new Logger(HttpClientUtils.class);
+	public static final String DEFAULT_USER_AGENT="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 
 	/**
 	 * 获取远程文件信息

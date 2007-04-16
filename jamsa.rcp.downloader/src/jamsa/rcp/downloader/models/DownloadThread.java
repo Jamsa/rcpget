@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -32,6 +33,8 @@ public class DownloadThread extends Thread {
 	 * 当前下载块
 	 */
 	private TaskSplitter splitter;
+	
+	private List threads ;
 
 	/**
 	 * 构造器
@@ -49,6 +52,7 @@ public class DownloadThread extends Thread {
 		this.task = task;
 		this.splitter = splitter;
 		pm = PreferenceManager.getInstance();
+		
 	}
 
 	/**

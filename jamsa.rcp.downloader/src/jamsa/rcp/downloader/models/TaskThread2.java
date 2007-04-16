@@ -224,6 +224,14 @@ public class TaskThread2 extends Thread {
 			TaskSplitter splitter = (TaskSplitter) it.next();
 			splitter.setRun(false);
 		}
+		for (Iterator it = threads.iterator(); it.hasNext();) {
+			DownloadThread thread = (DownloadThread)it.next();
+			try{
+			thread.join();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		threads.clear();
 	}
 

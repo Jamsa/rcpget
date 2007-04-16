@@ -101,6 +101,11 @@ public class TaskThreadManager {
 		task.setStatus(Task.STATUS_STOP);
 		TaskThread2 thread = (TaskThread2) threads.get(task.getFileUrl());
 		if (thread != null) {
+			try{
+			thread.join();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 			logger.debug("Í£Ö¹ÈÎÎñ" + thread);
 			threads.remove(task.getFileUrl());
 			//thread.interrupt();
