@@ -24,15 +24,15 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * ÏÂÔØ·ÖÀàÊÓÍ¼
+ * ä¸‹è½½åˆ†ç±»è§†å›¾
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class CategoryTreeView extends ViewPart {
 	public static final String ID = CategoryTreeView.class.getName();
 
-	// Ê÷½á¹¹Ä£ĞÍ
+	// æ ‘ç»“æ„æ¨¡å‹
 	private CategoryModel model = CategoryModel.getInstance();
 
 	public CategoryModel getModel() {

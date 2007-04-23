@@ -11,9 +11,9 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 修改任务动作
+ * 淇敼浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class CopyTaskURLAction extends BaseTaskAction {
@@ -23,7 +23,7 @@ public class CopyTaskURLAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("复制URL");
+//		setToolTipText("澶嶅埗URL");
 	}
 
 	public void run() {

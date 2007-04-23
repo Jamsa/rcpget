@@ -26,9 +26,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * Ê×Ñ¡Ïî Ä¬ÈÏÈÎÎñÊôĞÔ
+ * é¦–é€‰é¡¹ é»˜è®¤ä»»åŠ¡å±æ€§
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class DefaultTask extends PreferencePage implements

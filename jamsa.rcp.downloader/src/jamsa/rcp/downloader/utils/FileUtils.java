@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * ÎÄ¼ş²Ù×÷¹¤¾ßÀà
+ * æ–‡ä»¶æ“ä½œå·¥å…·ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class FileUtils {
 
 	/**
-	 * µİ¹é´´½¨Ä¿Â¼
+	 * é€’å½’åˆ›å»ºç›®å½•
 	 * 
 	 * @param path
 	 */
@@ -27,7 +27,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * ´´½¨Ä¿Â¼
+	 * åˆ›å»ºç›®å½•
 	 * 
 	 * @param path
 	 */
@@ -39,7 +39,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * ¼ì²éÄ¿Â¼ÊÇ·ñÒÑ¾­´æÔÚ
+	 * æ£€æŸ¥ç›®å½•æ˜¯å¦å·²ç»å­˜åœ¨
 	 * 
 	 * @param path
 	 * @return
@@ -50,7 +50,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * ¼ì²éÎÄ¼şÊÇ·ñÒÑ¾­´æÔÚ
+	 * æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å·²ç»å­˜åœ¨
 	 * 
 	 * @param fileName
 	 * @return
@@ -61,7 +61,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * ¼ì²éÊÇ·ñÎªÎÄ¼ş
+	 * æ£€æŸ¥æ˜¯å¦ä¸ºæ–‡ä»¶
 	 * 
 	 * @param fileName
 	 * @return
@@ -72,7 +72,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * ¶ÁÈ¡ÎÄ¼ş
+	 * è¯»å–æ–‡ä»¶
 	 * 
 	 * @param file
 	 * @return
@@ -91,7 +91,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * Ğ´ÈëÎÄ¼ş
+	 * å†™å…¥æ–‡ä»¶
 	 * 
 	 * @param file
 	 * @param source
@@ -106,12 +106,12 @@ public class FileUtils {
 	}
 
 	/**
-	 * ĞŞ¸ÄÎÄ¼şÃû
+	 * ä¿®æ”¹æ–‡ä»¶å
 	 * 
 	 * @param fileName
-	 *            ÎÄ¼şÃû³Æ
+	 *            æ–‡ä»¶åç§°
 	 * @param destName
-	 *            Ä¿±êÃû³Æ
+	 *            ç›®æ ‡åç§°
 	 */
 	public static void renameFile(String fileName, String destName) {
 		File orign = new File(fileName);

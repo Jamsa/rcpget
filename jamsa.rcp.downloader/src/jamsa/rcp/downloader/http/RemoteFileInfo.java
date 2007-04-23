@@ -1,9 +1,9 @@
 package jamsa.rcp.downloader.http;
 
 /**
- * 远程文件信息
+ * 杩滅▼鏂囦欢淇℃伅
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class RemoteFileInfo {

@@ -3,7 +3,7 @@ package jamsa.rcp.downloader.models;
 import java.util.Observable;
 
 /**
- * TaskÀàÖ±½Ó¼Ì³ĞÁËObservableÀà£¬²»ÔÙÊ¹ÓÃTaskInfoModelÁË
+ * Taskç±»ç›´æ¥ç»§æ‰¿äº†Observableç±»ï¼Œä¸å†ä½¿ç”¨TaskInfoModeläº†
  * @author Administrator
  * @deprecated
  */

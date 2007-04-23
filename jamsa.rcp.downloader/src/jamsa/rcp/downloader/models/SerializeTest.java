@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 
 /**
- * ĞòÁĞ»¯²âÊÔ
+ * åºåˆ—åŒ–æµ‹è¯•
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class SerializeTest {

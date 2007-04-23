@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.Observable;
 
 /**
- * ÏÂÔØÈÎÎñ¶ÔÏó
+ * ä¸‹è½½ä»»åŠ¡å¯¹è±¡
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class Task extends Observable implements IConsoleWriter, Serializable {
@@ -26,7 +26,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	private static final long serialVersionUID = -9206186502703680217L;
 
 	/**
-	 * ÈÎÎñ×´Ì¬³£Á¿
+	 * ä»»åŠ¡çŠ¶æ€å¸¸é‡
 	 */
 	public static final int STATUS_STOP = 0;
 
@@ -36,67 +36,67 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 
 	public static final int STATUS_ERROR = 4;
 
-	// Ã¿¸ö¿é×îĞ¡ 100K
+	// æ¯ä¸ªå—æœ€å° 100K
 	private static final long BLOCK_MIN_SIZE = 50000;
 
-	// ÏÂÔØÁÙÊ±ÎÄ¼şÀ©Õ¹Ãû
+	// ä¸‹è½½ä¸´æ—¶æ–‡ä»¶æ‰©å±•å
 	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
 
-	// ÏÂÔØÎÄ¼şÃû³åÍ»Ê±£¬Ìí¼ÓµÄĞŞÊÎºó×º
+	// ä¸‹è½½æ–‡ä»¶åå†²çªæ—¶ï¼Œæ·»åŠ çš„ä¿®é¥°åç¼€
 	public static final String FILENAME_SUFFIX = "_1";
 
-	// ÎÄ¼şÃû
+	// æ–‡ä»¶å
 	private String fileName;
 
-	// ÏÂÔØµØÖ·
+	// ä¸‹è½½åœ°å€
 	private String fileUrl;
 
-	// ÒıÓÃÒ³
+	// å¼•ç”¨é¡µ
 	private String pageUrl;
 
-	// ÎÄ¼ş±£´æÂ·¾¶
+	// æ–‡ä»¶ä¿å­˜è·¯å¾„
 	private String filePath;
 
-	// ËùÊô·ÖÀà
+	// æ‰€å±åˆ†ç±»
 	private Category category;
 
-	// ÎÄ¼ş´óĞ¡
+	// æ–‡ä»¶å¤§å°
 	private long fileSize;
 
-	// ÎÄ¼şÀàĞÍ
+	// æ–‡ä»¶ç±»å‹
 	private String fileType = "";
 
-	// ¿ªÊ¼Ê±¼ä
+	// å¼€å§‹æ—¶é—´
 	private long beginTime;
 
-	// Íê³ÉÊ±¼ä
+	// å®Œæˆæ—¶é—´
 	private long finishTime;
 
-	// ×´Ì¬
+	// çŠ¶æ€
 	private int status;
 
-	// ºÄÊ±s
+	// è€—æ—¶s
 	private long totalTime;
 
-	// Íê³É´óĞ¡
+	// å®Œæˆå¤§å°
 	private long finishedSize;
 
-	// ¼´Ê±ËÙ¶È
+	// å³æ—¶é€Ÿåº¦
 	private long speed;
 
-	// ±¸×¢
+	// å¤‡æ³¨
 	private String memo;
 
-	// ÏÂÔØÏß³ÌÊıÁ¿
+	// ä¸‹è½½çº¿ç¨‹æ•°é‡
 	private int blocks = 5;
 
-	// Ïß³ÌĞÅÏ¢
+	// çº¿ç¨‹ä¿¡æ¯
 	private List splitters = new ArrayList(10);
 
-	// ÊÇ·ñ±»É¾³ı
+	// æ˜¯å¦è¢«åˆ é™¤
 	private boolean deleted = false;
 
-	// Æô¶¯·½Ê½
+	// å¯åŠ¨æ–¹å¼
 	private int start = 0;
 
 	public static final int START_AUTO = 0;
@@ -258,14 +258,14 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÉèÖÃÈÎÎñ×´Ì¬£¬Í¨Öª¼àÌıÕß
+	 * è®¾ç½®ä»»åŠ¡çŠ¶æ€ï¼Œé€šçŸ¥ç›‘å¬è€…
 	 * 
 	 * @param status
 	 */
 	public void setStatus(int status) {
 		if (this.status != status) {
 			this.status = status;
-			// Èç¹û×´Ì¬Îª´íÎó»òÕßÍ£Ö¹
+			// å¦‚æœçŠ¶æ€ä¸ºé”™è¯¯æˆ–è€…åœæ­¢
 			if (this.status == STATUS_ERROR || this.status == this.STATUS_STOP) {
 				this._stopAllSplitters();
 			}
@@ -275,7 +275,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * »ñÈ¡ÈÎÎñÆ½¾ùËÙ¶È(k/s)
+	 * è·å–ä»»åŠ¡å¹³å‡é€Ÿåº¦(k/s)
 	 * 
 	 * @return
 	 */
@@ -286,7 +286,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÖØÖÃÈÎÎñ
+	 * é‡ç½®ä»»åŠ¡
 	 * 
 	 */
 	public void reset() {
@@ -299,7 +299,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÖØÖÃÏß³ÌĞÅÏ¢
+	 * é‡ç½®çº¿ç¨‹ä¿¡æ¯
 	 * 
 	 */
 	public void resetSplitters() {
@@ -307,7 +307,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÖÕ¶ËÏûÏ¢
+	 * ç»ˆç«¯æ¶ˆæ¯
 	 */
 	private Map messages = Collections.synchronizedMap(new LinkedHashMap(6));
 
@@ -316,12 +316,12 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÏòÏß³ÌÖÕ¶ËÊä³öÈÕÖ¾
+	 * å‘çº¿ç¨‹ç»ˆç«¯è¾“å‡ºæ—¥å¿—
 	 * 
 	 * @param threadName
-	 *            Ïß³Ì±êÊ¶
+	 *            çº¿ç¨‹æ ‡è¯†
 	 * @param message
-	 *            ÈÕÖ¾ÄÚÈİ
+	 *            æ—¥å¿—å†…å®¹
 	 */
 	public void writeMessage(String threadName, String message) {
 		if (messages.get(threadName) == null) {
@@ -335,11 +335,11 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			msgs.add(message);
 		}
 		setChanged();
-		notifyObservers(new String[] { "Ïß³Ì£º" + threadName, message });
+		notifyObservers(new String[] { "çº¿ç¨‹ï¼š" + threadName, message });
 	}
 
 	/**
-	 * Çå³ıÏûÏ¢
+	 * æ¸…é™¤æ¶ˆæ¯
 	 * 
 	 */
 	public void clearMessage() {
@@ -349,16 +349,16 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ¿é¼ì²é£¬Ó¦¸ÃÔÚÃ¿´ÎÏÂÔØÖ®Ç°µ÷ÓÃ
+	 * å—æ£€æŸ¥ï¼Œåº”è¯¥åœ¨æ¯æ¬¡ä¸‹è½½ä¹‹å‰è°ƒç”¨
 	 */
 	public void checkBlocks() {
-		// Èç¹û»¹Ã»ÓĞ·Ö¸î¹ı£¬Ôò·Ö¸î
+		// å¦‚æœè¿˜æ²¡æœ‰åˆ†å‰²è¿‡ï¼Œåˆ™åˆ†å‰²
 		if (this.splitters.isEmpty()) {
 			this.split();
 			return;
 		}
 
-		// Èç¹û¿éÊıÁ¿²»Ò»ÖÂ,splitters´óÓÚblocksÊÇÕı³£µÄ,ÒòÎªÓÃ»§ÓĞ¿ÉÄÜ¼õÉÙÏÂÔØÏß³Ì
+		// å¦‚æœå—æ•°é‡ä¸ä¸€è‡´,splitterså¤§äºblocksæ˜¯æ­£å¸¸çš„,å› ä¸ºç”¨æˆ·æœ‰å¯èƒ½å‡å°‘ä¸‹è½½çº¿ç¨‹
 		if (this.splitters.size() < this.blocks) {
 			int diff = this.blocks - this.splitters.size();
 			for (int i = 0; i < Math.abs(diff); i++) {
@@ -368,7 +368,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ¼õÉÙÈÎÎñ¿é
+	 * å‡å°‘ä»»åŠ¡å—
 	 * 
 	 * @return
 	 */
@@ -384,29 +384,29 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * Ìí¼ÓĞÂµÄÈÎÎñ¿é
+	 * æ·»åŠ æ–°çš„ä»»åŠ¡å—
 	 * 
-	 * @return ĞÂÔö¼ÓµÄÈÎÎñ¿é¶ÔÏó£¬»òÕßnull(±íÊ¾Î´Ìí¼Ó£¬ÓÉÓÚÎÄ¼şÎ´Íê³É²¿·ÖÌ«Ğ¡)
+	 * @return æ–°å¢åŠ çš„ä»»åŠ¡å—å¯¹è±¡ï¼Œæˆ–è€…null(è¡¨ç¤ºæœªæ·»åŠ ï¼Œç”±äºæ–‡ä»¶æœªå®Œæˆéƒ¨åˆ†å¤ªå°)
 	 */
 	public TaskSplitter addSplitter() {
 		TaskSplitter ret = null;
-		// Èç¹ûÎÄ¼ş»¹Ã»ÓĞ×Ô¶¯·Ö¸î£¬Ôò·Ö¸î
+		// å¦‚æœæ–‡ä»¶è¿˜æ²¡æœ‰è‡ªåŠ¨åˆ†å‰²ï¼Œåˆ™åˆ†å‰²
 		if (getSplitters().isEmpty())
 			this.split();
 
-		// Èç¹û»¹ÊÇÎ´·Ö¸î»òÕßÖ»ÓĞÒ»¿é£¬Ôò²»ÔÙ·Ö¸î
+		// å¦‚æœè¿˜æ˜¯æœªåˆ†å‰²æˆ–è€…åªæœ‰ä¸€å—ï¼Œåˆ™ä¸å†åˆ†å‰²
 		if (getSplitters().isEmpty() || getSplitters().size() == 1)
 			return null;
 
-		// ´ÓÏÖÔÚµÄ¿éÖĞ·ÖÀë³öĞÂµÄ¿éÈÎÎñ
+		// ä»ç°åœ¨çš„å—ä¸­åˆ†ç¦»å‡ºæ–°çš„å—ä»»åŠ¡
 		for (Iterator it = getSplitters().iterator(); it.hasNext();) {
 			TaskSplitter splitter = (TaskSplitter) it.next();
 
-			// Ïß³ÌÎ´Íê³ÉÁ¿
+			// çº¿ç¨‹æœªå®Œæˆé‡
 			long unfinished = (splitter.getEndPos() - splitter.getStartPos() - splitter
 					.getFinished());
 
-			// Èç¹ûÎ´Íê³ÉÁ¿³ı2´óÓÚ×îĞ¡¿éÔò·Ö¸î
+			// å¦‚æœæœªå®Œæˆé‡é™¤2å¤§äºæœ€å°å—åˆ™åˆ†å‰²
 			long spliteBlock = unfinished / 2;
 
 			if (spliteBlock > BLOCK_MIN_SIZE) {
@@ -426,16 +426,16 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * °´blocksÊôĞÔ×Ô¶¯·Ö¸îÈÎÎñ
+	 * æŒ‰blockså±æ€§è‡ªåŠ¨åˆ†å‰²ä»»åŠ¡
 	 * 
 	 */
 	private void split() {
-		// ¿éÊıÁ¿
+		// å—æ•°é‡
 		int block = this.blocks;
-		// ÎÄ¼ş´óĞ¡
+		// æ–‡ä»¶å¤§å°
 		long fileSize = this.fileSize;
 
-		// Èç¹ûÎÄ¼ş´óĞ¡Î´Öª£¬»òÕß¿éÊıÁ¿ÎªÁã£¬ÔòÖ»·ÖÒ»¿é
+		// å¦‚æœæ–‡ä»¶å¤§å°æœªçŸ¥ï¼Œæˆ–è€…å—æ•°é‡ä¸ºé›¶ï¼Œåˆ™åªåˆ†ä¸€å—
 		if (fileSize == 0 || block == 0) {
 			TaskSplitter splitter = new TaskSplitter(0, 0, 0, getSplitters()
 					.size()
@@ -445,22 +445,22 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			return;
 		}
 
-		// Èç¹ûÈÎÎñÎ´·Ö¸î¹ıÔòÒª·Ö¸îÈÎÎñ
+		// å¦‚æœä»»åŠ¡æœªåˆ†å‰²è¿‡åˆ™è¦åˆ†å‰²ä»»åŠ¡
 		if (getSplitters().isEmpty()) {
-			writeMessage("Task", "·Ö¸îÈÎÎñ");
+			writeMessage("Task", "åˆ†å‰²ä»»åŠ¡");
 
-			// °´ÉèÖÃµÄ¿é·Ö
+			// æŒ‰è®¾ç½®çš„å—åˆ†
 			long blockSize = fileSize / block;
-			// Èç¹ûÃ¿¿éµÄ´óĞ¡£¬Ğ¡ÓÚ×îĞ¡¿éÏŞÖÆ£¬Ôò°´×îĞ¡¿éÏŞÖÆ½øĞĞ·Ö¸î
+			// å¦‚æœæ¯å—çš„å¤§å°ï¼Œå°äºæœ€å°å—é™åˆ¶ï¼Œåˆ™æŒ‰æœ€å°å—é™åˆ¶è¿›è¡Œåˆ†å‰²
 			if (blockSize < BLOCK_MIN_SIZE) {
 				this.blocks = 0;
 				for (int i = 0; i < ++block; i++) {
 
-					boolean finished = false;// ·Ö¸îÍê³É
+					boolean finished = false;// åˆ†å‰²å®Œæˆ
 					long startPos = i * BLOCK_MIN_SIZE;
 					long endPos = (i + 1) * BLOCK_MIN_SIZE;
 
-					// Èç¹û½áÊøÎ»ÖÃ£¬´óÓÚ»òµÈÓÚÎÄ¼ş´óĞ¡£¬Ôò²»ÔÙ·ÖĞÂµÄ¿é
+					// å¦‚æœç»“æŸä½ç½®ï¼Œå¤§äºæˆ–ç­‰äºæ–‡ä»¶å¤§å°ï¼Œåˆ™ä¸å†åˆ†æ–°çš„å—
 					if (endPos >= fileSize) {
 						endPos = fileSize;
 						finished = true;
@@ -475,7 +475,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 				return;
 			}
 
-			// Õı³£µÄ·Ö¸îÇé¿ö(Ã¿¿é´óĞ¡£¬´óÓÚ»òÕßµÈÓÚ×îĞ¡¿éµÄÏŞÖÆ
+			// æ­£å¸¸çš„åˆ†å‰²æƒ…å†µ(æ¯å—å¤§å°ï¼Œå¤§äºæˆ–è€…ç­‰äºæœ€å°å—çš„é™åˆ¶
 			this.blocks = 0;
 			for (int i = 0; i < (block - 1); i++) {
 				addSplitter(new TaskSplitter(i * blockSize,
@@ -490,7 +490,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * ÏÂÔØÍê³Éºó£¬ÖØÃüÃûÎÄ¼ş
+	 * ä¸‹è½½å®Œæˆåï¼Œé‡å‘½åæ–‡ä»¶
 	 * 
 	 * @param savedFile
 	 */
@@ -510,17 +510,17 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * »ñÈ¡±£´æµÄÁÙÊ±ÎÄ¼şÃû
+	 * è·å–ä¿å­˜çš„ä¸´æ—¶æ–‡ä»¶å
 	 * 
 	 * @return
 	 */
 	public File getTempSavedFile() {
-		// ´´½¨ÎÄ¼ş±£´æÄ¿Â¼
+		// åˆ›å»ºæ–‡ä»¶ä¿å­˜ç›®å½•
 		FileUtils.createDirectory(getFilePath());
-		writeMessage("Task", "¼ì²é/´´½¨Ä¿Â¼" + getFilePath());
+		writeMessage("Task", "æ£€æŸ¥/åˆ›å»ºç›®å½•" + getFilePath());
 		String fileName = getFilePath() + File.separator + getFileName();
 
-		// ¼ì²éÎÄ¼şÊÇ·ñÒÑ¾­´æÔÚ
+		// æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å·²ç»å­˜åœ¨
 		while (FileUtils.existsFile(fileName)) {
 			String name = getFileName();
 			int length = name.length();
@@ -530,13 +530,13 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			setFileName(name);
 			fileName = getFilePath() + File.separator + getFileName();
 		}
-		// ĞŞ¸ÄÈÎÎñÎÄ¼şÃû
+		// ä¿®æ”¹ä»»åŠ¡æ–‡ä»¶å
 		fileName += FILENAME_DOWNLOAD_SUFFIX;
 		return new File(fileName);
 	}
 
 	/**
-	 * »ñÈ¡´¦ÓÚÔËĞĞ×´Ì¬µÄ¿éÊıÁ¿
+	 * è·å–å¤„äºè¿è¡ŒçŠ¶æ€çš„å—æ•°é‡
 	 * 
 	 * @return
 	 */
@@ -551,14 +551,14 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	}
 
 	/**
-	 * »ñÈ¡Ò»¸öÎ´Íê³ÉµÄ¿é
+	 * è·å–ä¸€ä¸ªæœªå®Œæˆçš„å—
 	 * 
 	 * @return
 	 */
 	public TaskSplitter getUnfinishedSplitter() {
-		// Èç¹ûÕıÔÚÔËĞĞµÄ¿éÊıÁ¿Ğ¡ÓÚ,ÈÎÎñÉèÖÃµÄ¿éÊıÁ¿
+		// å¦‚æœæ­£åœ¨è¿è¡Œçš„å—æ•°é‡å°äº,ä»»åŠ¡è®¾ç½®çš„å—æ•°é‡
 		if (getRunBlocks() < blocks) {
-			// ¼ì²éÊÇ·ñÓĞÏß³ÌÎ´Íê³ÉÇÒÃ»ÓĞÔËĞĞ
+			// æ£€æŸ¥æ˜¯å¦æœ‰çº¿ç¨‹æœªå®Œæˆä¸”æ²¡æœ‰è¿è¡Œ
 			for (Iterator iter = splitters.iterator(); iter.hasNext();) {
 				TaskSplitter s = (TaskSplitter) iter.next();
 				if (!s.isFinish() && !s.isRun()) {

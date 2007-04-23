@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ÈÎÎñÏß³Ì¹ÜÀíÆ÷
+ * ä»»åŠ¡çº¿ç¨‹ç®¡ç†å™¨
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskThreadManager {
@@ -29,7 +29,7 @@ public class TaskThreadManager {
 	}
 
 	/**
-	 * Æô¶¯ÏÂÔØÈÎÎñ
+	 * å¯åŠ¨ä¸‹è½½ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -42,7 +42,7 @@ public class TaskThreadManager {
 		}
 		threads.put(task.getFileUrl(), thread);
 		thread.start();
-		logger.debug("Æô¶¯ÈÎÎñ" + thread);
+		logger.debug("å¯åŠ¨ä»»åŠ¡" + thread);
 		TaskModel.getInstance().updateTask(task);
 	}
 
@@ -65,7 +65,7 @@ public class TaskThreadManager {
 	}
 
 	/**
-	 * ÖØÆôÏÂÔØÈÎÎñ
+	 * é‡å¯ä¸‹è½½ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -93,7 +93,7 @@ public class TaskThreadManager {
 	}
 
 	/**
-	 * Í£Ö¹ÏÂÔØÈÎÎñ
+	 * åœæ­¢ä¸‹è½½ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -106,7 +106,7 @@ public class TaskThreadManager {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			logger.debug("Í£Ö¹ÈÎÎñ" + thread);
+			logger.debug("åœæ­¢ä»»åŠ¡" + thread);
 			threads.remove(task.getFileUrl());
 			//thread.interrupt();
 		}

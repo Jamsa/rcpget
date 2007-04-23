@@ -3,7 +3,6 @@ package jamsa.rcp.downloader.models;
 import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.IConstants;
 import jamsa.rcp.downloader.utils.Logger;
-import jamsa.rcp.downloader.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,9 +18,9 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 
 /**
- * ÏÂÔØ·ÖÀàÄ£ĞÍ
+ * ä¸‹è½½åˆ†ç±»æ¨¡å‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class CategoryModel extends Observable {
@@ -60,45 +59,45 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * ´´½¨Ä¬ÈÏµÄÏÂÔØ·ÖÀà
+	 * åˆ›å»ºé»˜è®¤çš„ä¸‹è½½åˆ†ç±»
 	 * 
 	 */
 	private void createOtherCategory() {
 		Category child = new Category();
-		child.setName("Èí¼ş");
+		child.setName("è½¯ä»¶");
 		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "software");
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 
 		child = new Category();
-		child.setName("ÒôÀÖ");
+		child.setName("éŸ³ä¹");
 		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music");
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 
 		Category child_child = new Category();
-		child_child.setName("Á÷ĞĞ");
+		child_child.setName("æµè¡Œ");
 		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music"
 				+ IConstants.FILE_SEPARATOR + "pop");
 		child.addChild(child_child);
 		categories.put(child_child.getName(), child_child);
 
 		child_child = new Category();
-		child_child.setName("¾ôÊ¿");
+		child_child.setName("çˆµå£«");
 		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music"
 				+ IConstants.FILE_SEPARATOR + "jazz");
 		child.addChild(child_child);
 		categories.put(child_child.getName(), child_child);
 
 		child = new Category();
-		child.setName("Êé¼®");
+		child.setName("ä¹¦ç±");
 		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "books");
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 	}
 
 	/**
-	 * ´´½¨±ØĞëµÄÏÂÔØ·ÖÀà
+	 * åˆ›å»ºå¿…é¡»çš„ä¸‹è½½åˆ†ç±»
 	 * 
 	 */
 	private void createDefaultCategory() {
@@ -108,18 +107,18 @@ public class CategoryModel extends Observable {
 		rootCategories.put(root.getName(), root);
 
 		running = new Category();
-		running.setName("ÕıÔÚÏÂÔØ");
+		running.setName("æ­£åœ¨ä¸‹è½½");
 		running.setPath(SAVE_PATH);
 		root.addChild(running);
 
 		finished = new Category();
-		finished.setName("ÒÑÏÂÔØ");
+		finished.setName("å·²ä¸‹è½½");
 		finished.setPath(SAVE_PATH);
 		root.addChild(finished);
 		// categories.put(finished.getName(), finished);
 
 		trash = new Category();
-		trash.setName("»ØÊÕÕ¾");
+		trash.setName("å›æ”¶ç«™");
 		trash.setPath(SAVE_PATH);
 		root.addChild(trash);
 	}
@@ -135,15 +134,15 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * Ìí¼Ó×Ó·ÖÀà
+	 * æ·»åŠ å­åˆ†ç±»
 	 * 
 	 * @param category
-	 *            ·ÖÀà
+	 *            åˆ†ç±»
 	 * @param parentCategory
-	 *            ¸¸·ÖÀà
+	 *            çˆ¶åˆ†ç±»
 	 */
 	public void addCategory(Category category, Category parentCategory) {
-		// Èç¹ûÑ¡ÖĞÏÂÃæµÄ·ÖÀà£¬ÔòÌí¼Óµ½ ÒÑÍê³É ·ÖÀàÏÂ
+		// å¦‚æœé€‰ä¸­ä¸‹é¢çš„åˆ†ç±»ï¼Œåˆ™æ·»åŠ åˆ° å·²å®Œæˆ åˆ†ç±»ä¸‹
 		if (parentCategory == root || parentCategory == running
 				|| parentCategory == trash) {
 			parentCategory = finished;
@@ -153,7 +152,7 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * Ìí¼Ó·ÖÀà
+	 * æ·»åŠ åˆ†ç±»
 	 * 
 	 * @param category
 	 */
@@ -162,7 +161,7 @@ public class CategoryModel extends Observable {
 		categories.put(category.getName(), category);
 		this.setChanged();
 		this.notifyObservers(category);
-		logger.info("Ìí¼Ó/ĞŞ¸ÄÁËĞÂµÄÏÂÔØ·ÖÀà");
+		logger.info("æ·»åŠ /ä¿®æ”¹äº†æ–°çš„ä¸‹è½½åˆ†ç±»");
 		this.saveCategories();
 	}
 
@@ -171,19 +170,18 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * µİ¹éÉ¾³ı·ÖÀà
+	 * é€’å½’åˆ é™¤åˆ†ç±»
 	 * 
 	 * @param category
 	 */
 	private void _deleteCategory(Category category) {
-		// ÕâĞ©·ÖÀà²»ÔÊĞíÉ¾³ı
+		// è¿™äº›åˆ†ç±»ä¸å…è®¸åˆ é™¤
 		if (category == root || category == running || category == trash
 				|| category == finished) {
 			return;
 		}
 
-		
-		//ÏÈ´¦Àí×Ó·ÖÀàµÄÉ¾³ı
+		// å…ˆå¤„ç†å­åˆ†ç±»çš„åˆ é™¤
 		if (category.getChildren() != null) {
 			for (Iterator it = category.getChildren().values().iterator(); it
 					.hasNext();) {
@@ -191,25 +189,26 @@ public class CategoryModel extends Observable {
 				_deleteCategory(child);
 			}
 		}
-		
-		//½«·ÖÀàÏÂµÄÈÎÎñÒÆÖÁ¸¸¼¶·ÖÀà
+
+		// å°†åˆ†ç±»ä¸‹çš„ä»»åŠ¡ç§»è‡³çˆ¶çº§åˆ†ç±»
 		Task[] tasks = TaskModel.getInstance().getTasks(category);
 		if (tasks != null) {
 			for (int i = 0; i < tasks.length; i++) {
 				Task task = tasks[i];
-				Category parent = category.getParent()==null?finished:category.getParent(); 
+				Category parent = category.getParent() == null ? finished
+						: category.getParent();
 				task.setCategory(parent);
 				TaskModel.getInstance().updateTask(task);
 			}
 		}
 		if (category.getParent() != null)
 			category.getParent().removeChild(category);
-		
+
 		categories.remove(category.getName());
 	}
 
 	/**
-	 * É¾³ı·ÖÀà
+	 * åˆ é™¤åˆ†ç±»
 	 * 
 	 * @param category
 	 */
@@ -219,12 +218,12 @@ public class CategoryModel extends Observable {
 
 		this.setChanged();
 		this.notifyObservers(category);
-		logger.info("É¾³ıÁËĞÂµÄÏÂÔØ·ÖÀà");
+		logger.info("åˆ é™¤äº†æ–°çš„ä¸‹è½½åˆ†ç±»");
 		this.saveCategories();
 	}
 
 	/**
-	 * ½«Map×ª±ä³ÉÊı×é
+	 * å°†Mapè½¬å˜æˆæ•°ç»„
 	 * 
 	 * @param categories
 	 * @return
@@ -241,16 +240,16 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡·ÖÀàÊ÷¸ù¼¶·ÖÀà
+	 * è·å–åˆ†ç±»æ ‘æ ¹çº§åˆ†ç±»
 	 * 
-	 * @return ·ÖÀàÊ÷¸ù¼¶½ÚµãÊı×é
+	 * @return åˆ†ç±»æ ‘æ ¹çº§èŠ‚ç‚¹æ•°ç»„
 	 */
 	public Category[] getRootCategories() {
 		return _getCategories(rootCategories);
 	}
 
 	/**
-	 * ÊÇ·ñÔÊĞíÌí¼Ó×Ó·ÖÀà
+	 * æ˜¯å¦å…è®¸æ·»åŠ å­åˆ†ç±»
 	 * 
 	 * @param category
 	 * @return
@@ -260,7 +259,7 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * ÊÇ·ñÔÊĞíÌí¼Ó×Ó·ÖÀà
+	 * æ˜¯å¦å…è®¸æ·»åŠ å­åˆ†ç±»
 	 * 
 	 * @param categoryName
 	 * @return
@@ -279,7 +278,7 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * ÊÇ·ñÔÊĞíÉ¾³ı¸Ã·ÖÀà
+	 * æ˜¯å¦å…è®¸åˆ é™¤è¯¥åˆ†ç±»
 	 * 
 	 * @param categoryName
 	 * @return
@@ -291,7 +290,7 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * ÊÇ·ñÔÊĞíÉ¾³ı¸Ã·ÖÀà
+	 * æ˜¯å¦å…è®¸åˆ é™¤è¯¥åˆ†ç±»
 	 * 
 	 * @param category
 	 * @return
@@ -301,7 +300,7 @@ public class CategoryModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡ÔÊĞí±£´æÎÄ¼şµÄ·ÖÀà
+	 * è·å–å…è®¸ä¿å­˜æ–‡ä»¶çš„åˆ†ç±»
 	 * 
 	 * @return
 	 */
@@ -324,7 +323,12 @@ public class CategoryModel extends Observable {
 	}
 
 	public Category getCategory(String categoryName) {
-		return (Category) categories.get(categoryName);
+		Category result = (Category) categories.get(categoryName);
+		if (result == null)
+			result = (Category)rootCategories.get(categoryName);
+		if (result == null)
+			result = finished;
+		return result;
 	}
 
 	public String[] getAllowSaveCategoryNames() {
@@ -359,18 +363,18 @@ public class CategoryModel extends Observable {
 			File file = getCategoriesFile();
 			reader = new FileReader(file);
 			loadCategories(XMLMemento.createReadRoot(reader));
-			logger.info("¶ÁÈ¡ËùÓĞ·ÖÀà");
+			logger.info("è¯»å–æ‰€æœ‰åˆ†ç±»");
 		} catch (FileNotFoundException e) {
 			createOtherCategory();
 			saveCategories();
 		} catch (Exception e) {
-			logger.error("¶ÁÈ¡ËùÓĞ·ÖÀà·¢Éú´íÎó", e);
+			logger.error("è¯»å–æ‰€æœ‰åˆ†ç±»å‘ç”Ÿé”™è¯¯", e);
 		} finally {
 			try {
 				if (reader != null)
 					reader.close();
 			} catch (Exception e) {
-				logger.error("¹Ø±Õ·ÖÀàÎÄ¼ş·¢Éú´íÎó", e);
+				logger.error("å…³é—­åˆ†ç±»æ–‡ä»¶å‘ç”Ÿé”™è¯¯", e);
 			}
 		}
 	}
@@ -383,8 +387,8 @@ public class CategoryModel extends Observable {
 				category.setName(children[i].getString(TAG_NAME));
 				category.setPath(children[i].getString(TAG_PATH));
 				Category parent = (Category) categories.get(children[i]
-				           						.getString(TAG_PARENT));
-				if(parent!=null)
+						.getString(TAG_PARENT));
+				if (parent != null)
 					parent.addChild(category);
 				if (children[i].getString(TAG_PARENT)
 						.equals(finished.getName())) {
@@ -392,7 +396,7 @@ public class CategoryModel extends Observable {
 					// category.setParent(finished);
 				}
 				categories.put(category.getName(), category);
-				// µİ¹é²éÕÒÏÂ¼¶
+				// é€’å½’æŸ¥æ‰¾ä¸‹çº§
 				loadCategories((XMLMemento) children[i]);
 			}
 		}
@@ -423,7 +427,7 @@ public class CategoryModel extends Observable {
 		for (Iterator iter = categories.keySet().iterator(); iter.hasNext();) {
 			String name = String.valueOf(iter.next());
 			Category category = (Category) categories.get(name);
-			// È·±£·ÖÀàÊÇÊôÓÚÒÑÓĞ·ÖÀàÏÂÃæµÄ
+			// ç¡®ä¿åˆ†ç±»æ˜¯å±äºå·²æœ‰åˆ†ç±»ä¸‹é¢çš„
 			if (category.getParent() != null) {
 				IMemento node = memento.createChild(TAG_CATEGORY);
 				node.putString(TAG_PARENT, category.getParent().getName());

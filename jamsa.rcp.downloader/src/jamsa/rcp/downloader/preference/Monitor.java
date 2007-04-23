@@ -17,9 +17,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * Ê×Ñ¡Ïî ¼ôÌù°å¼àÊÓÉèÖÃ
+ * é¦–é€‰é¡¹ å‰ªè´´æ¿ç›‘è§†è®¾ç½®
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class Monitor extends PreferencePage implements IWorkbenchPreferencePage {

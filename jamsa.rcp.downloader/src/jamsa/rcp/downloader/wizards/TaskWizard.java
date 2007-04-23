@@ -8,14 +8,14 @@ import jamsa.rcp.downloader.utils.Logger;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
- * ÈÎÎñÏòµ¼
+ * ä»»åŠ¡å‘å¯¼
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskWizard extends Wizard {
 	/**
-	 * Ïòµ¼µÄ×´Ì¬£¬·ÀÖ¹´ò¿ª¶à¸öÏòµ¼
+	 * å‘å¯¼çš„çŠ¶æ€ï¼Œé˜²æ­¢æ‰“å¼€å¤šä¸ªå‘å¯¼
 	 */
 	private static boolean open = false;
 
@@ -27,7 +27,7 @@ public class TaskWizard extends Wizard {
 
 	public TaskWizard(Task task, boolean isModify) throws Exception {
 		if (open) {
-//			throw new Exception("Ïòµ¼ÒÑ¾­´ò¿ª£¡");
+//			throw new Exception("å‘å¯¼å·²ç»æ‰“å¼€ï¼");
 			return;
 		}
 		this.task = task;
@@ -56,7 +56,7 @@ public class TaskWizard extends Wizard {
 			if (task.getStart() == Task.START_AUTO)
 				TaskThreadManager.getInstance().start(task);
 		}
-		logger.info("Ìí¼ÓÁËĞÂÈÎÎñ");
+		logger.info("æ·»åŠ äº†æ–°ä»»åŠ¡");
 		return true;
 	}
 

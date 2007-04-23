@@ -28,9 +28,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Ïß³ÌÖÕ¶ËÊÓÍ¼
+ * çº¿ç¨‹ç»ˆç«¯è§†å›¾
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class ConsoleView extends ViewPart {
@@ -82,7 +82,7 @@ public class ConsoleView extends ViewPart {
 	}
 
 	/**
-	 * ÔÚÑ¡ÔñÁËÒ»¸öĞÂµÄÈÎÎñºó£¬½«¸ÃÈÎÎñµÄÖÕ¶ËÈÕÖ¾¶ÓÁĞÖĞµÄÊı¾İÏÔÊ¾³öÀ´
+	 * åœ¨é€‰æ‹©äº†ä¸€ä¸ªæ–°çš„ä»»åŠ¡åï¼Œå°†è¯¥ä»»åŠ¡çš„ç»ˆç«¯æ—¥å¿—é˜Ÿåˆ—ä¸­çš„æ•°æ®æ˜¾ç¤ºå‡ºæ¥
 	 * 
 	 * @param messages
 	 */
@@ -98,10 +98,10 @@ public class ConsoleView extends ViewPart {
 	}
 
 	/**
-	 * ´´½¨Ïß³ÌÖÕ¶Ë
+	 * åˆ›å»ºçº¿ç¨‹ç»ˆç«¯
 	 * 
 	 * @param name
-	 *            ÖÕ¶ËÃû³Æ
+	 *            ç»ˆç«¯åç§°
 	 */
 	private void createTabItem(String name) {
 		CTabItem item = new CTabItem(tabFolder, SWT.NONE);
@@ -136,7 +136,7 @@ public class ConsoleView extends ViewPart {
 	}
 
 	/**
-	 * ¼àÌıÈÎÎñÏûÏ¢
+	 * ç›‘å¬ä»»åŠ¡æ¶ˆæ¯
 	 */
 	private Observer msgObserver = new Observer() {
 		public void update(Observable o, final Object arg) {
@@ -175,7 +175,7 @@ public class ConsoleView extends ViewPart {
 
 						writeMessages(task.getMessages());
 					}
-					logger.info("µ±Ç°Ñ¡ÖĞÈÎÎñ£º" + task.getFileName()); //$NON-NLS-1$
+					logger.info("å½“å‰é€‰ä¸­ä»»åŠ¡ï¼š" + task.getFileName()); //$NON-NLS-1$
 				}
 			}
 		}

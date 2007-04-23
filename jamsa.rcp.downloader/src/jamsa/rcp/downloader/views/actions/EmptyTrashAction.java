@@ -17,9 +17,9 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * Çå¿Õ»ØÊÕÕ¾
+ * æ¸…ç©ºå›æ”¶ç«™
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class EmptyTrashAction extends ActionDelegate implements
@@ -56,7 +56,7 @@ public class EmptyTrashAction extends ActionDelegate implements
 
 	public void run(IAction action) {
 		// boolean confirm = MessageDialog.openConfirm(view.getViewSite()
-		// .getShell(), "Çå¿Õ»ØÊÕÕ¾", "ÒªÍ¬Ê±Çå¿Õ»ØÊÕÕ¾ÖĞµÄÎÄ¼şÂğ£¿");
+		// .getShell(), "æ¸…ç©ºå›æ”¶ç«™", "è¦åŒæ—¶æ¸…ç©ºå›æ”¶ç«™ä¸­çš„æ–‡ä»¶å—ï¼Ÿ");
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setValue(DELETE_FILE_IN_TRASH, ""); //$NON-NLS-1$
 		MessageDialogWithToggle dialog = MessageDialogWithToggle

@@ -41,12 +41,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	}
 
 	/**
-	 * ÍË³öÇ°¼ì²éÊÇ·ñÓĞÈÎÎñÔÚÔËĞĞ
+	 * é€€å‡ºå‰æ£€æŸ¥æ˜¯å¦æœ‰ä»»åŠ¡åœ¨è¿è¡Œ
 	 */
 	public boolean preWindowShellClose() {
 		if (TaskModel.getInstance().isSomeTaskRun()) {
 			boolean confirm = MessageDialog.openConfirm(getWindowConfigurer()
-					.getWindow().getShell(), "ÍË³ö", "ÏÂÔØÈÎÎñÔËĞĞÖĞ£¬È·¶¨ÒªÍË³öÂğ£¿");
+					.getWindow().getShell(), "é€€å‡º", "ä¸‹è½½ä»»åŠ¡è¿è¡Œä¸­ï¼Œç¡®å®šè¦é€€å‡ºå—ï¼Ÿ");
 			if (confirm)
 				TaskModel.getInstance().stopAll();
 			else
@@ -105,7 +105,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			hookMinimize(window);
 		}
 
-		// ¼àÊÓ¼ôÌù°å
+		// ç›‘è§†å‰ªè´´æ¿
 		if (PreferenceManager.getInstance().isMonitorClipboard()) {
 			ClipBoardMonitor.getInstance().start();
 		}

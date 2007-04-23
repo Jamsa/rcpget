@@ -1,19 +1,19 @@
 package jamsa.rcp.downloader.views;
 
 /**
- * ÏòConsoleViewerÊä³öÈÕÖ¾µÄ½Ó¿Ú
+ * å‘ConsoleViewerè¾“å‡ºæ—¥å¿—çš„æ¥å£
  * 
  * @author Jamsa
  * 
  */
 public interface IConsoleWriter {
 	/**
-	 * Êä³öÈÕÖ¾
+	 * è¾“å‡ºæ—¥å¿—
 	 * 
 	 * @param threadName
-	 *            ÈÕÖ¾·ÖÀàÃû³Æ
+	 *            æ—¥å¿—åˆ†ç±»åç§°
 	 * @param message
-	 *            ÒªÊä³öµÄÄÚÈİ
+	 *            è¦è¾“å‡ºçš„å†…å®¹
 	 */
 	public void writeMessage(String threadName, String message);
 }

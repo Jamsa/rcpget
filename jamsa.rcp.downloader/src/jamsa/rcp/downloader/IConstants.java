@@ -29,25 +29,25 @@ public interface IConstants {
 	public static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
-	// ÏµÍ³Ä¬ÈÏ±àÂë
+	// ç³»ç»Ÿé»˜è®¤ç¼–ç 
 	public static final String FILE_ENCODING =  System.getProperty("file.encoding");
 
 	//
 	public static final String DEFAULT_ENCODING = "iso-8859-1";
 
 	/*
-	 * java.version Java ÔËĞĞÊ±»·¾³°æ±¾ java.vendor Java ÔËĞĞÊ±»·¾³¹©Ó¦ÉÌ java.vendor.url Java
-	 * ¹©Ó¦ÉÌµÄ URL java.home Java °²×°Ä¿Â¼ java.vm.specification.version Java ĞéÄâ»ú¹æ·¶°æ±¾
-	 * java.vm.specification.vendor Java ĞéÄâ»ú¹æ·¶¹©Ó¦ÉÌ java.vm.specification.name
-	 * Java ĞéÄâ»ú¹æ·¶Ãû³Æ java.vm.version Java ĞéÄâ»úÊµÏÖ°æ±¾ java.vm.vendor Java ĞéÄâ»úÊµÏÖ¹©Ó¦ÉÌ
-	 * java.vm.name Java ĞéÄâ»úÊµÏÖÃû³Æ java.specification.version Java ÔËĞĞÊ±»·¾³¹æ·¶°æ±¾
-	 * java.specification.vendor Java ÔËĞĞÊ±»·¾³¹æ·¶¹©Ó¦ÉÌ java.specification.name Java
-	 * ÔËĞĞÊ±»·¾³¹æ·¶Ãû³Æ java.class.version Java Àà¸ñÊ½°æ±¾ºÅ java.class.path Java ÀàÂ·¾¶
-	 * java.library.path ¼ÓÔØ¿âÊ±ËÑË÷µÄÂ·¾¶ÁĞ±í java.io.tmpdir Ä¬ÈÏµÄÁÙÊ±ÎÄ¼şÂ·¾¶ java.compiler ÒªÊ¹ÓÃµÄ
-	 * JIT ±àÒëÆ÷µÄÃû³Æ java.ext.dirs Ò»¸ö»ò¶à¸öÀ©Õ¹Ä¿Â¼µÄÂ·¾¶ os.name ²Ù×÷ÏµÍ³µÄÃû³Æ os.arch ²Ù×÷ÏµÍ³µÄ¼Ü¹¹
-	 * os.version ²Ù×÷ÏµÍ³µÄ°æ±¾ file.separator ÎÄ¼ş·Ö¸ô·û£¨ÔÚ UNIX ÏµÍ³ÖĞÊÇ¡°/¡±£© path.separator
-	 * Â·¾¶·Ö¸ô·û£¨ÔÚ UNIX ÏµÍ³ÖĞÊÇ¡°:¡±£© line.separator ĞĞ·Ö¸ô·û£¨ÔÚ UNIX ÏµÍ³ÖĞÊÇ¡°/n¡±£© user.name
-	 * ÓÃ»§µÄÕË»§Ãû³Æ user.home ÓÃ»§µÄÖ÷Ä¿Â¼ user.dir ÓÃ»§µÄµ±Ç°¹¤×÷Ä¿Â¼
+	 * java.version Java è¿è¡Œæ—¶ç¯å¢ƒç‰ˆæœ¬ java.vendor Java è¿è¡Œæ—¶ç¯å¢ƒä¾›åº”å•† java.vendor.url Java
+	 * ä¾›åº”å•†çš„ URL java.home Java å®‰è£…ç›®å½• java.vm.specification.version Java è™šæ‹Ÿæœºè§„èŒƒç‰ˆæœ¬
+	 * java.vm.specification.vendor Java è™šæ‹Ÿæœºè§„èŒƒä¾›åº”å•† java.vm.specification.name
+	 * Java è™šæ‹Ÿæœºè§„èŒƒåç§° java.vm.version Java è™šæ‹Ÿæœºå®ç°ç‰ˆæœ¬ java.vm.vendor Java è™šæ‹Ÿæœºå®ç°ä¾›åº”å•†
+	 * java.vm.name Java è™šæ‹Ÿæœºå®ç°åç§° java.specification.version Java è¿è¡Œæ—¶ç¯å¢ƒè§„èŒƒç‰ˆæœ¬
+	 * java.specification.vendor Java è¿è¡Œæ—¶ç¯å¢ƒè§„èŒƒä¾›åº”å•† java.specification.name Java
+	 * è¿è¡Œæ—¶ç¯å¢ƒè§„èŒƒåç§° java.class.version Java ç±»æ ¼å¼ç‰ˆæœ¬å· java.class.path Java ç±»è·¯å¾„
+	 * java.library.path åŠ è½½åº“æ—¶æœç´¢çš„è·¯å¾„åˆ—è¡¨ java.io.tmpdir é»˜è®¤çš„ä¸´æ—¶æ–‡ä»¶è·¯å¾„ java.compiler è¦ä½¿ç”¨çš„
+	 * JIT ç¼–è¯‘å™¨çš„åç§° java.ext.dirs ä¸€ä¸ªæˆ–å¤šä¸ªæ‰©å±•ç›®å½•çš„è·¯å¾„ os.name æ“ä½œç³»ç»Ÿçš„åç§° os.arch æ“ä½œç³»ç»Ÿçš„æ¶æ„
+	 * os.version æ“ä½œç³»ç»Ÿçš„ç‰ˆæœ¬ file.separator æ–‡ä»¶åˆ†éš”ç¬¦ï¼ˆåœ¨ UNIX ç³»ç»Ÿä¸­æ˜¯â€œ/â€ï¼‰ path.separator
+	 * è·¯å¾„åˆ†éš”ç¬¦ï¼ˆåœ¨ UNIX ç³»ç»Ÿä¸­æ˜¯â€œ:â€ï¼‰ line.separator è¡Œåˆ†éš”ç¬¦ï¼ˆåœ¨ UNIX ç³»ç»Ÿä¸­æ˜¯â€œ/nâ€ï¼‰ user.name
+	 * ç”¨æˆ·çš„è´¦æˆ·åç§° user.home ç”¨æˆ·çš„ä¸»ç›®å½• user.dir ç”¨æˆ·çš„å½“å‰å·¥ä½œç›®å½•
 	 */
 
 }

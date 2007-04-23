@@ -8,9 +8,9 @@ import jamsa.rcp.downloader.utils.StringUtils;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
- * Ê×Ñ¡ÏîÊı¾İÄ£ĞÍ
+ * é¦–é€‰é¡¹æ•°æ®æ¨¡å‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class PreferenceManager {
@@ -30,7 +30,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ¼ì²éÄ¬ÈÏµÄÊ×Ñ¡ÏîÉèÖÃ Èç¹û²»´æÔÚÔòÉèÖÃ³ÉÄ¬ÈÏÖµ
+	 * æ£€æŸ¥é»˜è®¤çš„é¦–é€‰é¡¹è®¾ç½® å¦‚æœä¸å­˜åœ¨åˆ™è®¾ç½®æˆé»˜è®¤å€¼
 	 * 
 	 */
 	public void checkPreference() {
@@ -41,7 +41,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃËùÓĞÊ×Ñ¡ÏîµÄÄ¬ÈÏÖµ
+	 * è®¾ç½®æ‰€æœ‰é¦–é€‰é¡¹çš„é»˜è®¤å€¼
 	 * 
 	 */
 	private void setDefault() {
@@ -52,7 +52,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »Ö¸´ËùÓĞÑ¡ÏîÎªÄ¬ÈÏÖµ
+	 * æ¢å¤æ‰€æœ‰é€‰é¡¹ä¸ºé»˜è®¤å€¼
 	 * 
 	 */
 	public void setToDefault() {
@@ -63,7 +63,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃ¼ôÌù°å¼àÊÓÄ¬ÈÏÖµ
+	 * è®¾ç½®å‰ªè´´æ¿ç›‘è§†é»˜è®¤å€¼
 	 * 
 	 */
 	public void setMonitorDefault() {
@@ -73,7 +73,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »Ö¸´Ëù¼ôÌù°åÉèÖÃµ½Ä¬ÈÏÖµ
+	 * æ¢å¤æ‰€å‰ªè´´æ¿è®¾ç½®åˆ°é»˜è®¤å€¼
 	 * 
 	 */
 	public void setMonitorToDefault() {
@@ -82,7 +82,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÈÎÎñÊôĞÔÄ¬ÈÏÖµ
+	 * è®¾ç½®ä»»åŠ¡å±æ€§é»˜è®¤å€¼
 	 * 
 	 */
 	public void setTaskDefault() {
@@ -98,7 +98,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »Ö¸´Ä¬ÈÏÈÎÎñÊôĞÔÎªÄ¬ÈÏÖµ
+	 * æ¢å¤é»˜è®¤ä»»åŠ¡å±æ€§ä¸ºé»˜è®¤å€¼
 	 * 
 	 */
 	public void setTaskToDefault() {
@@ -109,7 +109,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÁ¬½Ó²ÎÊıÎªÄ¬ÈÏÖµ
+	 * è®¾ç½®è¿æ¥å‚æ•°ä¸ºé»˜è®¤å€¼
 	 * 
 	 */
 	public void setConnectionDefault() {
@@ -120,7 +120,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »Ö¸´Á¬½Ó²ÎÊıÎªÄ¬ÈÏÖµ
+	 * æ¢å¤è¿æ¥å‚æ•°ä¸ºé»˜è®¤å€¼
 	 * 
 	 */
 	public void setConnectionToDefault() {
@@ -131,7 +131,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃ³£¹æÑ¡ÏîµÄÄ¬ÈÏÖµ
+	 * è®¾ç½®å¸¸è§„é€‰é¡¹çš„é»˜è®¤å€¼
 	 * 
 	 */
 	public void setGeneralDefault() {
@@ -139,7 +139,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »Ö¸´³£¹æÑ¡ÏîÎªÄ¬ÈÏÖµ
+	 * æ¢å¤å¸¸è§„é€‰é¡¹ä¸ºé»˜è®¤å€¼
 	 * 
 	 */
 	public void setGeneralToDefault() {
@@ -147,7 +147,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÊÇ·ñ¼àÊÓ¼ôÌù°å
+	 * æ˜¯å¦ç›‘è§†å‰ªè´´æ¿
 	 * 
 	 * @return
 	 */
@@ -156,7 +156,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÊÇ·ñ¼àÊÓ¼ôÌù°å
+	 * è®¾ç½®æ˜¯å¦ç›‘è§†å‰ªè´´æ¿
 	 * 
 	 * @param value
 	 */
@@ -165,7 +165,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ¼àÊÓÎÄ¼şÀàĞÍ
+	 * ç›‘è§†æ–‡ä»¶ç±»å‹
 	 * 
 	 * @return
 	 */
@@ -174,7 +174,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃ¼àÊÓÎÄ¼şµÄÀàĞÍ
+	 * è®¾ç½®ç›‘è§†æ–‡ä»¶çš„ç±»å‹
 	 * 
 	 * @param value
 	 */
@@ -183,7 +183,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »ñÈ¡×î´óÍ¬Ê±ÔËĞĞÈÎÎñÊıÁ¿
+	 * è·å–æœ€å¤§åŒæ—¶è¿è¡Œä»»åŠ¡æ•°é‡
 	 * 
 	 * @return
 	 */
@@ -195,7 +195,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃ×î´óÍ¬Ê±ÔËĞĞÈÎÎñµÄÊıÁ¿
+	 * è®¾ç½®æœ€å¤§åŒæ—¶è¿è¡Œä»»åŠ¡çš„æ•°é‡
 	 * 
 	 * @param value
 	 */
@@ -204,20 +204,20 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ·µ»ØÍøÂçÁ¬½ÓÖØÊÔÑÓÊ±
+	 * è¿”å›ç½‘ç»œè¿æ¥é‡è¯•å»¶æ—¶
 	 * 
 	 * @return
 	 */
 	public int getRetryDelay() {
 		int result = store.getInt(IPreferenceConstants.NETWORK_RETRY_DELAY);
 		return result;
-		// ²»ĞèÒªÈ¥ÅĞ¶ÏÊÇ·ñÓĞÖµ£¬Ã»ÓĞÊ±½«×Ô¶¯»ñÈ¡µ½Ä¬ÈÏÖµ
+		// ä¸éœ€è¦å»åˆ¤æ–­æ˜¯å¦æœ‰å€¼ï¼Œæ²¡æœ‰æ—¶å°†è‡ªåŠ¨è·å–åˆ°é»˜è®¤å€¼
 		// return result == 0 ? store
 		// .getDefaultInt(IPreferenceKeys.NETWORK_RETRY_DELAY) : result;
 	}
 
 	/**
-	 * ÉèÖÃÍøÂçÁ¬½ÓÖØÊÔÑÓÊ±
+	 * è®¾ç½®ç½‘ç»œè¿æ¥é‡è¯•å»¶æ—¶
 	 * 
 	 * @param value
 	 */
@@ -226,7 +226,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »ñÈ¡ÍøÂçÁ¬½ÓÖØÊÔ´ÎÊı
+	 * è·å–ç½‘ç»œè¿æ¥é‡è¯•æ¬¡æ•°
 	 * 
 	 * @return
 	 */
@@ -236,7 +236,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÍøÂçÁ¬½ÓÖØÊÔ´ÎÊı
+	 * è®¾ç½®ç½‘ç»œè¿æ¥é‡è¯•æ¬¡æ•°
 	 * 
 	 * @param value
 	 */
@@ -245,7 +245,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »ñÈ¡³¬Ê±ÉèÖÃ
+	 * è·å–è¶…æ—¶è®¾ç½®
 	 * 
 	 * @return
 	 */
@@ -254,7 +254,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃ³¬Ê±Ê±¼ä
+	 * è®¾ç½®è¶…æ—¶æ—¶é—´
 	 * 
 	 * @param value
 	 */
@@ -263,7 +263,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÊÇ·ñ×îĞ¡»¯µ½ÈÎÎñÀ¸
+	 * æ˜¯å¦æœ€å°åŒ–åˆ°ä»»åŠ¡æ 
 	 * 
 	 * @return
 	 */
@@ -272,7 +272,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÊÇ·ñ×îĞ¡»¯µ½ÈÎÎñÀ¸
+	 * è®¾ç½®æ˜¯å¦æœ€å°åŒ–åˆ°ä»»åŠ¡æ 
 	 * 
 	 * @param value
 	 */
@@ -281,7 +281,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ·µ»ØÄ¬ÈÏÏÂÔØ·ÖÀà
+	 * è¿”å›é»˜è®¤ä¸‹è½½åˆ†ç±»
 	 * 
 	 * @return
 	 */
@@ -295,7 +295,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÄ¬ÈÏÏÂÔØ·ÖÀà
+	 * è®¾ç½®é»˜è®¤ä¸‹è½½åˆ†ç±»
 	 * 
 	 * @param value
 	 */
@@ -304,7 +304,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ·µ»ØÏÂÔØ·ÖÀàµÄÀàĞÍ£ºÎª¹Ì¶¨µÄÖµ»¹ÊÇ¼ÇÂ¼ÏÂÉÏ´ÎÉèÖÃµÄÖµ
+	 * è¿”å›ä¸‹è½½åˆ†ç±»çš„ç±»å‹ï¼šä¸ºå›ºå®šçš„å€¼è¿˜æ˜¯è®°å½•ä¸‹ä¸Šæ¬¡è®¾ç½®çš„å€¼
 	 * 
 	 * @return
 	 */
@@ -318,7 +318,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÄ¬ÈÏÏÂÔØ·ÖÀàµÄÀàĞÍ
+	 * è®¾ç½®é»˜è®¤ä¸‹è½½åˆ†ç±»çš„ç±»å‹
 	 * 
 	 * @param value
 	 */
@@ -327,7 +327,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏ±£´æµÄÂ·¾¶
+	 * è·å–é»˜è®¤ä¿å­˜çš„è·¯å¾„
 	 * 
 	 * @return
 	 */
@@ -341,7 +341,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÈ±Ê¡ÎÄ¼ş±£´æÂ·¾¶
+	 * è®¾ç½®ç¼ºçœæ–‡ä»¶ä¿å­˜è·¯å¾„
 	 * 
 	 * @param value
 	 */
@@ -350,7 +350,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * »ñÈ¡ÈÎÎñÆô¶¯µÄ·½Ê½
+	 * è·å–ä»»åŠ¡å¯åŠ¨çš„æ–¹å¼
 	 * 
 	 * @return
 	 */
@@ -359,7 +359,7 @@ public class PreferenceManager {
 	}
 
 	/**
-	 * ÉèÖÃÈÎÎñÆô¶¯µÄ·½Ê½
+	 * è®¾ç½®ä»»åŠ¡å¯åŠ¨çš„æ–¹å¼
 	 * 
 	 * @param value
 	 */

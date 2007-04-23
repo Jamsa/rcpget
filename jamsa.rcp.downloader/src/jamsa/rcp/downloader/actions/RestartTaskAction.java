@@ -9,9 +9,9 @@ import java.util.Observable;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 重启任务动作
+ * 閲嶅惎浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class RestartTaskAction extends BaseTaskAction {
@@ -21,7 +21,7 @@ public class RestartTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("重新下载");
+//		setToolTipText("閲嶆柊涓嬭浇");
 	}
 
 	public void run() {

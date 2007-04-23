@@ -9,9 +9,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * 新建任务动作
+ * 鏂板缓浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class NewTaskAction extends Action implements

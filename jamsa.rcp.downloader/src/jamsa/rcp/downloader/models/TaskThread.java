@@ -12,9 +12,9 @@ import java.net.URL;
 import java.util.Arrays;
 
 /**
- * Httpµ¥Ïß³ÌÏÂÔØÀà
+ * Httpå•çº¿ç¨‹ä¸‹è½½ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * @deprecated
  */
 public class TaskThread extends Thread {
@@ -56,14 +56,14 @@ public class TaskThread extends Thread {
 
 		task.setFileSize(getFileSize());
 
-		// ±£´æ½çÃæË¢ĞÂÊ±¼ä
+		// ä¿å­˜ç•Œé¢åˆ·æ–°æ—¶é—´
 		long refreshTime = System.currentTimeMillis();
 
-		// ±£´æÃ¿´Î¶ÁÈ¡ºÄÊ±
+		// ä¿å­˜æ¯æ¬¡è¯»å–è€—æ—¶
 		long cycleTime = System.currentTimeMillis();
 
 		byte[] buf = new byte[1024];
-		// ±£´æÃ¿´Î¶ÁÈ¡µÄÊı¾İ´óĞ¡
+		// ä¿å­˜æ¯æ¬¡è¯»å–çš„æ•°æ®å¤§å°
 		int readSize;
 
 		// task.setStatus(Task.STATUS_RUNNING);
@@ -77,39 +77,39 @@ public class TaskThread extends Thread {
 		try {
 			savedFile = new RandomAccessFile(fileName, "rw");
 			long pos = task.getFinishedSize();
-			// ¶¨Î»ÎÄ¼şÖ¸Õëµ½posÎ»ÖÃ
+			// å®šä½æ–‡ä»¶æŒ‡é’ˆåˆ°posä½ç½®
 			savedFile.seek(pos);
 
 			URL url = new URL(task.getFileUrl());
 			httpConnection = (HttpURLConnection) url.openConnection();
 
-			// ÉèÖÃUser-Agent
+			// è®¾ç½®User-Agent
 			httpConnection.setRequestProperty("User-Agent", "RCP Get");
-			// ÉèÖÃ¶ÏµãĞø´«µÄ¿ªÊ¼Î»ÖÃ
+			// è®¾ç½®æ–­ç‚¹ç»­ä¼ çš„å¼€å§‹ä½ç½®
 			httpConnection.setRequestProperty("RANGE", "bytes=" + pos + "-");
-			// »ñµÃÊäÈëÁ÷
+			// è·å¾—è¾“å…¥æµ
 			input = httpConnection.getInputStream();
 
-			// ´ÓÊäÈëÁ÷ÖĞ¶ÁÈë×Ö½ÚÁ÷£¬È»ºóĞ´µ½ÎÄ¼şÖĞ
+			// ä»è¾“å…¥æµä¸­è¯»å…¥å­—èŠ‚æµï¼Œç„¶åå†™åˆ°æ–‡ä»¶ä¸­
 			while ((readSize = input.read(buf, 0, buf.length)) > 0
 					&& task.getStatus() == Task.STATUS_RUNNING
 					&& !this.isInterrupted()) {
 				savedFile.write(buf, 0, readSize);
 				Arrays.fill(buf, (byte) 0);
 
-				// ======Ã¿´ÎÑ­»·ÖĞ¶¼Òª¼ÆËãµÄÊı¾İ=======
-				// ÉèÖÃÒÑ¾­ÏÂÔØµÄ´óĞ¡
+				// ======æ¯æ¬¡å¾ªç¯ä¸­éƒ½è¦è®¡ç®—çš„æ•°æ®=======
+				// è®¾ç½®å·²ç»ä¸‹è½½çš„å¤§å°
 				task.setFinishedSize(task.getFinishedSize() + readSize);
 				long current = System.currentTimeMillis();
 				long costTime = current - cycleTime;
 				if (costTime > 0) {
-					// ÉèÖÃ×ÜºÄÊ±
+					// è®¾ç½®æ€»è€—æ—¶
 					task.setTotalTime(task.getTotalTime() + costTime);
 					cycleTime = current;
 				}
-				// ======Ã¿´ÎÑ­»·ÖĞ¶¼Òª¼ÆËãµÄÊı¾İ=======
+				// ======æ¯æ¬¡å¾ªç¯ä¸­éƒ½è¦è®¡ç®—çš„æ•°æ®=======
 
-				// 1Ãë×óÓÒË¢ĞÂÒ»´Î½çÃæ
+				// 1ç§’å·¦å³åˆ·æ–°ä¸€æ¬¡ç•Œé¢
 				// if ((current - refreshTime) > 1000) {
 				if (task.getTotalTime() != 0)
 					task.setSpeed(task.getFinishedSize() / task.getTotalTime());
@@ -120,18 +120,18 @@ public class TaskThread extends Thread {
 			}
 
 			if (task.getStatus() == Task.STATUS_STOP) {
-				logger.info("ÏÂÔØÍ£Ö¹");
+				logger.info("ä¸‹è½½åœæ­¢");
 				return;
 			}
 			if (this.isInterrupted()) {
-				logger.info("ÏÂÔØÖĞ¶Ï");
+				logger.info("ä¸‹è½½ä¸­æ–­");
 				changeStatus(Task.STATUS_STOP);
 				return;
 			}
 
 			changeStatus(Task.STATUS_FINISHED);
 			// task.setStatus(Task.STATUS_FINISHED);
-			logger.info("ÏÂÔØÍê³É");
+			logger.info("ä¸‹è½½å®Œæˆ");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,25 +171,25 @@ public class TaskThread extends Thread {
 		// fos = new FileOutputStream(file);
 		// byte[] buf = new byte[1024];
 		//
-		// // »ñÈ¡ÎÄ¼ş´óĞ¡
+		// // è·å–æ–‡ä»¶å¤§å°
 		// task.setFileSize(this.getFileSize());
 		//
-		// // ±£´æ½çÃæË¢ĞÂÊ±¼ä
+		// // ä¿å­˜ç•Œé¢åˆ·æ–°æ—¶é—´
 		// long refresh = System.currentTimeMillis();
 		//
-		// // ±£´æÃ¿´Î¶ÁÈ¡ºÄÊ±
+		// // ä¿å­˜æ¯æ¬¡è¯»å–è€—æ—¶
 		// long timeCountStart = System.currentTimeMillis();
 		//
-		// // ±£´æÃ¿´Î¶ÁÈ¡µÄÊı¾İ´óĞ¡
+		// // ä¿å­˜æ¯æ¬¡è¯»å–çš„æ•°æ®å¤§å°
 		// int size = 0;
-		// // ±£´æÎÄ¼ş
+		// // ä¿å­˜æ–‡ä»¶
 		// while ((size = bis.read(buf)) != -1
 		// && (task.getStatus() == Task.STATUS_RUNNING)) {
 		// fos.write(buf, 0, size);
 		// Arrays.fill(buf, (byte) 0);
 		// task.setFinishedSize(task.getFinishedSize() + size);
 		//
-		// // 1Ãë×óÓÒË¢ĞÂÒ»´Î½çÃæ
+		// // 1ç§’å·¦å³åˆ·æ–°ä¸€æ¬¡ç•Œé¢
 		// if ((System.currentTimeMillis() - refresh) > 1000) {
 		// if (task.getTotalTime() != 0)
 		// task.setSpeed(task.getFinishedSize()
@@ -201,7 +201,7 @@ public class TaskThread extends Thread {
 		// long timeCountStop = System.currentTimeMillis();
 		// long diff = timeCountStop - timeCountStart;
 		// if (diff > 0) {
-		// // ÉèÖÃ×ÜºÄÊ±
+		// // è®¾ç½®æ€»è€—æ—¶
 		// task.setTotalTime(task.getTotalTime() + diff);
 		// timeCountStart = timeCountStop;
 		// }
@@ -212,12 +212,12 @@ public class TaskThread extends Thread {
 		// bis.close();
 		// conn.disconnect();
 		//
-		// // ¼ì²éÊÇ·ñÎªÓÃ»§È¡Ïû
+		// // æ£€æŸ¥æ˜¯å¦ä¸ºç”¨æˆ·å–æ¶ˆ
 		// if (this.task.getStatus() == Task.STATUS_STOP) {
 		// return;
 		// }
 		//
-		// // ÏÂÔØÍê³É
+		// // ä¸‹è½½å®Œæˆ
 		// this.task.setStatus(Task.STATUS_FINISHED);
 		// } catch (MalformedURLException e) {
 		// e.printStackTrace();
@@ -246,7 +246,7 @@ public class TaskThread extends Thread {
 	// public void changeStatus(int status) {
 	// this.task.setStatus(status);
 	// this.setChanged();
-	// Logger.info("¹Û²ìÕßÊıÁ¿£º" + this.countObservers());
+	// Logger.info("è§‚å¯Ÿè€…æ•°é‡ï¼š" + this.countObservers());
 	// this.notifyObservers(this.task);
 	// }
 
@@ -254,7 +254,7 @@ public class TaskThread extends Thread {
 	// return this.task.getStatus();
 	// }
 
-	// »ñµÃÎÄ¼ş³¤¶È
+	// è·å¾—æ–‡ä»¶é•¿åº¦
 	public long getFileSize() {
 		int nFileLength = -1;
 		try {

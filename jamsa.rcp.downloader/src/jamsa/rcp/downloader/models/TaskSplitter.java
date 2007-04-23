@@ -3,9 +3,9 @@ package jamsa.rcp.downloader.models;
 import java.io.Serializable;
 
 /**
- * ÈÎÎñ¿éĞÅÏ¢
+ * ä»»åŠ¡å—ä¿¡æ¯
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskSplitter implements Serializable {
@@ -16,27 +16,27 @@ public class TaskSplitter implements Serializable {
 	private static final long serialVersionUID = 1466354623780325343L;
 
 	/**
-	 * ¿éÃû³Æ
+	 * å—åç§°
 	 */
 	private String name;
 
 	/**
-	 * ¿éÆğÊ¼Î»ÖÃ
+	 * å—èµ·å§‹ä½ç½®
 	 */
 	private long startPos;
 
 	/**
-	 * ¿éÍê³ÉÁ¿
+	 * å—å®Œæˆé‡
 	 */
 	private long finished;
 
 	/**
-	 * ¿é½áÊøÎ»ÖÃ
+	 * å—ç»“æŸä½ç½®
 	 */
 	private long endPos;
 
 	/**
-	 * Ïß³Ì×´Ì¬
+	 * çº¿ç¨‹çŠ¶æ€
 	 */
 	private boolean run;
 

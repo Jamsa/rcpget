@@ -9,9 +9,9 @@ import java.util.Observable;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 运行任务动作
+ * 杩愯浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class RunTaskAction extends BaseTaskAction {
@@ -21,7 +21,7 @@ public class RunTaskAction extends BaseTaskAction {
 		super(window,label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("运行任务");
+//		setToolTipText("杩愯浠诲姟");
 	}
 
 	public void run() {
@@ -36,7 +36,7 @@ public class RunTaskAction extends BaseTaskAction {
 		
 		boolean enable = false;
 
-		// 只要有一个处于停止或者错误状态就可以启动
+		// 鍙鏈変竴涓浜庡仠姝㈡垨鑰呴敊璇姸鎬佸氨鍙互鍚姩
 		if (tasks != null && !tasks.isEmpty()) {
 			for (Iterator it = tasks.iterator(); it.hasNext();) {
 				Task task = (Task) it.next();

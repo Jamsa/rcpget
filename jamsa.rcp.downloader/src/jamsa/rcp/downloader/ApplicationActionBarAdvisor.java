@@ -83,7 +83,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	protected void fillMenuBar(IMenuManager menuBar) {
 		MenuManager fileMenu = new MenuManager(MessageFormat.format(
-				Messages.File_text, new String[] {}),//$NON-NLS-N$"ÎÄ¼ş(&F)"
+				Messages.File_text, new String[] {}),//$NON-NLS-N$"æ–‡ä»¶(&F)"
 				IWorkbenchActionConstants.M_FILE);
 		menuBar.add(fileMenu);
 		fileMenu.add(newTaskAction);
@@ -102,14 +102,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// menuBar.add(taskMenu);
 
 		MenuManager windowMenu = new MenuManager(MessageFormat.format(
-				Messages.Window_text, new String[] {}),//$NON-NLS-N$"´°¿Ú(&W)"
+				Messages.Window_text, new String[] {}),//$NON-NLS-N$"çª—å£(&W)"
 				IWorkbenchActionConstants.M_WINDOW);
 		menuBar.add(windowMenu);
 		windowMenu.add(prefAction);
 		windowMenu.add(viewList);
 
 		MenuManager helpMenu = new MenuManager(MessageFormat.format(
-				Messages.Help_text, new String[] {}),//$NON-NLS-N$"°ïÖú(&H)"
+				Messages.Help_text, new String[] {}),//$NON-NLS-N$"å¸®åŠ©(&H)"
 				IWorkbenchActionConstants.M_HELP);
 		menuBar.add(helpMenu);
 		helpMenu.add(aboutAction);

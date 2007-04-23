@@ -26,7 +26,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new NewTaskAction(window,
-					Messages.NewTaskAction_text);//$NON-NLS-N$"–¬Ω®»ŒŒÒ"
+					Messages.NewTaskAction_text);//$NON-NLS-N$"Êñ∞Âª∫‰ªªÂä°"
 			action.setId(getId());
 			action.setToolTipText(Messages.NewTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -43,7 +43,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new RunTaskAction(window,
-					Messages.RunTaskAction_text);//$NON-NLS-N$"‘À––»ŒŒÒ"
+					Messages.RunTaskAction_text);//$NON-NLS-N$"ËøêË°å‰ªªÂä°"
 			action.setId(getId());
 			action.setToolTipText(Messages.RunTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -60,7 +60,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new ModifyTaskAction(window,
-					Messages.ModifyTaskAction_text);// $NLS$"»ŒŒÒ Ù–‘"
+					Messages.ModifyTaskAction_text);// $NLS$"‰ªªÂä°Â±ûÊÄß"
 			action.setId(getId());
 			action.setToolTipText(Messages.ModifyTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -77,7 +77,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new StopTaskAction(window,
-					Messages.StopTaskAction_text);//$NON-NLS-N$"Õ£÷π»ŒŒÒ"
+					Messages.StopTaskAction_text);//$NON-NLS-N$"ÂÅúÊ≠¢‰ªªÂä°"
 			action.setId(getId());
 			action.setToolTipText(Messages.StopTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -94,7 +94,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new RestartTaskAction(window,
-					Messages.RestartTaskAction_text);//$NON-NLS-N$"÷ÿ–¬œ¬‘ÿ"
+					Messages.RestartTaskAction_text);//$NON-NLS-N$"ÈáçÊñ∞‰∏ãËΩΩ"
 			action.setId(getId());
 			action.setToolTipText(Messages.RestartTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -111,7 +111,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new DeleteTaskAction(window,
-					Messages.DeleteTaskAction_text);//$NON-NLS-N$"…æ≥˝»ŒŒÒ"
+					Messages.DeleteTaskAction_text);//$NON-NLS-N$"Âà†Èô§‰ªªÂä°"
 			action.setId(getId());
 			action.setToolTipText(Messages.DeleteTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -128,7 +128,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new RestoreTaskAction(window,
-					Messages.RestoreTaskAction_text);//$NON-NLS-N$"ª÷∏¥»ŒŒÒ"
+					Messages.RestoreTaskAction_text);//$NON-NLS-N$"ÊÅ¢Â§ç‰ªªÂä°"
 			action.setId(getId());
 			action.setToolTipText(Messages.RestoreTaskAction_ToolTipText);
 			action.setImageDescriptor(AbstractUIPlugin
@@ -145,7 +145,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 				throw new IllegalArgumentException();
 			}
 			IWorkbenchAction action = new CopyTaskURLAction(window,
-					Messages.CopyTaskURLAction_text);//$NON-NLS-N$"∏¥÷∆URL"
+					Messages.CopyTaskURLAction_text);//$NON-NLS-N$"Â§çÂà∂URL"
 			action.setId(getId());
 			action.setToolTipText(Messages.CopyTaskURLAction_ToolTipText);
 			return action;
@@ -156,7 +156,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.ABOUT.create(window);
 			if (action != null) {
-				action.setText(Messages.About_text);//$NON-NLS-N$"πÿ”⁄(&A)"
+				action.setText(Messages.About_text);//$NON-NLS-N$"ÂÖ≥‰∫é(&A)"
 				action.setImageDescriptor(AbstractUIPlugin
 						.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 								IImageKeys.ABOUT));
@@ -170,7 +170,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.QUIT.create(window);
 			if (action != null) {
-				action.setText(Messages.Quit_text);//$NON-NLS-N$"ÕÀ≥ˆ(&Q)"
+				action.setText(Messages.Quit_text);//$NON-NLS-N$"ÈÄÄÂá∫(&Q)"
 				action.setImageDescriptor(AbstractUIPlugin
 						.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 								IImageKeys.QUIT));
@@ -185,7 +185,7 @@ public abstract class RCPGetActionFactory extends ActionFactory {
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			IWorkbenchAction action = ActionFactory.PREFERENCES.create(window);
 			if (action != null) {
-				action.setText(Messages.Preference_text);//$NON-NLS-N$" ◊—°œÓ(&P)"
+				action.setText(Messages.Preference_text);//$NON-NLS-N$"È¶ñÈÄâÈ°π(&P)"
 			}
 			return action;
 		}

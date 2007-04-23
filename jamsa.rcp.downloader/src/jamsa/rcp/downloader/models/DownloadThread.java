@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * ÏÂÔØÏß³Ì
+ * ä¸‹è½½çº¿ç¨‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class DownloadThread extends Thread {
@@ -22,29 +22,29 @@ public class DownloadThread extends Thread {
 
 	private PreferenceManager pm;
 
-	// ÎÄ¼ş¶ÔÏó
+	// æ–‡ä»¶å¯¹è±¡
 	private RandomAccessFile file;
 	
 
-	// ÈÎÎñ¶ÔÏó
+	// ä»»åŠ¡å¯¹è±¡
 	private Task task;
 
 	/**
-	 * µ±Ç°ÏÂÔØ¿é
+	 * å½“å‰ä¸‹è½½å—
 	 */
 	private TaskSplitter splitter;
 	
 	private List threads ;
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * æ„é€ å™¨
 	 * 
 	 * @param task
-	 *            ÈÎÎñ¶ÔÏó
+	 *            ä»»åŠ¡å¯¹è±¡
 	 * @param file
-	 *            ÏÂÔØÊı¾İ½«Ğ´ÈëµÄÎÄ¼ş
+	 *            ä¸‹è½½æ•°æ®å°†å†™å…¥çš„æ–‡ä»¶
 	 * @param splitter
-	 *            ±¾´¿ÖÖÏÂÔØµÄ¿éĞÅÏ¢
+	 *            æœ¬çº¯ç§ä¸‹è½½çš„å—ä¿¡æ¯
 	 */
 	public DownloadThread(Task task, RandomAccessFile file,
 			TaskSplitter splitter) {
@@ -56,7 +56,7 @@ public class DownloadThread extends Thread {
 	}
 
 	/**
-	 * »ñÈ¡Ïß³ÌÍê³ÉÁ¿£¬Õâ¸öÁ¿²¢²»Ö»ÊÇ±¾´ÎÆô¶¯ºóÍê³ÉµÄÁ¿
+	 * è·å–çº¿ç¨‹å®Œæˆé‡ï¼Œè¿™ä¸ªé‡å¹¶ä¸åªæ˜¯æœ¬æ¬¡å¯åŠ¨åå®Œæˆçš„é‡
 	 * 
 	 * @return
 	 */
@@ -65,7 +65,7 @@ public class DownloadThread extends Thread {
 	}
 
 	/**
-	 * »ñÈ¡Ô¶³ÌÎÄ¼şÊäÈëÁ÷
+	 * è·å–è¿œç¨‹æ–‡ä»¶è¾“å…¥æµ
 	 * 
 	 * @return
 	 */
@@ -90,48 +90,48 @@ public class DownloadThread extends Thread {
 		splitter.setRun(true);
 		InputStream input = getInputStream();
 		if (input == null) {
-			task.writeMessage(splitter.getName(), "»ñÈ¡²»µ½Ô¶³ÌÎÄ¼şµÄÊäÈëÁ÷£¬Ïß³ÌÖÕÖ¹!");
+			task.writeMessage(splitter.getName(), "è·å–ä¸åˆ°è¿œç¨‹æ–‡ä»¶çš„è¾“å…¥æµï¼Œçº¿ç¨‹ç»ˆæ­¢!");
 			splitter.setRun(false);
 			return;
 		}
 		try {
-			task.writeMessage(splitter.getName(), "¿ªÊ¼¶ÁÈ¡Êı¾İ...");
-			// Ã¿´Î´ÓÁ÷ÖĞ¶ÁÈ¡´óĞ¡
+			task.writeMessage(splitter.getName(), "å¼€å§‹è¯»å–æ•°æ®...");
+			// æ¯æ¬¡ä»æµä¸­è¯»å–å¤§å°
 			int size = 0;
-			// Á÷»º´æ
+			// æµç¼“å­˜
 			byte[] buf = new byte[2048];
 			while ((size = input.read(buf, 0, buf.length)) > 0
 					&& splitter.isRun()
 					&& !this.isInterrupted()
 					&& (((splitter.getFinished() + splitter.getStartPos()) < splitter
-							.getEndPos()) || splitter.getEndPos() == 0)) {// ½áÊøÎ»ÖÃÎª0±íÊ¾´óĞ¡Î´Öª
+							.getEndPos()) || splitter.getEndPos() == 0)) {// ç»“æŸä½ç½®ä¸º0è¡¨ç¤ºå¤§å°æœªçŸ¥
 				int pos = Integer.parseInt((splitter.getStartPos() + splitter
 						.getFinished())
 						+ "");
-				// Ğ´ÈëÎÄ¼ş
+				// å†™å…¥æ–‡ä»¶
 				synchronized (file) {
 					file.seek(pos);
 					file.write(buf, 0, size);
 				}
-				// ĞŞ¸ÄÏß³ÌÈÎÎñÍê³ÉÁ¿
+				// ä¿®æ”¹çº¿ç¨‹ä»»åŠ¡å®Œæˆé‡
 				splitter.setFinished(splitter.getFinished() + size);
-				// Çå¿ÕÁ÷»º´æ
+				// æ¸…ç©ºæµç¼“å­˜
 				Arrays.fill(buf, (byte) 0);
 				sleep(10);
 			}
 			if (splitter.isFinish()) {
-				logger.info(splitter.getName() + "Ïß³ÌÈÎÎñÍê³É!");
-				task.writeMessage(splitter.getName(), "Ïß³ÌÈÎÎñÍê³É!");
+				logger.info(splitter.getName() + "çº¿ç¨‹ä»»åŠ¡å®Œæˆ!");
+				task.writeMessage(splitter.getName(), "çº¿ç¨‹ä»»åŠ¡å®Œæˆ!");
 			} else {
-				logger.info(splitter.getName() + "Ïß³ÌÍ£Ö¹!");
-				task.writeMessage(splitter.getName(), "Ïß³ÌÍ£Ö¹!");
+				logger.info(splitter.getName() + "çº¿ç¨‹åœæ­¢!");
+				task.writeMessage(splitter.getName(), "çº¿ç¨‹åœæ­¢!");
 			}
 		} catch (IOException e) {
-			task.writeMessage(splitter.getName(), "Á÷²Ù×÷Òì³££º"
+			task.writeMessage(splitter.getName(), "æµæ“ä½œå¼‚å¸¸ï¼š"
 					+ e.getLocalizedMessage());
 			return;
 		} catch (InterruptedException e) {
-			task.writeMessage(splitter.getName(), "Ïß³Ì±»ÖĞ¶Ï£¡");
+			task.writeMessage(splitter.getName(), "çº¿ç¨‹è¢«ä¸­æ–­ï¼");
 			return;
 		} finally {
 			splitter.setRun(false);

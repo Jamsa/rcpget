@@ -14,9 +14,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * 首选项 常规设置
+ * 棣栭�夐」 甯歌璁剧疆
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class General extends PreferencePage implements IWorkbenchPreferencePage {

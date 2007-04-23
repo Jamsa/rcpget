@@ -3,9 +3,9 @@ package jamsa.rcp.downloader;
 import org.eclipse.osgi.util.NLS;
 
 /**
- * ¹ú¼Ê»¯´¦Àí
+ * å›½é™…åŒ–å¤„ç†
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class Messages extends NLS {

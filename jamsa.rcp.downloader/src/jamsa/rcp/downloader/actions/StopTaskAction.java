@@ -9,9 +9,9 @@ import java.util.Observable;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * Í£Ö¹ÈÎÎñ¶¯×÷
+ * åœæ­¢ä»»åŠ¡åŠ¨ä½œ
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class StopTaskAction extends BaseTaskAction {
@@ -21,7 +21,7 @@ public class StopTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-		// setToolTipText("Í£Ö¹ÈÎÎñ");
+		// setToolTipText("åœæ­¢ä»»åŠ¡");
 
 	}
 
@@ -37,7 +37,7 @@ public class StopTaskAction extends BaseTaskAction {
 
 		boolean enable = false;
 
-		// Ö»ÒªÓĞÒ»¸ö´¦ÓÚÔËĞĞ×´Ì¬¾Í¿ÉÒÔÓÃ
+		// åªè¦æœ‰ä¸€ä¸ªå¤„äºè¿è¡ŒçŠ¶æ€å°±å¯ä»¥ç”¨
 		if (tasks != null && !tasks.isEmpty()) {
 			for (Iterator it = tasks.iterator(); it.hasNext();) {
 				Task task = (Task) it.next();

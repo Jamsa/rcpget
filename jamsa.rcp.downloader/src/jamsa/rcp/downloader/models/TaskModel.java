@@ -26,16 +26,16 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 
 /**
- * ÏÂÔØÈÎÎñÄ£ĞÍ
+ * ä¸‹è½½ä»»åŠ¡æ¨¡å‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskModel extends Observable {
 	private static Logger logger = new Logger(TaskModel.class);
 
 	/**
-	 * Î¨Ò»ÊµÀı
+	 * å”¯ä¸€å®ä¾‹
 	 */
 	private static TaskModel instance = new TaskModel();
 
@@ -48,7 +48,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ±£´æÓĞËùÓĞÈÎÎñµÄÈİÆ÷
+	 * ä¿å­˜æœ‰æ‰€æœ‰ä»»åŠ¡çš„å®¹å™¨
 	 */
 	private Map tasks = Collections.synchronizedMap(new HashMap(10));
 
@@ -57,7 +57,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡±£´æÈÎÎñ×´Ì¬ÎÄ¼şµÄÂ·¾¶
+	 * è·å–ä¿å­˜ä»»åŠ¡çŠ¶æ€æ–‡ä»¶çš„è·¯å¾„
 	 * 
 	 * @return
 	 */
@@ -67,7 +67,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡ÈÎÎñ×´Ì¬ÎÄ¼ş
+	 * è·å–ä»»åŠ¡çŠ¶æ€æ–‡ä»¶
 	 * 
 	 * @param task
 	 * @return
@@ -78,7 +78,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ¼ì²éÊÇ·ñÓĞÈÎÎñ´¦ÓÚÔËĞĞ×´Ì¬
+	 * æ£€æŸ¥æ˜¯å¦æœ‰ä»»åŠ¡å¤„äºè¿è¡ŒçŠ¶æ€
 	 * @return
 	 */
 	public boolean isSomeTaskRun() {
@@ -91,7 +91,7 @@ public class TaskModel extends Observable {
 	}
 	
 	/**
-	 * Í£Ö¹ËùÓĞÈÎÎñ
+	 * åœæ­¢æ‰€æœ‰ä»»åŠ¡
 	 *
 	 */
 	public void stopAll(){
@@ -103,7 +103,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * Ìí¼ÓÈÎÎñ
+	 * æ·»åŠ ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -112,11 +112,11 @@ public class TaskModel extends Observable {
 		tasks.put(task.getFileUrl(), task);
 		this.setChanged();
 		this.notifyObservers(task);
-		logger.info("Í¨ÖªÈÎÎñÁĞ±í¹Û²ìÕß");
+		logger.info("é€šçŸ¥ä»»åŠ¡åˆ—è¡¨è§‚å¯Ÿè€…");
 	}
 
 	/**
-	 * ĞŞ¸ÄÈÎÎñ
+	 * ä¿®æ”¹ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -125,7 +125,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ½«ÈÎÎñ¶ÔÏó³Ö¾Ã»¯
+	 * å°†ä»»åŠ¡å¯¹è±¡æŒä¹…åŒ–
 	 * 
 	 * @param task
 	 */
@@ -142,7 +142,7 @@ public class TaskModel extends Observable {
 			oos.writeObject(task);
 			oos.close();
 		} catch (Exception e) {
-			logger.error("±£´æÈÎÎñÊ§°Ü", e);
+			logger.error("ä¿å­˜ä»»åŠ¡å¤±è´¥", e);
 		} finally {
 			try {
 				oos.close();
@@ -153,7 +153,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * É¾³ıÈÎÎñ
+	 * åˆ é™¤ä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -177,11 +177,11 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * É¾³ıÈÎÎñºÍÎÄ¼ş
+	 * åˆ é™¤ä»»åŠ¡å’Œæ–‡ä»¶
 	 * 
 	 * @param task
 	 * @param deleteFile
-	 *            ÊÇ·ñÉ¾³ıÎÄ¼ş
+	 *            æ˜¯å¦åˆ é™¤æ–‡ä»¶
 	 */
 	public void deleteTask(Task task, boolean deleteFile) {
 		if (deleteFile)
@@ -197,21 +197,21 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡ÈÎÎñÎÄ¼şÃû£¬ÓÃÓÚÎÄ¼şÉ¾³ıÊ±
+	 * è·å–ä»»åŠ¡æ–‡ä»¶åï¼Œç”¨äºæ–‡ä»¶åˆ é™¤æ—¶
 	 * 
 	 * @return
 	 */
 	private File _getSavedFile(Task task) {
 		String fileName = task.getFilePath() + File.separator
 				+ task.getFileName();
-		// ĞŞ¸ÄÈÎÎñÎÄ¼şÃû
+		// ä¿®æ”¹ä»»åŠ¡æ–‡ä»¶å
 		if (task.getStatus() != Task.STATUS_FINISHED)
 			fileName += Task.FILENAME_DOWNLOAD_SUFFIX;
 		return new File(fileName);
 	}
 
 	/**
-	 * É¾³ıÈÎÎñÎÄ¼ş
+	 * åˆ é™¤ä»»åŠ¡æ–‡ä»¶
 	 * 
 	 * @param task
 	 */
@@ -221,19 +221,19 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * É¾³ıÈÎÎñ³Ö¾Ã»¯¶ÔÏó
+	 * åˆ é™¤ä»»åŠ¡æŒä¹…åŒ–å¯¹è±¡
 	 * 
 	 * @param task
 	 */
 	private void _deleteTask(Task task) {
-		// ÒÑ¾­±êÊ¶Îª±»É¾³ıµÄ¶ÔÏó²ÅÄÜ±»É¾³ı
+		// å·²ç»æ ‡è¯†ä¸ºè¢«åˆ é™¤çš„å¯¹è±¡æ‰èƒ½è¢«åˆ é™¤
 		if (task.isDeleted()) {
 			getTaskFile(task).delete();
 		}
 	}
 
 	/**
-	 * »¹Ô­ÈÎÎñ
+	 * è¿˜åŸä»»åŠ¡
 	 * 
 	 * @param task
 	 */
@@ -257,7 +257,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * Çå¿Õ»ØÊÕÕ¾
+	 * æ¸…ç©ºå›æ”¶ç«™
 	 * 
 	 * @param task
 	 */
@@ -266,10 +266,10 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * Çå¿Õ»ØÊÕÕ¾
+	 * æ¸…ç©ºå›æ”¶ç«™
 	 * 
 	 * @param deleteFile
-	 *            ÊÇ·ñÍ¬Ê±É¾³ıÎÄ¼ş
+	 *            æ˜¯å¦åŒæ—¶åˆ é™¤æ–‡ä»¶
 	 */
 	public void emptyTrash(boolean deleteFile) {
 		Task[] tasks = this.getTasks(CategoryModel.getInstance().getTrash());
@@ -282,7 +282,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡ËùÓĞÈÎÎñ
+	 * è·å–æ‰€æœ‰ä»»åŠ¡
 	 * 
 	 * @return
 	 */
@@ -296,7 +296,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡·ÖÀàÏÂµÄÈÎÎñ
+	 * è·å–åˆ†ç±»ä¸‹çš„ä»»åŠ¡
 	 * 
 	 * @param categoryName
 	 * @return
@@ -310,7 +310,7 @@ public class TaskModel extends Observable {
 
 		for (Iterator it = tasks.keySet().iterator(); it.hasNext();) {
 			Task task = (Task) tasks.get(it.next());
-			// Èç¹ûÊÇÒª»ñÈ¡´¦ÓÚÔËĞĞ×´Ì¬µÄÈÎÎñ
+			// å¦‚æœæ˜¯è¦è·å–å¤„äºè¿è¡ŒçŠ¶æ€çš„ä»»åŠ¡
 			if ((categoryName.equals(running.getName()) || categoryName
 					.equals(root.getName()))
 					&& (task.getStatus() == Task.STATUS_RUNNING
@@ -326,7 +326,7 @@ public class TaskModel extends Observable {
 				continue;
 			}
 			
-			//Èç¹û·¢ÏÖ·ÖÀàĞÅÏ¢ÎªnullÔò½«ÈÎÎñÉèÖÃÎªÄ¬ÈÏ·ÖÀà
+			//å¦‚æœå‘ç°åˆ†ç±»ä¿¡æ¯ä¸ºnullåˆ™å°†ä»»åŠ¡è®¾ç½®ä¸ºé»˜è®¤åˆ†ç±»
 			if(task.getCategory()==null){
 				task.setCategory(CategoryModel.getInstance().getFinished());
 			}
@@ -344,7 +344,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * »ñÈ¡·ÖÀàÏÂµÄËùÓĞÈÎÎñ
+	 * è·å–åˆ†ç±»ä¸‹çš„æ‰€æœ‰ä»»åŠ¡
 	 * 
 	 * @param category
 	 * @return
@@ -354,7 +354,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ¼ÓÔØËùÓĞÈÎÎñ
+	 * åŠ è½½æ‰€æœ‰ä»»åŠ¡
 	 * 
 	 */
 	public void loadTasks() {
@@ -362,7 +362,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ¶ÁÈ¡ÈÎÎñÎÄ¼ş¼ÓÔØËùÓĞÈÎÎñ
+	 * è¯»å–ä»»åŠ¡æ–‡ä»¶åŠ è½½æ‰€æœ‰ä»»åŠ¡
 	 * 
 	 */
 	public void _loadTasks() {
@@ -375,12 +375,12 @@ public class TaskModel extends Observable {
 					FileInputStream fis = new FileInputStream(file);
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					Task task = (Task) ois.readObject();
-					// ·ÇÕı³£ÍË³öµÄ×´Ì¬¼ì²é
+					// éæ­£å¸¸é€€å‡ºçš„çŠ¶æ€æ£€æŸ¥
 					task
 							.setStatus(task.getStatus() == Task.STATUS_FINISHED ? Task.STATUS_FINISHED
 									: Task.STATUS_STOP);
 
-					// Èç¹û·ÖÀàÎ´ÕÒµ½£¬Ôò¸ù¾İÈÎÎñ×´Ì¬ ·Åµ½Ä¬ÈÏ·ÖÀàÏÂ
+					// å¦‚æœåˆ†ç±»æœªæ‰¾åˆ°ï¼Œåˆ™æ ¹æ®ä»»åŠ¡çŠ¶æ€ æ”¾åˆ°é»˜è®¤åˆ†ç±»ä¸‹
 					Category category = task.getCategory();
 					CategoryModel categoryModel = CategoryModel.getInstance();
 					if (category == null) {
@@ -407,7 +407,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ±£´æËùÓĞÈÎÎñ
+	 * ä¿å­˜æ‰€æœ‰ä»»åŠ¡
 	 * 
 	 */
 	public void saveTasks() {
@@ -415,7 +415,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ½«ËùÓĞÈÎÎñ¶ÔÏó³Ö¾Ã»¯
+	 * å°†æ‰€æœ‰ä»»åŠ¡å¯¹è±¡æŒä¹…åŒ–
 	 * 
 	 */
 	public void _saveTasks() {
@@ -431,10 +431,10 @@ public class TaskModel extends Observable {
 
 	}
 
-	// =================================XML´¦Àí²¿·Ö======================================
+	// =================================XMLå¤„ç†éƒ¨åˆ†======================================
 
 	/**
-	 * ÈÎÎñXML±êÇ©¶¨Òå
+	 * ä»»åŠ¡XMLæ ‡ç­¾å®šä¹‰
 	 */
 	public static final String TAG_TASKS = "Tasks";
 
@@ -472,7 +472,7 @@ public class TaskModel extends Observable {
 
 	public static final String TAG_DELETEED = "Deleted";
 
-	// ÈÎÎñ¿éĞÅÏ¢XML±êÇ©¶¨Òå
+	// ä»»åŠ¡å—ä¿¡æ¯XMLæ ‡ç­¾å®šä¹‰
 	public static final String TAG_SPLITTERS = "Splitters";
 
 	public static final String TAG_NAME = "Name";
@@ -486,7 +486,7 @@ public class TaskModel extends Observable {
 	public static final String TAG_FINISHED = "Finished";
 
 	/**
-	 * »ñÈ¡ÈÎÎñÁĞ±íÎÄ¼ş
+	 * è·å–ä»»åŠ¡åˆ—è¡¨æ–‡ä»¶
 	 * 
 	 * @return
 	 */
@@ -496,7 +496,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ´ÓXMLÖĞ¶ÁÈ¡ÈÎÎñ
+	 * ä»XMLä¸­è¯»å–ä»»åŠ¡
 	 * 
 	 */
 	private void loadTasks_xml() {
@@ -505,23 +505,23 @@ public class TaskModel extends Observable {
 			File file = getTasksFile();
 			reader = new FileReader(file);
 			loadTasks(XMLMemento.createReadRoot(reader));
-			logger.info("´ÓXMLÖĞ¶ÁÈ¡ÈÎÎñÁĞ±íÍê³É");
+			logger.info("ä»XMLä¸­è¯»å–ä»»åŠ¡åˆ—è¡¨å®Œæˆ");
 		} catch (FileNotFoundException e) {
-			logger.warn("ÈÎÎñÁĞ±í²»´æÔÚ", e);
+			logger.warn("ä»»åŠ¡åˆ—è¡¨ä¸å­˜åœ¨", e);
 		} catch (Exception e) {
-			logger.error("¶ÁÈ¡ÈÎÎñÁĞ±í·¢Éú´íÎó", e);
+			logger.error("è¯»å–ä»»åŠ¡åˆ—è¡¨å‘ç”Ÿé”™è¯¯", e);
 		} finally {
 			try {
 				if (reader != null)
 					reader.close();
 			} catch (Exception e) {
-				logger.error("ÈÎÎñÁĞ±íÎÄ¼ş¹Ø±ÕÊ±·¢Éú´íÎó", e);
+				logger.error("ä»»åŠ¡åˆ—è¡¨æ–‡ä»¶å…³é—­æ—¶å‘ç”Ÿé”™è¯¯", e);
 			}
 		}
 	}
 
 	/**
-	 * XML->ÈÎÎñ½âÎö
+	 * XML->ä»»åŠ¡è§£æ
 	 * 
 	 * @param memento
 	 */
@@ -557,7 +557,7 @@ public class TaskModel extends Observable {
 								.getString(TAG_STATUS)) == Task.STATUS_FINISHED ? Task.STATUS_FINISHED
 								: Task.STATUS_STOP);
 
-				// Èç¹û·ÖÀàÎ´ÕÒµ½£¬Ôò¸ù¾İÈÎÎñ×´Ì¬ ·Åµ½Ä¬ÈÏ·ÖÀàÏÂ
+				// å¦‚æœåˆ†ç±»æœªæ‰¾åˆ°ï¼Œåˆ™æ ¹æ®ä»»åŠ¡çŠ¶æ€ æ”¾åˆ°é»˜è®¤åˆ†ç±»ä¸‹
 				Category category = CategoryModel.getInstance().getCategory(
 						children[i].getString(TAG_CATEGORY));
 				if (category == null) {
@@ -603,7 +603,7 @@ public class TaskModel extends Observable {
 	}
 
 	/**
-	 * ±£´æÈÎÎñ×´Ì¬ÖÁXMLÎÄ¼şÖĞ
+	 * ä¿å­˜ä»»åŠ¡çŠ¶æ€è‡³XMLæ–‡ä»¶ä¸­
 	 * 
 	 */
 	public synchronized void saveTasks_xml() {
@@ -615,21 +615,21 @@ public class TaskModel extends Observable {
 		try {
 			writer = new FileWriter(getTasksFile());
 			memento.save(writer);
-			logger.info("ÈÎÎñÁĞ±í±£´æµ½XMLÖĞ");
+			logger.info("ä»»åŠ¡åˆ—è¡¨ä¿å­˜åˆ°XMLä¸­");
 		} catch (IOException e) {
-			logger.error("±£´æÈÎÎñÁĞ±í³ö´í", e);
+			logger.error("ä¿å­˜ä»»åŠ¡åˆ—è¡¨å‡ºé”™", e);
 		} finally {
 			try {
 				if (writer != null)
 					writer.close();
 			} catch (IOException e) {
-				logger.error("ÈÎÎñÁĞ±íÎÄ¼ş¹Ø±ÕÊ±·¢Éú´íÎó", e);
+				logger.error("ä»»åŠ¡åˆ—è¡¨æ–‡ä»¶å…³é—­æ—¶å‘ç”Ÿé”™è¯¯", e);
 			}
 		}
 	}
 
 	/**
-	 * ÈÎÎñ->XML½âÎö
+	 * ä»»åŠ¡->XMLè§£æ
 	 * 
 	 * @param memento
 	 */

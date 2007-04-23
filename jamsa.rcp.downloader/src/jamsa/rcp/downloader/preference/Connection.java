@@ -16,9 +16,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * 首选项 网络连接设置
+ * 棣栭�夐」 缃戠粶杩炴帴璁剧疆
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class Connection extends PreferencePage implements

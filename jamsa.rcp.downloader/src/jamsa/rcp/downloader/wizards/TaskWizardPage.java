@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ÈÎÎñÏòµ¼Ò³
+ * ä»»åŠ¡å‘å¯¼é¡µ
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskWizardPage extends WizardPage {
@@ -57,7 +57,7 @@ public class TaskWizardPage extends WizardPage {
 	private PreferenceManager pm;
 
 	/**
-	 * Êı¾İĞ£Ñé¼àÌıÆ÷
+	 * æ•°æ®æ ¡éªŒç›‘å¬å™¨
 	 */
 	private ModifyListener validateListener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
@@ -67,17 +67,17 @@ public class TaskWizardPage extends WizardPage {
 	};
 
 	/**
-	 * ¹¹ÔìÆ÷
+	 * æ„é€ å™¨
 	 * 
 	 * @param task
-	 *            ÈÎÎñ¶ÔÏó
+	 *            ä»»åŠ¡å¯¹è±¡
 	 * @param isModify
-	 *            ÊÇ·ñÎªĞŞ¸ÄÈÎÎñ
+	 *            æ˜¯å¦ä¸ºä¿®æ”¹ä»»åŠ¡
 	 */
 	public TaskWizardPage(Task task, boolean isModify) {
-		super("ÏÂÔØÈÎÎñ");
-		setTitle("ÏÂÔØÈÎÎñ");
-		setDescription("ÏÂÔØÈÎÎñÊôĞÔ");
+		super("ä¸‹è½½ä»»åŠ¡");
+		setTitle("ä¸‹è½½ä»»åŠ¡");
+		setDescription("ä¸‹è½½ä»»åŠ¡å±æ€§");
 		setPageComplete(false);
 		setPageComplete(true);
 		this.task = task;
@@ -87,7 +87,7 @@ public class TaskWizardPage extends WizardPage {
 	}
 
 	/**
-	 * ¸ù¾İurl¾ö¶¨±£´æµÄÎÄ¼şÃû
+	 * æ ¹æ®urlå†³å®šä¿å­˜çš„æ–‡ä»¶å
 	 * 
 	 * @param url
 	 * @return
@@ -110,7 +110,7 @@ public class TaskWizardPage extends WizardPage {
 	}
 
 	/**
-	 * ÊäÈëÔªËØÊı¾İĞ£Ñé
+	 * è¾“å…¥å…ƒç´ æ•°æ®æ ¡éªŒ
 	 * 
 	 * @return
 	 */
@@ -118,7 +118,7 @@ public class TaskWizardPage extends WizardPage {
 		setErrorMessage(null);
 
 		if (StringUtils.isEmpty(this.fileUrlText.getText())) {
-			setErrorMessage("ÇëÌîĞ´URL");
+			setErrorMessage("è¯·å¡«å†™URL");
 			setPageComplete(false);
 			return false;
 		}
@@ -126,43 +126,43 @@ public class TaskWizardPage extends WizardPage {
 		if (!isModify
 				&& TaskModel.getInstance().isExist(
 						this.fileUrlText.getText().trim())) {
-			setErrorMessage("¸ÃÈÎÎñÒÑ´æÔÚ");
+			setErrorMessage("è¯¥ä»»åŠ¡å·²å­˜åœ¨");
 			setPageComplete(false);
 			return false;
 		}
 
 		if (!this.fileUrlText.getText().trim().startsWith("http")) {
-			setErrorMessage("²»Ö§³ÖµÄĞ­Òé");
+			setErrorMessage("ä¸æ”¯æŒçš„åè®®");
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(fileNameText.getText())) {
-			setErrorMessage("ÇëÌîĞ´ÎÄ¼şÃû");
+			setErrorMessage("è¯·å¡«å†™æ–‡ä»¶å");
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(categoryCombo.getText())) {
-			setErrorMessage("ÇëÑ¡ÔñÈÎÎñ·ÖÀà");
+			setErrorMessage("è¯·é€‰æ‹©ä»»åŠ¡åˆ†ç±»");
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(savePathCombo.getText())) {
-			setErrorMessage("ÇëÑ¡Ôñ»òÌîĞ´ÎÄ¼ş±£´æÂ·¾¶");
+			setErrorMessage("è¯·é€‰æ‹©æˆ–å¡«å†™æ–‡ä»¶ä¿å­˜è·¯å¾„");
 			setPageComplete(false);
 			return false;
 		}
 
 		// if (StringUtils.isEmpty(blocksCombo.getText())) {
-		// setErrorMessage("ÇëÑ¡ÔñÏÂÔØÏß³ÌÊıÁ¿");
+		// setErrorMessage("è¯·é€‰æ‹©ä¸‹è½½çº¿ç¨‹æ•°é‡");
 		// setPageComplete(false);
 		// return false;
 		// }
 		//
 		// if (Integer.parseInt(blocksCombo.getText()) < task.getBlocks()) {
-		// setErrorMessage("²»ÔÊĞí¼õÉÙÏÂÔØÏß³ÌÊıÁ¿");
+		// setErrorMessage("ä¸å…è®¸å‡å°‘ä¸‹è½½çº¿ç¨‹æ•°é‡");
 		// setPageComplete(false);
 		// return false;
 		//
@@ -173,7 +173,7 @@ public class TaskWizardPage extends WizardPage {
 	}
 
 	/**
-	 * ¸øËùÓĞÊäÈëÔªËØÌí¼ÓĞ£Ñé¼àÌıÆ÷
+	 * ç»™æ‰€æœ‰è¾“å…¥å…ƒç´ æ·»åŠ æ ¡éªŒç›‘å¬å™¨
 	 * 
 	 */
 	private void addValidateListener() {
@@ -185,7 +185,7 @@ public class TaskWizardPage extends WizardPage {
 	}
 
 	/**
-	 * ½«Êı¾İĞ´Èëµ½Task¶ÔÏóÖĞ
+	 * å°†æ•°æ®å†™å…¥åˆ°Taskå¯¹è±¡ä¸­
 	 * 
 	 */
 	public void saveTask() {
@@ -209,12 +209,12 @@ public class TaskWizardPage extends WizardPage {
 	}
 
 	/**
-	 * ÉèÖÃÊäÈëÔªËØµÄÖµ
+	 * è®¾ç½®è¾“å…¥å…ƒç´ çš„å€¼
 	 * 
 	 */
 	private void setControlValue(Composite parent) {
 		try {
-			// Ñ¡ÖĞµÚÒ»Ìõ¼ÇÂ¼
+			// é€‰ä¸­ç¬¬ä¸€æ¡è®°å½•
 			categoryCombo.select(1);
 
 			memoText.setText(task.getMemo() == null ? "" : task.getMemo());
@@ -226,6 +226,8 @@ public class TaskWizardPage extends WizardPage {
 					.getFileUrl());
 
 			blocksSpinner.setSelection(task.getBlocks());
+			
+			
 
 			// savePathCombo.setText(task.getFilePath() == null ? "" : task
 			// .getFilePath());
@@ -258,8 +260,9 @@ public class TaskWizardPage extends WizardPage {
 				savePathCombo.setEnabled(false);
 				autoStartButton.setEnabled(false);
 				manualStartButton.setEnabled(false);
+				
 			} else {
-				// ´Ó¼ôÌù°åÕ³Ìùurl
+				// ä»å‰ªè´´æ¿ç²˜è´´url
 				// Clipboard clipboard = new Clipboard(parent.getDisplay());
 				// TextTransfer textTransfer = TextTransfer.getInstance();
 				// String textData = (String)
@@ -294,6 +297,8 @@ public class TaskWizardPage extends WizardPage {
 				String savePath = pm.getDefaultSavePath();
 				savePathCombo.setText(savePath);
 			}
+			savePathCombo.setText(CategoryModel.getInstance().getCategory(
+					categoryCombo.getText()).getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -309,7 +314,7 @@ public class TaskWizardPage extends WizardPage {
 		gridLayout_3.numColumns = 3;
 		container.setLayout(gridLayout_3);
 
-		// ÎÄ¼şµØÖ·
+		// æ–‡ä»¶åœ°å€
 		final Label fileUrlLabel = new Label(container, SWT.NONE);
 		fileUrlLabel.setLayoutData(new GridData());
 		fileUrlLabel.setText("URL");
@@ -320,7 +325,7 @@ public class TaskWizardPage extends WizardPage {
 		// gridData.widthHint = 410;
 		fileUrlText.setLayoutData(gridData);
 
-		// ¼àÌıurlĞŞ¸ÄÊÂ¼ş
+		// ç›‘å¬urlä¿®æ”¹äº‹ä»¶
 		fileUrlText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				fileNameText.setText(getFileName(fileUrlText.getText()));
@@ -328,10 +333,10 @@ public class TaskWizardPage extends WizardPage {
 
 		});
 
-		// ÏÂÔØ·ÖÀà
+		// ä¸‹è½½åˆ†ç±»
 		final Label categoryLabel = new Label(container, SWT.NONE);
 		categoryLabel.setLayoutData(new GridData());
-		categoryLabel.setText("·ÖÀà");
+		categoryLabel.setText("åˆ†ç±»");
 
 		categoryCombo = new Combo(container, SWT.READ_ONLY);
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -339,28 +344,19 @@ public class TaskWizardPage extends WizardPage {
 		// gridData_1.widthHint = 241;
 		categoryCombo.setLayoutData(gridData_1);
 
-		// ÉèÖÃ·ÖÀàÑ¡Ôñ¿ò
+		// è®¾ç½®åˆ†ç±»é€‰æ‹©æ¡†
 		categoryCombo.setItems(CategoryModel.getInstance()
 				.getAllowSaveCategoryNames());
-
-		// ¼àÌı·ÖÀàÑ¡Ôñ
-		categoryCombo.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				savePathCombo.setText(CategoryModel.getInstance().getCategory(
-						categoryCombo.getText()).getPath());
-			}
-
-		});
 
 		final Button addCategoryButton = new Button(container, SWT.NONE);
 		addCategoryButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false));
-		addCategoryButton.setText("Ìí¼Ó(&A)");
+		addCategoryButton.setText("æ·»åŠ (&A)");
 
-		// ±£´æÄ¿Â¼
+		// ä¿å­˜ç›®å½•
 		final Label savePathLabel = new Label(container, SWT.NONE);
 		savePathLabel.setLayoutData(new GridData());
-		savePathLabel.setText("±£´æÄ¿Â¼");
+		savePathLabel.setText("ä¿å­˜ç›®å½•");
 
 		savePathCombo = new Combo(container, SWT.NONE);
 		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -370,30 +366,22 @@ public class TaskWizardPage extends WizardPage {
 		selectSavePathButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false));
 
-		selectSavePathButton.setText("Ñ¡Ôñ(&S)");
-		// Ñ¡Ôñ±£´æÄ¿Â¼
-		selectSavePathButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dialog = new DirectoryDialog(shell);
-				dialog.setFilterPath(savePathCombo.getText());
-				savePathCombo.setText(dialog.open());
-			}
-		});
+		selectSavePathButton.setText("é€‰æ‹©(&S)");
 
-		// ÎÄ¼şÃû
+		// æ–‡ä»¶å
 		final Label fileNameLabel = new Label(container, SWT.NONE);
 		fileNameLabel.setLayoutData(new GridData());
-		fileNameLabel.setText("ÎÄ¼şÃû");
+		fileNameLabel.setText("æ–‡ä»¶å");
 
 		fileNameText = new Text(container, SWT.BORDER);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
 		new Label(container, SWT.NONE);
 
-		// Ïß³ÌÊıÁ¿
+		// çº¿ç¨‹æ•°é‡
 		final Label blocksLabel = new Label(container, SWT.NONE);
 		blocksLabel.setLayoutData(new GridData());
-		blocksLabel.setText("Ïß³ÌÊıÁ¿");
+		blocksLabel.setText("çº¿ç¨‹æ•°é‡");
 
 		blocksSpinner = new Spinner(container, SWT.BORDER);
 		blocksSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -403,9 +391,9 @@ public class TaskWizardPage extends WizardPage {
 		blocksSpinner.setSelection(5);
 		new Label(container, SWT.NONE);
 
-		// ±¸×¢
+		// å¤‡æ³¨
 		final Group memoGroup = new Group(container, SWT.NONE);
-		memoGroup.setText("±¸×¢");
+		memoGroup.setText("å¤‡æ³¨");
 		final GridData gridData_2 = new GridData(SWT.FILL, SWT.FILL, false,
 				true, 2, 1);
 		memoGroup.setLayoutData(gridData_2);
@@ -416,22 +404,40 @@ public class TaskWizardPage extends WizardPage {
 				true, 2, 1);
 		memoText.setLayoutData(gridData_3);
 
-		// Æô¶¯·½Ê½
+		// å¯åŠ¨æ–¹å¼
 		final Group startGroup = new Group(container, SWT.NONE);
-		startGroup.setText("Æô¶¯·½Ê½");
+		startGroup.setText("å¯åŠ¨æ–¹å¼");
 		startGroup
 				.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
 		startGroup.setLayout(new GridLayout());
 
 		autoStartButton = new Button(startGroup, SWT.RADIO);
 		autoStartButton.setSelection(true);
-		autoStartButton.setText("Á¢¼´");
+		autoStartButton.setText("ç«‹å³");
 
 		manualStartButton = new Button(startGroup, SWT.RADIO);
-		manualStartButton.setText("ÊÖ¶¯");
+		manualStartButton.setText("æ‰‹åŠ¨");
 
 		addValidateListener();
+
 		this.setControlValue(parent);
+
+		// ç›‘å¬åˆ†ç±»é€‰æ‹©
+		categoryCombo.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				savePathCombo.setText(CategoryModel.getInstance().getCategory(
+						categoryCombo.getText()).getPath());
+			}
+
+		});
+		// é€‰æ‹©ä¿å­˜ç›®å½•
+		selectSavePathButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				DirectoryDialog dialog = new DirectoryDialog(shell);
+				dialog.setFilterPath(savePathCombo.getText());
+				savePathCombo.setText(dialog.open());
+			}
+		});
 		// if (!isModify)
 		// setPageComplete(false);
 

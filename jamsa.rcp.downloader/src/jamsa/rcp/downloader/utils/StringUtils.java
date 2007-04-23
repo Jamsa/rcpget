@@ -3,16 +3,16 @@ package jamsa.rcp.downloader.utils;
 import java.net.URL;
 
 /**
- * ×Ö·û´®´¦Àí¹¤¾ßÀà
+ * å­—ç¬¦ä¸²å¤„ç†å·¥å…·ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class StringUtils {
 	private static Logger logger = new Logger(StringUtils.class);
 
 	/**
-	 * ¼ì²é×Ö·û´®ÊÇ·ñÎª¿Õ
+	 * æ£€æŸ¥å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©º
 	 * 
 	 * @param str
 	 * @return
@@ -23,7 +23,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * ´Óurl×Ö·û´®ÖĞ»ñÈ¡ÕıÈ·µÄurl£¬²»ÕıÈ·Ê±·µ»Ø""
+	 * ä»urlå­—ç¬¦ä¸²ä¸­è·å–æ­£ç¡®çš„urlï¼Œä¸æ­£ç¡®æ—¶è¿”å›""
 	 * 
 	 * @param url
 	 * @return
@@ -42,14 +42,14 @@ public class StringUtils {
 			URL u = new URL(ret);
 			ret = String.valueOf(u);
 		} catch (Exception e) {
-			logger.info(url + "²»ÊÇÒ»¸öURLµØÖ·");
+			logger.info(url + "ä¸æ˜¯ä¸€ä¸ªURLåœ°å€");
 			ret = "";
 		}
 		return ret;
 	}
 
 	/**
-	 * »ñÈ¡url×Ö·û´®£¬×Ö·û´®±ØĞëÒÔsuffixiesÖĞµÄÄ³¸öÔªËØ½áÊø£¬·ñÔò·µ»ØÎª""
+	 * è·å–urlå­—ç¬¦ä¸²ï¼Œå­—ç¬¦ä¸²å¿…é¡»ä»¥suffixiesä¸­çš„æŸä¸ªå…ƒç´ ç»“æŸï¼Œå¦åˆ™è¿”å›ä¸º""
 	 * 
 	 * @param url
 	 * @param suffixies

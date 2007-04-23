@@ -20,7 +20,7 @@ public class HttpClientUtils {
 	public static final String DEFAULT_USER_AGENT="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 
 	/**
-	 * »ñÈ¡Ô¶³ÌÎÄ¼şĞÅÏ¢
+	 * è·å–è¿œç¨‹æ–‡ä»¶ä¿¡æ¯
 	 * 
 	 * @param urlString
 	 * @param retryTimes
@@ -44,7 +44,7 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * »ñÈ¡Ô¶³ÌÎÄ¼şĞÅÏ¢
+	 * è·å–è¿œç¨‹æ–‡ä»¶ä¿¡æ¯
 	 * 
 	 * @param conn
 	 * @param writer
@@ -68,34 +68,34 @@ public class HttpClientUtils {
 		else
 			result.setFileName(fileName.substring(start, fileName.length()));
 
-		writer.writeMessage("Task", "Ô¶¶ËÎÄ¼şÃû" + result.getFileName());
+		writer.writeMessage("Task", "è¿œç«¯æ–‡ä»¶å" + result.getFileName());
 		result.setFileSize(conn.getContentLength());
-		writer.writeMessage("Task", "Ô¶¶ËÎÄ¼ş´óĞ¡" + result.getFileSize());
+		writer.writeMessage("Task", "è¿œç«¯æ–‡ä»¶å¤§å°" + result.getFileSize());
 
-		logger.info("Ô¶³ÌÎÄ¼şĞÅÏ¢£º\n" + result);
+		logger.info("è¿œç¨‹æ–‡ä»¶ä¿¡æ¯ï¼š\n" + result);
 		return result;
 	}
 
 	/**
-	 * »ñÈ¡Ô¶³ÌHttpÁ¬½Ó
+	 * è·å–è¿œç¨‹Httpè¿æ¥
 	 * 
 	 * @param urlString
-	 *            Á¬½ÓµØÖ·
+	 *            è¿æ¥åœ°å€
 	 * @param retryTimes
-	 *            ÖØÊÔ´ÎÊı
+	 *            é‡è¯•æ¬¡æ•°
 	 * @param retryDelay
-	 *            ÖØÊÔÑÓÊ±Ê±¼ä
+	 *            é‡è¯•å»¶æ—¶æ—¶é—´
 	 * @param timeout
-	 *            ³¬Ê±Ê±¼ä
+	 *            è¶…æ—¶æ—¶é—´
 	 * @param properties
-	 *            ÇëÇóÊôĞÔ
+	 *            è¯·æ±‚å±æ€§
 	 * @param method
-	 *            ÇëÇó·½Ê½£ºGET,POST,HEAD...
+	 *            è¯·æ±‚æ–¹å¼ï¼šGET,POST,HEAD...
 	 * @param writer
-	 *            ÈÕÖ¾Êä³ö½Ó¿Ú£¬ÎªnullÊ±½«Êä³öµ½¿ØÖÆÌ¨
-	 * @return HttpURLConnection¶ÔÏó
+	 *            æ—¥å¿—è¾“å‡ºæ¥å£ï¼Œä¸ºnullæ—¶å°†è¾“å‡ºåˆ°æ§åˆ¶å°
+	 * @return HttpURLConnectionå¯¹è±¡
 	 * @throws Exception
-	 *             Èç¹ûÁ¬½Ó´íÎóÔòÅ×³ö¾­¹ı´¦ÀíµÄÒì³£
+	 *             å¦‚æœè¿æ¥é”™è¯¯åˆ™æŠ›å‡ºç»è¿‡å¤„ç†çš„å¼‚å¸¸
 	 */
 	public static HttpURLConnection getHttpURLConnection(String urlString,
 			int retryTimes, int retryDelay, int timeout, Properties properties,
@@ -105,15 +105,15 @@ public class HttpClientUtils {
 		if (label == null)
 			label = "HttpURLConnection";
 
-		// Á¬½Ó¼ÆÊıÆ÷
+		// è¿æ¥è®¡æ•°å™¨
 		int count = 0;
 		HttpURLConnection conn = null;
 		try {
 			URL url = new URL(urlString);
 			while (conn == null && retryTimes >= count) {
 				count++;
-				writer.writeMessage(label, "µÚ" + count + "´ÎÁ¬½Ó...");
-				logger.info("µÚ" + count + "´ÎÁ¬½Ó...");
+				writer.writeMessage(label, "ç¬¬" + count + "æ¬¡è¿æ¥...");
+				logger.info("ç¬¬" + count + "æ¬¡è¿æ¥...");
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setConnectTimeout(timeout);
 				conn.setRequestMethod(method);
@@ -137,54 +137,54 @@ public class HttpClientUtils {
 						encode = IConstants.DEFAULT_ENCODING;
 					url = new URL(new String(newURLString.getBytes(encode),
 							IConstants.FILE_ENCODING));
-					writer.writeMessage(label, "ÖØ¶¨Ïòµ½£º" + url);
-					logger.info("·¢ÉúÖØ¶¨Ïò£º" + url);
+					writer.writeMessage(label, "é‡å®šå‘åˆ°ï¼š" + url);
+					logger.info("å‘ç”Ÿé‡å®šå‘ï¼š" + url);
 					conn = null;
 					continue;
 				}
 
-				// Á¬½Ó´íÎóÊ±£¬½«connÉèÖÃÎªnull£¬µÈÊÌÖØÊÔ
+				// è¿æ¥é”™è¯¯æ—¶ï¼Œå°†connè®¾ç½®ä¸ºnullï¼Œç­‰ä¾é‡è¯•
 				if (code >= 400) {
 					conn = null;
 				}
 
-				// µÈÊÌ²¢ÖØĞÂÁ¬½Ó
+				// ç­‰ä¾å¹¶é‡æ–°è¿æ¥
 				if (conn == null) {
-					writer.writeMessage(label, "Á¬½ÓÊ§°Ü," + retryDelay / 1000
-							+ "ÃëºóÖØÊÔ...");
-					logger.info("Á¬½ÓÊ§°Ü," + retryDelay / 1000 + "ÃëºóÖØÊÔ...");
+					writer.writeMessage(label, "è¿æ¥å¤±è´¥," + retryDelay / 1000
+							+ "ç§’åé‡è¯•...");
+					logger.info("è¿æ¥å¤±è´¥," + retryDelay / 1000 + "ç§’åé‡è¯•...");
 					Thread.sleep(retryDelay);
 				} else {
-					writer.writeMessage(label, "Á¬½Ó³É¹¦£¡");
-					logger.info("Á¬½Ó³É¹¦£¡");
+					writer.writeMessage(label, "è¿æ¥æˆåŠŸï¼");
+					logger.info("è¿æ¥æˆåŠŸï¼");
 				}
 
 			}
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "URL´íÎó£º" + e.getLocalizedMessage());
-			logger.error("URL´íÎó£¡", e);
+			writer.writeMessage(label, "URLé”™è¯¯ï¼š" + e.getLocalizedMessage());
+			logger.error("URLé”™è¯¯ï¼", e);
 			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "I/O´íÎó£º" + e.getLocalizedMessage());
-			logger.error("I/O´íÎó£¡", e);
+			writer.writeMessage(label, "I/Oé”™è¯¯ï¼š" + e.getLocalizedMessage());
+			logger.error("I/Oé”™è¯¯ï¼", e);
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "´íÎó£º" + e.getLocalizedMessage());
-			logger.error("Á¬½Ó´íÎó£¡", e);
+			writer.writeMessage(label, "é”™è¯¯ï¼š" + e.getLocalizedMessage());
+			logger.error("è¿æ¥é”™è¯¯ï¼", e);
 			return null;
 		}
 
-		// Èç¹û·µ»ØµÄÎªnullÔò±íÊ¾Á¬½Ó±»¾Ü¾ø
+		// å¦‚æœè¿”å›çš„ä¸ºnullåˆ™è¡¨ç¤ºè¿æ¥è¢«æ‹’ç»
 		return conn;
 
 	}
 
 	/**
-	 * »ñÈ¡ÊäÈëÁ÷
+	 * è·å–è¾“å…¥æµ
 	 * 
 	 * @param urlString
 	 * @param retryTimes
@@ -206,7 +206,7 @@ public class HttpClientUtils {
 				ret = conn.getInputStream();
 			} catch (Exception e) {
 				writer.writeMessage(label, e.getLocalizedMessage());
-				logger.error("»ñÈ¡ÊäÈëÁ÷·¢Éú´íÎó£¡", e);
+				logger.error("è·å–è¾“å…¥æµå‘ç”Ÿé”™è¯¯ï¼", e);
 			}
 		}
 
@@ -214,7 +214,7 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * ´òÓ¡HttpÏìÓ¦Í·
+	 * æ‰“å°Httpå“åº”å¤´
 	 * 
 	 * @param conn
 	 * @param writer
@@ -222,7 +222,7 @@ public class HttpClientUtils {
 	 */
 	public static void printResponseInfo(URLConnection conn,
 			IConsoleWriter writer, String label) {
-		logger.info("HttpÏìÓ¦ĞÅÏ¢£º");
+		logger.info("Httpå“åº”ä¿¡æ¯ï¼š");
 		for (Iterator iter = conn.getHeaderFields().keySet().iterator(); iter
 				.hasNext();) {
 			String key = (String) iter.next();
@@ -232,7 +232,7 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * ´òÓ¡HttpÇëÇóĞÅÏ¢
+	 * æ‰“å°Httpè¯·æ±‚ä¿¡æ¯
 	 * 
 	 * @param conn
 	 * @param writer
@@ -240,7 +240,7 @@ public class HttpClientUtils {
 	 */
 	public static void printRequestInfo(HttpURLConnection conn,
 			IConsoleWriter writer, String label) {
-		logger.info("HttpÇëÇóĞÅÏ¢£º");
+		logger.info("Httpè¯·æ±‚ä¿¡æ¯ï¼š");
 		logger.info("RequestMethod:" + conn.getRequestMethod());
 		for (Iterator iter = conn.getRequestProperties().keySet().iterator(); iter
 				.hasNext();) {

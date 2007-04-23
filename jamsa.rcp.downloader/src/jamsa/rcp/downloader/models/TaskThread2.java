@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * ¶àÏß³ÌÏÂÔØÖĞµÄÈÎÎñÏß³Ì,ÓÃÓÚ¿ØÖÆÆäËüÏÂÔØÏß³Ì
+ * å¤šçº¿ç¨‹ä¸‹è½½ä¸­çš„ä»»åŠ¡çº¿ç¨‹,ç”¨äºæ§åˆ¶å…¶å®ƒä¸‹è½½çº¿ç¨‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskThread2 extends Thread {
@@ -34,33 +34,33 @@ public class TaskThread2 extends Thread {
 		preferenceManager = PreferenceManager.getInstance();
 	}
 
-	// ĞŞ¸ÄÈÎÎñ×´Ì¬
+	// ä¿®æ”¹ä»»åŠ¡çŠ¶æ€
 	private void changeStatus(int status) {
 		task.setStatus(status);
 	}
 
-	// ÏÂÔØÏß³Ì
+	// ä¸‹è½½çº¿ç¨‹
 	private List threads = new ArrayList(10);
 
 	/**
-	 * ÑéÖ¤Ô¶³ÌÎÄ¼şÓë±¾µØÎÄ¼şµÄÒ»ÖÂĞÔ
+	 * éªŒè¯è¿œç¨‹æ–‡ä»¶ä¸æœ¬åœ°æ–‡ä»¶çš„ä¸€è‡´æ€§
 	 * 
 	 * @param remoteFileName
-	 *            Ô¶¶ËÎÄ¼şÃû
+	 *            è¿œç«¯æ–‡ä»¶å
 	 * @param remoteFileSize
-	 *            Ô¶¶ËÎÄ¼ş´óĞ¡
+	 *            è¿œç«¯æ–‡ä»¶å¤§å°
 	 */
 	private void checkFile(String remoteFileName, long remoteFileSize) {
 		if (task.getFileSize() > 0 && task.getFileSize() != remoteFileSize) {
-			task.writeMessage("Task", "ÎÄ¼ş´óĞ¡²»Ò»ÖÂ£¬ÖØĞÂÏÂÔØ£¡");
-			logger.info("ÎÄ¼ş´óĞ¡²»Ò»ÖÁºÍ£¬ÖØĞÂÏÂÔØ£¡");
+			task.writeMessage("Task", "æ–‡ä»¶å¤§å°ä¸ä¸€è‡´ï¼Œé‡æ–°ä¸‹è½½ï¼");
+			logger.info("æ–‡ä»¶å¤§å°ä¸ä¸€è‡³å’Œï¼Œé‡æ–°ä¸‹è½½ï¼");
 			task.reset();
 			task.setStatus(Task.STATUS_RUNNING);
 		}
 
 		task.setFileSize(remoteFileSize);
 
-		// Èç¹ûÎÄ¼ş»¹Î´ÏÂÔØ£¬²¢ÇÒÔ¶³ÌÎÄ¼şÃûÓë±¾µØÎÄ¼şÃû²»Ò»ÖÂ£¬ÔòĞŞ¸Ä±¾µØÎÄ¼şÃû
+		// å¦‚æœæ–‡ä»¶è¿˜æœªä¸‹è½½ï¼Œå¹¶ä¸”è¿œç¨‹æ–‡ä»¶åä¸æœ¬åœ°æ–‡ä»¶åä¸ä¸€è‡´ï¼Œåˆ™ä¿®æ”¹æœ¬åœ°æ–‡ä»¶å
 		if (task.getFinishedSize() == 0 && !StringUtils.isEmpty(remoteFileName)
 				&& !task.getFileName().equals(remoteFileName)) {
 			task.setFileName(remoteFileName);
@@ -68,7 +68,7 @@ public class TaskThread2 extends Thread {
 	}
 
 	/**
-	 * Æô¶¯
+	 * å¯åŠ¨
 	 * 
 	 */
 	public void runUnfinishedSplitters() {
@@ -76,9 +76,9 @@ public class TaskThread2 extends Thread {
 	}
 
 	public void run() {
-		task.writeMessage("Task", "ÈÎÎñÆô¶¯");
+		task.writeMessage("Task", "ä»»åŠ¡å¯åŠ¨");
 		task.getMessages().clear();
-		// ĞŞ¸ÄÈÎÎñ×´Ì¬
+		// ä¿®æ”¹ä»»åŠ¡çŠ¶æ€
 		changeStatus(Task.STATUS_RUNNING);
 
 		if (task.getBeginTime() == 0)
@@ -92,7 +92,7 @@ public class TaskThread2 extends Thread {
 						.getTimeout() * 1000, new Properties(), "HEAD", task,
 				"Task");
 		if (remoteFile == null) {
-			task.writeMessage("Task", "ÎŞ·¨»ñÈ¡Ä¿±êÎÄ¼şĞÅÏ¢£¡");
+			task.writeMessage("Task", "æ— æ³•è·å–ç›®æ ‡æ–‡ä»¶ä¿¡æ¯ï¼");
 			task.setStatus(Task.STATUS_ERROR);
 			taskModel.updateTask(task);
 			return;
@@ -102,17 +102,17 @@ public class TaskThread2 extends Thread {
 		task.checkBlocks();
 		taskModel.updateTask(task);
 
-		// ÁÙÊ±ÎÄ¼ş
+		// ä¸´æ—¶æ–‡ä»¶
 		File file = task.getTempSavedFile();
 		RandomAccessFile savedFile = null;
 		try {
 			savedFile = new RandomAccessFile(file, "rw");
-			task.writeMessage("Task", "´ò¿ªÁÙÊ±ÎÄ¼ş" + file);
+			task.writeMessage("Task", "æ‰“å¼€ä¸´æ—¶æ–‡ä»¶" + file);
 
-			int ct = 0;// Æô¶¯µÄÏß³ÌÊıÁ¿
+			int ct = 0;// å¯åŠ¨çš„çº¿ç¨‹æ•°é‡
 			for (Iterator iter = task.getSplitters().iterator(); iter.hasNext();) {
 				ct++;
-				if (ct > task.getBlocks())// Èç¹ûÆô¶¯µÄÏß³ÌÊıÁ¿´óÓÚÉèÖÃµÄÊıÁ¿£¬Ôò²»ÔÙÆô¶¯ĞÂµÄÏß³Ì
+				if (ct > task.getBlocks())// å¦‚æœå¯åŠ¨çš„çº¿ç¨‹æ•°é‡å¤§äºè®¾ç½®çš„æ•°é‡ï¼Œåˆ™ä¸å†å¯åŠ¨æ–°çš„çº¿ç¨‹
 					break;
 
 				TaskSplitter s = (TaskSplitter) iter.next();
@@ -120,7 +120,7 @@ public class TaskThread2 extends Thread {
 					DownloadThread t = new DownloadThread(task, savedFile, s);
 					threads.add(t);
 					t.start();
-					task.writeMessage("Task", "Æô¶¯ÏÂÔØÏß³Ì" + s.getName());
+					task.writeMessage("Task", "å¯åŠ¨ä¸‹è½½çº¿ç¨‹" + s.getName());
 					Thread.sleep(500);
 				}
 			}
@@ -128,33 +128,33 @@ public class TaskThread2 extends Thread {
 			long lastTime = System.currentTimeMillis();
 			long lastSize = task.getFinishedSize();
 			int lastRunBlocks = task.getRunBlocks();
-			// ¼ì²éÏß³Ì×´Ì¬
+			// æ£€æŸ¥çº¿ç¨‹çŠ¶æ€
 			while (task.getStatus() == Task.STATUS_RUNNING
 					&& !this.isInterrupted()) {
 				long currentSize = 0;
 				boolean finished = true;
 
-				// ¼ì²é¸÷¸ö¿éµÄ×´Ì¬,¼ÆËã×ÜÍê³ÉÁ¿
+				// æ£€æŸ¥å„ä¸ªå—çš„çŠ¶æ€,è®¡ç®—æ€»å®Œæˆé‡
 				for (Iterator it = task.getSplitters().iterator(); it.hasNext();) {
 					TaskSplitter splitter = (TaskSplitter) it.next();
 					currentSize += splitter.getFinished();
 					// if (splitter.isRun()) {
 					// finished = false;
 					// }
-					// Ö»ÒªÓĞÒ»¸ö¿éÎ´ÏÂÔØÍê,Ôò²»ÄÜÉèÖÃÎªÍê³É×´Ì¬
+					// åªè¦æœ‰ä¸€ä¸ªå—æœªä¸‹è½½å®Œ,åˆ™ä¸èƒ½è®¾ç½®ä¸ºå®ŒæˆçŠ¶æ€
 					if (!splitter.isFinish()) {
 						finished = false;
 					}
 				}
 
-				// ×ÜºÄÊ±¼ÆËã
+				// æ€»è€—æ—¶è®¡ç®—
 				long current = System.currentTimeMillis();
 				long timeDiff = current - lastTime;
 				task.setTotalTime(task.getTotalTime() + timeDiff);
 				lastTime = current;
 
 				task.setFinishedSize(currentSize);
-				// ¼ÆËã¼´Ê±ËÙ¶È
+				// è®¡ç®—å³æ—¶é€Ÿåº¦
 				long sizeDiff = currentSize - lastSize;
 				lastSize = currentSize;
 				if (timeDiff > 0) {
@@ -168,26 +168,26 @@ public class TaskThread2 extends Thread {
 				taskModel.updateTask(task);
 				// checkTaskStatus();
 
-				// ¼ì²éÊÇ·ñÓĞÎ´Íê³ÉµÄÈÎÎñ¿é,ÓĞÔòÆô¶¯
+				// æ£€æŸ¥æ˜¯å¦æœ‰æœªå®Œæˆçš„ä»»åŠ¡å—,æœ‰åˆ™å¯åŠ¨
 				TaskSplitter s = task.getUnfinishedSplitter();
 				if (s != null) {
 					DownloadThread t = new DownloadThread(task, savedFile, s);
 					threads.add(t);
 					t.start();
-					task.writeMessage("Task", "Æô¶¯ÏÂÔØÏß³Ì" + s.getName());
+					task.writeMessage("Task", "å¯åŠ¨ä¸‹è½½çº¿ç¨‹" + s.getName());
 				}
 
 				sleep(1000);
 			}
 
 			/**
-			 * ÈÎÎñÏß³Ì±»Í£Ö¹»òÕß´ò¶ÏÊ±ÖĞ¶ÏËùÓĞÏÂÔØÏß³Ì
+			 * ä»»åŠ¡çº¿ç¨‹è¢«åœæ­¢æˆ–è€…æ‰“æ–­æ—¶ä¸­æ–­æ‰€æœ‰ä¸‹è½½çº¿ç¨‹
 			 */
 			if (task.getStatus() == Task.STATUS_STOP || this.isInterrupted()) {
 				stopAll();
 				changeStatus(Task.STATUS_STOP);
-				logger.info("ÏÂÔØÍ£Ö¹");
-				task.writeMessage("Task", "ÏÂÔØÍ£Ö¹");
+				logger.info("ä¸‹è½½åœæ­¢");
+				task.writeMessage("Task", "ä¸‹è½½åœæ­¢");
 				return;
 			}
 
@@ -195,8 +195,8 @@ public class TaskThread2 extends Thread {
 			savedFile.close();
 			task.renameSavedFile();
 			changeStatus(Task.STATUS_FINISHED);
-			logger.info("ÏÂÔØÍê³É");
-			task.writeMessage("Task", "ÏÂÔØÍê³É");
+			logger.info("ä¸‹è½½å®Œæˆ");
+			task.writeMessage("Task", "ä¸‹è½½å®Œæˆ");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			changeStatus(Task.STATUS_STOP);
@@ -219,7 +219,7 @@ public class TaskThread2 extends Thread {
 	}
 
 	private void stopAll() {
-		// Í£Ö¹ËùÓĞÈÎÎñ£¬Çå¿ÕÏß³Ì¶ÓÁĞ
+		// åœæ­¢æ‰€æœ‰ä»»åŠ¡ï¼Œæ¸…ç©ºçº¿ç¨‹é˜Ÿåˆ—
 		for (Iterator it = task.getSplitters().iterator(); it.hasNext();) {
 			TaskSplitter splitter = (TaskSplitter) it.next();
 			splitter.setRun(false);

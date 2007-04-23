@@ -5,22 +5,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * ÏÂÔØ·ÖÀà
+ * ä¸‹è½½åˆ†ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class Category implements Serializable {
-	// ¸¸·ÖÀà
+	// çˆ¶åˆ†ç±»
 	private Category parent;
 
-	// ×Ó·ÖÀà
+	// å­åˆ†ç±»
 	private Map children = new LinkedHashMap(0);
 
-	// ·ÖÀàÃû³Æ
+	// åˆ†ç±»åç§°
 	private String name;
 
-	// ·ÖÀàÎÄ¼ş±£´æÂ·¾¶
+	// åˆ†ç±»æ–‡ä»¶ä¿å­˜è·¯å¾„
 	private String path;
 
 	public String getName() {

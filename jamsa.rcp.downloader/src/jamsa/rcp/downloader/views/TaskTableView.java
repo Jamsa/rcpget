@@ -49,9 +49,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * ÏÂÔØÈÎÎñÁĞ±íÊÓÍ¼
+ * ä¸‹è½½ä»»åŠ¡åˆ—è¡¨è§†å›¾
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskTableView extends ViewPart {
@@ -69,9 +69,9 @@ public class TaskTableView extends ViewPart {
 
 	private ISelectionListener selectionListener = new ISelectionListener() {
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+			
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection incoming = (IStructuredSelection) selection;
-
 				if (incoming.size() == 1
 						&& incoming.getFirstElement() instanceof Category) {
 					category = (Category) incoming.getFirstElement();
@@ -80,14 +80,14 @@ public class TaskTableView extends ViewPart {
 					else
 						tableViewer.setInput(model.getTasks(CategoryModel
 								.getInstance().getRunning()));
-					logger.info("µ±Ç°Ñ¡ÖĞ·ÖÀà£º" + category.getName()); //$NON-NLS-1$
+					logger.info("å½“å‰é€‰ä¸­åˆ†ç±»ï¼š" + category.getName()); //$NON-NLS-1$
 				}
 			}
 		}
 	};
 
 	/**
-	 * ÍÏ·ÅÖ§³Ö
+	 * æ‹–æ”¾æ”¯æŒ
 	 * 
 	 */
 	private void createDNDSupport() {
@@ -105,7 +105,7 @@ public class TaskTableView extends ViewPart {
 					// TextTransfer textTransfer = TextTransfer.getInstance();
 					// clipboard.setContents(new Object[] { url },
 					// new Transfer[] { textTransfer });
-					// Óë¼àÊÓ¼ôÌù°å²»Í¬£¬²¥·ÅµÄÁ´½Ó²»ĞèÒªÑÏ¸ñµÄÎÄ¼şÀàĞÍ¼ì²é
+					// ä¸ç›‘è§†å‰ªè´´æ¿ä¸åŒï¼Œæ’­æ”¾çš„é“¾æ¥ä¸éœ€è¦ä¸¥æ ¼çš„æ–‡ä»¶ç±»å‹æ£€æŸ¥
 					openWizard(url);
 				}
 
@@ -143,7 +143,7 @@ public class TaskTableView extends ViewPart {
 	}
 
 	/**
-	 * ¼àÊÓ¼ôÌù°åÊı¾İ±ä»¯
+	 * ç›‘è§†å‰ªè´´æ¿æ•°æ®å˜åŒ–
 	 * 
 	 */
 	private void listenerClipboard() {
@@ -152,7 +152,7 @@ public class TaskTableView extends ViewPart {
 					public void clipboardChange(String text) {
 						String types[] = PreferenceManager.getInstance()
 								.getMonitorFileType().split(";"); //$NON-NLS-1$
-						// ´Ë´¦²»ĞèÒª¼ì²éÎÄ¼şÀàĞÍ
+						// æ­¤å¤„ä¸éœ€è¦æ£€æŸ¥æ–‡ä»¶ç±»å‹
 						text = StringUtils.getURLString(text, types);
 						// text = StringUtils.getURLString(text);
 						if (!TaskModel.getInstance().isExist(text))
@@ -211,7 +211,7 @@ public class TaskTableView extends ViewPart {
 		tableViewer.setInput(model.getTasks(CategoryModel.getInstance()
 				.getRunning()));
 
-		// ÈÎÎñË«»÷ÊÂ¼ş
+		// ä»»åŠ¡åŒå‡»äº‹ä»¶
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
 			public void doubleClick(DoubleClickEvent event) {
@@ -238,10 +238,10 @@ public class TaskTableView extends ViewPart {
 
 		});
 
-		// Ìá¹©Ñ¡Ôñ·şÎñ
+		// æä¾›é€‰æ‹©æœåŠ¡
 		getSite().setSelectionProvider(tableViewer);
 
-		// ÈÎÎñÁĞ±í¼àÌı·ÖÀàÑ¡Ôñ¸Ä±äÊÂ¼ş
+		// ä»»åŠ¡åˆ—è¡¨ç›‘å¬åˆ†ç±»é€‰æ‹©æ”¹å˜äº‹ä»¶
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
 

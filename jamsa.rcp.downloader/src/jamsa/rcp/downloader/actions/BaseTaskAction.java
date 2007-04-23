@@ -52,7 +52,7 @@ public abstract class BaseTaskAction extends Action implements
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection incoming = (IStructuredSelection) selection;
-			// ��Ӧ�ڶ�ѡ
+			// 适应于多选
 			if (incoming.size() > 0
 					&& incoming.getFirstElement() instanceof Task) {
 				this.deleteObserver();

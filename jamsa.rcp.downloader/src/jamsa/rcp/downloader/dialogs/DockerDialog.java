@@ -43,7 +43,7 @@ public class DockerDialog extends Shell {
 		while (!this.isDisposed()) {
 			String current = (String) clipboard.getContents(textTransfer);
 			if (!current.equals(last)) {
-				System.out.println("剪贴板发生改变！");
+				System.out.println("鍓创鏉垮彂鐢熸敼鍙橈紒");
 				last = current;
 			}
 			getDisplay().sleep();

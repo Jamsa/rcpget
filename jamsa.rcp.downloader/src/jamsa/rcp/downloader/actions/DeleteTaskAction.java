@@ -15,9 +15,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 停止任务动作
+ * 鍋滄浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class DeleteTaskAction extends BaseTaskAction {
@@ -27,7 +27,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("删除选中任务");
+//		setToolTipText("鍒犻櫎閫変腑浠诲姟");
 	}
 
 	private boolean someTaskRun() {
@@ -42,7 +42,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 	private static final String DELETE_FILE_IN_DELETE_TASK = "DELETE_FILE_IN_DELETE_TASK"; //$NON-NLS-1$
 
 	public void run() {
-		// 一般情况，且任务不是在回收站中
+		// 涓�鑸儏鍐碉紝涓斾换鍔′笉鏄湪鍥炴敹绔欎腑
 		if (!someTaskRun() && !((Task) tasks.get(0)).isDeleted()) {
 			TaskModel.getInstance().deleteTask(tasks);
 			return;
@@ -53,7 +53,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 		boolean deleteFile = false;
 		MessageDialogWithToggle dialog = null;
 		store.setValue(DELETE_FILE_IN_DELETE_TASK, ""); //$NON-NLS-1$
-		// 任务正在运行时的删除
+		// 浠诲姟姝ｅ湪杩愯鏃剁殑鍒犻櫎
 		if (someTaskRun() && !((Task) tasks.get(0)).isDeleted()) {
 			confirm = MessageDialog.openConfirm(window.getShell(), Messages.DeleteTaskAction_DeleteTask,
 					Messages.DeleteTaskAction_DeleteRunningTaskConfirm);
@@ -61,7 +61,7 @@ public class DeleteTaskAction extends BaseTaskAction {
 				TaskThreadManager.getInstance().stop(tasks);
 		}
 
-		// 如果是已经被删除的任务就要提示是否要删除文件
+		// 濡傛灉鏄凡缁忚鍒犻櫎鐨勪换鍔″氨瑕佹彁绀烘槸鍚﹁鍒犻櫎鏂囦欢
 		if (((Task) tasks.get(0)).isDeleted()) {
 			dialog = MessageDialogWithToggle.openOkCancelConfirm(window
 					.getShell(), Messages.DeleteTaskAction_DeleteTask, Messages.DeleteTaskAction_DeleteTaskConfirm, Messages.DeleteTaskAction_DeleteTaskFile, false, store,

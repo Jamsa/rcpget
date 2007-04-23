@@ -9,9 +9,9 @@ import java.util.Observable;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 还原任务动作
+ * 杩樺師浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class RestoreTaskAction extends BaseTaskAction {
@@ -21,7 +21,7 @@ public class RestoreTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("还原");
+//		setToolTipText("杩樺師");
 
 	}
 

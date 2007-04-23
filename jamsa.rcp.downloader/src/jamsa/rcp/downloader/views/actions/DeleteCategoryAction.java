@@ -13,8 +13,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * 分类视图中的删除分类动作
- * @author 朱杰
+ * 鍒嗙被瑙嗗浘涓殑鍒犻櫎鍒嗙被鍔ㄤ綔
+ * @author 鏈辨澃
  *
  */
 public class DeleteCategoryAction extends ActionDelegate implements

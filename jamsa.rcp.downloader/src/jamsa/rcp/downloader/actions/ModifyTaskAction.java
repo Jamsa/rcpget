@@ -9,9 +9,9 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
 /**
- * 修改任务动作
+ * 淇敼浠诲姟鍔ㄤ綔
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class ModifyTaskAction extends BaseTaskAction {
@@ -21,7 +21,7 @@ public class ModifyTaskAction extends BaseTaskAction {
 		super(window, label);
 		setId(ID);
 		setText(label);
-//		setToolTipText("修改任务");
+//		setToolTipText("淇敼浠诲姟");
 
 	}
 

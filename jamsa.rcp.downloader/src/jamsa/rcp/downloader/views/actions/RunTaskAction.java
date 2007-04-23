@@ -11,8 +11,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * 运行任务动作
- * @author 朱杰
+ * 杩愯浠诲姟鍔ㄤ綔
+ * @author 鏈辨澃
  * @deprecated
  * @see RunTaskAction
  */
@@ -37,7 +37,7 @@ public class RunTaskAction extends ActionDelegate implements
 	}
 
 	public void run(IAction action) {
-		logger.info("运行任务" + task.getFileName());
+		logger.info("杩愯浠诲姟" + task.getFileName());
 	}
 
 }

@@ -12,8 +12,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * 分类视图中的修改分类动作
- * @author 朱杰
+ * 鍒嗙被瑙嗗浘涓殑淇敼鍒嗙被鍔ㄤ綔
+ * @author 鏈辨澃
  *
  */
 public class ModifyCategoryAction extends ActionDelegate implements

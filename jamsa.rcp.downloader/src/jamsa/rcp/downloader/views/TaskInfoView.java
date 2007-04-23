@@ -21,9 +21,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * ÈÎÎñÏêÏ¸ĞÅÏ¢ÊÓÍ¼
+ * ä»»åŠ¡è¯¦ç»†ä¿¡æ¯è§†å›¾
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class TaskInfoView extends ViewPart {
@@ -44,7 +44,7 @@ public class TaskInfoView extends ViewPart {
 						&& incoming.getFirstElement() instanceof Task) {
 					task = (Task) incoming.getFirstElement();
 					tableViewer.setInput(task);
-					logger.info("µ±Ç°Ñ¡ÖĞÈÎÎñ£º" + task.getFileName()); //$NON-NLS-1$
+					logger.info("å½“å‰é€‰ä¸­ä»»åŠ¡ï¼š" + task.getFileName()); //$NON-NLS-1$
 				}
 			}
 		}
@@ -72,13 +72,13 @@ public class TaskInfoView extends ViewPart {
 		tableViewer.setLabelProvider(new ViewLabelProvider());
 		tableViewer.setContentProvider(new ViewContentProvider());
 		// tableViewer.setInput(task);
-		// ¼àÌıÑ¡Ôñ±ä»¯
+		// ç›‘å¬é€‰æ‹©å˜åŒ–
 		getSite().getWorkbenchWindow().getSelectionService()
 				.addSelectionListener(selectionListener);
 	}
 
 	public void dispose() {
-		// ¹Ø±ÕÊ±ÒÆ³ı¶ÔTaskTableViewµÄ¼àÌı
+		// å…³é—­æ—¶ç§»é™¤å¯¹TaskTableViewçš„ç›‘å¬
 		getSite().getWorkbenchWindow().getSelectionService()
 				.removeSelectionListener(selectionListener);
 		super.dispose();

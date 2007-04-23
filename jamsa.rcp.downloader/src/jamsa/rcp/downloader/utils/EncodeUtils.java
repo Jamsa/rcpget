@@ -3,20 +3,20 @@ package jamsa.rcp.downloader.utils;
 import jamsa.rcp.downloader.IConstants;
 
 /**
- * ±àÂë´¦Àí¹¤¾ßÀà
+ * ç¼–ç å¤„ç†å·¥å…·ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class EncodeUtils {
 
 	/**
-	 * ½«×Ö·û´®½øĞĞURL±àÂë
+	 * å°†å­—ç¬¦ä¸²è¿›è¡ŒURLç¼–ç 
 	 * 
 	 * @param text
 	 * @param charset
-	 *            ×Ö·û¼¯£¬Èç¹ûÎ´Ö¸¶¨Ôò°´{@link #DEFAULT_CHARSET}½øĞĞ´¦Àí
-	 * @return ¾­¹ı±àÂëµÄURL×Ö·û´®
+	 *            å­—ç¬¦é›†ï¼Œå¦‚æœæœªæŒ‡å®šåˆ™æŒ‰{@link #DEFAULT_CHARSET}è¿›è¡Œå¤„ç†
+	 * @return ç»è¿‡ç¼–ç çš„URLå­—ç¬¦ä¸²
 	 */
 	public static String encodeURL(String text, String charset) {
 		// if (charset == null)

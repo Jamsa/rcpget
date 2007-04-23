@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * ·ÖÀàÉèÖÃ¶Ô»°¿ò
+ * åˆ†ç±»è®¾ç½®å¯¹è¯æ¡†
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class CategoryDialog extends TitleAreaDialog {
@@ -138,9 +138,9 @@ public class CategoryDialog extends TitleAreaDialog {
 			return false;
 		}
 
-		// Èç¹û²»´æÔÚÄ¿Â¼
+		// å¦‚æœä¸å­˜åœ¨ç›®å½•
 		if (!FileUtils.existsDirectory(directory)) {
-			// ´´½¨Ä¿Â¼
+			// åˆ›å»ºç›®å½•
 			FileUtils.createDirectory(directory);
 
 			if (!FileUtils.existsDirectory(directory)) {

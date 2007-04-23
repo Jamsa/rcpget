@@ -1,51 +1,51 @@
 package jamsa.rcp.downloader.preference;
 
 /**
- * Ê×Ñ¡Ïî³£Á¿¶¨Òå
+ * é¦–é€‰é¡¹å¸¸é‡å®šä¹‰
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public interface IPreferenceConstants {
 	public static String INIT = "INIT";
 
-	// Ä¬ÈÏÏÂÔØ·ÖÀàÀàĞÍ(Ö¸¶¨·ÖÀà»òÕß¼ÇÂ¼ÉÏ´ÎÑ¡ÖĞµÄ·ÖÀà)
+	// é»˜è®¤ä¸‹è½½åˆ†ç±»ç±»å‹(æŒ‡å®šåˆ†ç±»æˆ–è€…è®°å½•ä¸Šæ¬¡é€‰ä¸­çš„åˆ†ç±»)
 	public static final String TASK_DEFAULT_CATEGORY_TYPE = "TASK_DEFAULT_CATEGORY_TYPE";
 
 	public static final String TASK_DEFAULT_CATEGORY_TYPE_LAST = "TASK_DEFAULT_CATEGORY_TYPE_LAST";
 
 	public static final String TASK_DEFAULT_CATEGORY_TYPE_DEFINE = "TASK_DEFAULT_CATEGORY_TYPE_DEFINE";
 
-	// Ä¬ÈÏ·ÖÀà
+	// é»˜è®¤åˆ†ç±»
 	public static final String TASK_DEFAULT_CATEGORY = "TASK_DEFAULT_CATEGORY";
 
-	// Ä¬ÈÏ±£´æÂ·¾¶
+	// é»˜è®¤ä¿å­˜è·¯å¾„
 	public static final String TASK_DEFAULT_SAVEPATH = "TASK_DEFAULT_SAVEPATH";
 
-	// ÈÎÎñÄ¬ÈÏÆô¶¯·½Ê½
+	// ä»»åŠ¡é»˜è®¤å¯åŠ¨æ–¹å¼
 	public static final String TASK_DEFAULT_START_METHOD = "TASK_DEFAULT_START";
 
-	// ÖØÊÔÑÓÊ±
+	// é‡è¯•å»¶æ—¶
 	public static final String NETWORK_RETRY_DELAY = "NETWORK_RETRY_DELAY";
 
-	// ×î¶àÍ¬Ê±ÔËĞĞÈÎÎñÊıÁ¿
+	// æœ€å¤šåŒæ—¶è¿è¡Œä»»åŠ¡æ•°é‡
 	public static final String NETWORK_MAX_RUNTASKS = "NETWORK_MAX_RUNTASKS";
 
-	// ×î¶àÖØÊÔ´ÎÊı
+	// æœ€å¤šé‡è¯•æ¬¡æ•°
 	public static final String NETWORK_RETRY_TIMES = "NETWORK_RETRY_TIMES";
 
-	// ×îĞ¡»¯µ½ÈÎÎñÀ¸
+	// æœ€å°åŒ–åˆ°ä»»åŠ¡æ 
 	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
 
-	// ¼àÊÓ¼ôÌù°å
+	// ç›‘è§†å‰ªè´´æ¿
 	public static final String MONITOR_CLIPBOARD = "MONITOR_CLIPBOARD";
 
-	// ¼àÊÓÎÄ¼şÀàĞÍ
+	// ç›‘è§†æ–‡ä»¶ç±»å‹
 	public static final String MONITOR_FILE_TYPE = "MONITOR_FILE_TYPE";
 
-	// Ä¬ÈÏ¼àÊÓÎÄ¼şÀàĞÍ
+	// é»˜è®¤ç›‘è§†æ–‡ä»¶ç±»å‹
 	public static final String MONITOR_DEFAULT_FILE_TYPE = ".asf;.avi;.exe;.iso;.mp3;.mpeg;.mpg;.mpga;.ra;.rar;.rm;.rmvb;.tar;.wma;.wmp;.wmv;.zip;.3gp;.chm;.mdf;";
 
-	// Á¬½Ó³¬Ê±
+	// è¿æ¥è¶…æ—¶
 	public static final String NETWORK_TIMEOUT = "NETWORK_TIMEOUT";
 }

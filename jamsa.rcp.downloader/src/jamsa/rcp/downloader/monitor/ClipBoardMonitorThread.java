@@ -11,9 +11,9 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * ¼ôÌù°å¼àÊÓÏß³Ì
+ * å‰ªè´´æ¿ç›‘è§†çº¿ç¨‹
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * @deprecated
  * @see ClipBoardMonitor
  */
@@ -50,7 +50,7 @@ public class ClipBoardMonitorThread extends Thread {
 				if (!StringUtils.isEmpty(textData) && !textData.equals(last)) {
 					last = textData;
 					notifyListener(last);
-					System.out.println("¼ôÌù°å¸Ä±ä" + last);
+					System.out.println("å‰ªè´´æ¿æ”¹å˜" + last);
 				}
 			}
 		});

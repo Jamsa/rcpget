@@ -12,8 +12,8 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * 分类视图中的添加分类动作
- * @author 朱杰
+ * 鍒嗙被瑙嗗浘涓殑娣诲姞鍒嗙被鍔ㄤ綔
+ * @author 鏈辨澃
  *
  */
 public class AddCategoryAction extends ActionDelegate implements

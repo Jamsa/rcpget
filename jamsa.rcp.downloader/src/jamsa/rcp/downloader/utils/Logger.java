@@ -1,9 +1,9 @@
 package jamsa.rcp.downloader.utils;
 
 /**
- * ÈÕÖ¾¹¤¾ßÀà
+ * æ—¥å¿—å·¥å…·ç±»
  * 
- * @author Öì½Ü
+ * @author æœ±æ°
  * 
  */
 public class Logger {
@@ -18,7 +18,7 @@ public class Logger {
 	}
 
 	/**
-	 * Ä¬ÈÏÈÕÖ¾¼¶±ğ
+	 * é»˜è®¤æ—¥å¿—çº§åˆ«
 	 */
 	private static final int LEVEL = 0;
 

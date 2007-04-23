@@ -17,9 +17,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.UIJob;
 
 /**
- * 剪贴板监视器
+ * 鍓创鏉跨洃瑙嗗櫒
  * 
- * @author 朱杰
+ * @author 鏈辨澃
  * 
  */
 public class ClipBoardMonitor {
@@ -72,7 +72,7 @@ public class ClipBoardMonitor {
 	public void start() {
 		if (!run) {
 			run = true;
-			// 如果job已经存在就不需要再次启动。防止用户反复启用或者禁用监视引起的启动多个监视任务
+			// 濡傛灉job宸茬粡瀛樺湪灏变笉闇�瑕佸啀娆″惎鍔ㄣ�傞槻姝㈢敤鎴峰弽澶嶅惎鐢ㄦ垨鑰呯鐢ㄧ洃瑙嗗紩璧风殑鍚姩澶氫釜鐩戣浠诲姟
 			if (job.getState() == Job.NONE) {
 				job.schedule(INTERVAL);
 			}
