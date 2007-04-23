@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.wizards;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.models.CategoryModel;
 import jamsa.rcp.downloader.models.Task;
 import jamsa.rcp.downloader.models.TaskModel;
@@ -75,9 +76,9 @@ public class TaskWizardPage extends WizardPage {
 	 *            是否为修改任务
 	 */
 	public TaskWizardPage(Task task, boolean isModify) {
-		super("下载任务");
-		setTitle("下载任务");
-		setDescription("下载任务属性");
+		super(Messages.TaskWizardPage_Download_Task);
+		setTitle(Messages.TaskWizardPage_Download_Task);
+		setDescription(Messages.TaskWizardPage_Task_Properties);
 		setPageComplete(false);
 		setPageComplete(true);
 		this.task = task;
@@ -96,8 +97,8 @@ public class TaskWizardPage extends WizardPage {
 		try {
 			URL u = new URL(url);
 			String name = u.getFile();
-			int start = name.lastIndexOf("/") + 1;
-			int end = name.indexOf("?");
+			int start = name.lastIndexOf("/") + 1; //$NON-NLS-1$
+			int end = name.indexOf("?"); //$NON-NLS-1$
 			if (end > start)
 				return name.substring(start, end);
 			if (name.length() > start)
@@ -106,7 +107,7 @@ public class TaskWizardPage extends WizardPage {
 			// e.printStackTrace();
 		}
 
-		return "index.html";
+		return "index.html"; //$NON-NLS-1$
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class TaskWizardPage extends WizardPage {
 		setErrorMessage(null);
 
 		if (StringUtils.isEmpty(this.fileUrlText.getText())) {
-			setErrorMessage("请填写URL");
+			setErrorMessage(Messages.TaskWizardPage_Input_URL);
 			setPageComplete(false);
 			return false;
 		}
@@ -126,31 +127,31 @@ public class TaskWizardPage extends WizardPage {
 		if (!isModify
 				&& TaskModel.getInstance().isExist(
 						this.fileUrlText.getText().trim())) {
-			setErrorMessage("该任务已存在");
+			setErrorMessage(Messages.TaskWizardPage_Task_Exist);
 			setPageComplete(false);
 			return false;
 		}
 
-		if (!this.fileUrlText.getText().trim().startsWith("http")) {
-			setErrorMessage("不支持的协议");
+		if (!this.fileUrlText.getText().trim().startsWith("http")) { //$NON-NLS-1$
+			setErrorMessage(Messages.TaskWizardPage_Protocol_Not_Support);
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(fileNameText.getText())) {
-			setErrorMessage("请填写文件名");
+			setErrorMessage(Messages.TaskWizardPage_Input_File_Name);
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(categoryCombo.getText())) {
-			setErrorMessage("请选择任务分类");
+			setErrorMessage(Messages.TaskWizardPage_Select_Category);
 			setPageComplete(false);
 			return false;
 		}
 
 		if (StringUtils.isEmpty(savePathCombo.getText())) {
-			setErrorMessage("请选择或填写文件保存路径");
+			setErrorMessage(Messages.TaskWizardPage_Select_FilePath);
 			setPageComplete(false);
 			return false;
 		}
@@ -194,7 +195,7 @@ public class TaskWizardPage extends WizardPage {
 		task.setCategory(CategoryModel.getInstance().getCategory(
 				categoryCombo.getText().trim()));
 		task.setFilePath(savePathCombo.getText().trim());
-		task.setMemo(memoText.getText().trim() + "");
+		task.setMemo(memoText.getText().trim() + ""); //$NON-NLS-1$
 		task.setBlocks(blocksSpinner.getSelection());
 		if (autoStartButton.getSelection())
 			task.setStart(Task.START_AUTO);
@@ -217,12 +218,12 @@ public class TaskWizardPage extends WizardPage {
 			// 选中第一条记录
 			categoryCombo.select(1);
 
-			memoText.setText(task.getMemo() == null ? "" : task.getMemo());
+			memoText.setText(task.getMemo() == null ? "" : task.getMemo()); //$NON-NLS-1$
 
-			fileNameText.setText(task.getFileName() == null ? "" : task
+			fileNameText.setText(task.getFileName() == null ? "" : task //$NON-NLS-1$
 					.getFileName());
 
-			fileUrlText.setText(task.getFileUrl() == null ? "" : task
+			fileUrlText.setText(task.getFileUrl() == null ? "" : task //$NON-NLS-1$
 					.getFileUrl());
 
 			blocksSpinner.setSelection(task.getBlocks());
@@ -317,7 +318,7 @@ public class TaskWizardPage extends WizardPage {
 		// 文件地址
 		final Label fileUrlLabel = new Label(container, SWT.NONE);
 		fileUrlLabel.setLayoutData(new GridData());
-		fileUrlLabel.setText("URL");
+		fileUrlLabel.setText("URL"); //$NON-NLS-1$
 
 		fileUrlText = new Text(container, SWT.BORDER);
 		final GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -336,7 +337,7 @@ public class TaskWizardPage extends WizardPage {
 		// 下载分类
 		final Label categoryLabel = new Label(container, SWT.NONE);
 		categoryLabel.setLayoutData(new GridData());
-		categoryLabel.setText("分类");
+		categoryLabel.setText(Messages.TaskWizardPage_Category);
 
 		categoryCombo = new Combo(container, SWT.READ_ONLY);
 		final GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true,
@@ -351,12 +352,12 @@ public class TaskWizardPage extends WizardPage {
 		final Button addCategoryButton = new Button(container, SWT.NONE);
 		addCategoryButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false));
-		addCategoryButton.setText("添加(&A)");
+		addCategoryButton.setText(Messages.TaskWizardPage_AddCategory);
 
 		// 保存目录
 		final Label savePathLabel = new Label(container, SWT.NONE);
 		savePathLabel.setLayoutData(new GridData());
-		savePathLabel.setText("保存目录");
+		savePathLabel.setText(Messages.TaskWizardPage_Save_Path);
 
 		savePathCombo = new Combo(container, SWT.NONE);
 		savePathCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -366,12 +367,12 @@ public class TaskWizardPage extends WizardPage {
 		selectSavePathButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false));
 
-		selectSavePathButton.setText("选择(&S)");
+		selectSavePathButton.setText(Messages.TaskWizardPage_Select_Path);
 
 		// 文件名
 		final Label fileNameLabel = new Label(container, SWT.NONE);
 		fileNameLabel.setLayoutData(new GridData());
-		fileNameLabel.setText("文件名");
+		fileNameLabel.setText(Messages.TaskWizardPage_File_Name);
 
 		fileNameText = new Text(container, SWT.BORDER);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -381,7 +382,7 @@ public class TaskWizardPage extends WizardPage {
 		// 线程数量
 		final Label blocksLabel = new Label(container, SWT.NONE);
 		blocksLabel.setLayoutData(new GridData());
-		blocksLabel.setText("线程数量");
+		blocksLabel.setText(Messages.TaskWizardPage_Thread_Number);
 
 		blocksSpinner = new Spinner(container, SWT.BORDER);
 		blocksSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -393,7 +394,7 @@ public class TaskWizardPage extends WizardPage {
 
 		// 备注
 		final Group memoGroup = new Group(container, SWT.NONE);
-		memoGroup.setText("备注");
+		memoGroup.setText(Messages.TaskWizardPage_Memo);
 		final GridData gridData_2 = new GridData(SWT.FILL, SWT.FILL, false,
 				true, 2, 1);
 		memoGroup.setLayoutData(gridData_2);
@@ -406,17 +407,17 @@ public class TaskWizardPage extends WizardPage {
 
 		// 启动方式
 		final Group startGroup = new Group(container, SWT.NONE);
-		startGroup.setText("启动方式");
+		startGroup.setText(Messages.TaskWizardPage_Start_Method);
 		startGroup
 				.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
 		startGroup.setLayout(new GridLayout());
 
 		autoStartButton = new Button(startGroup, SWT.RADIO);
 		autoStartButton.setSelection(true);
-		autoStartButton.setText("立即");
+		autoStartButton.setText(Messages.TaskWizardPage_Auto);
 
 		manualStartButton = new Button(startGroup, SWT.RADIO);
-		manualStartButton.setText("手动");
+		manualStartButton.setText(Messages.TaskWizardPage_Manual);
 
 		addValidateListener();
 

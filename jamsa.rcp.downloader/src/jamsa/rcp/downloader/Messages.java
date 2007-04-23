@@ -29,6 +29,22 @@ public class Messages extends NLS {
 	public static String CategoryDialog_Setting;
 	//==Category Dialog==
 
+	public static String CategoryModel_books;
+
+	public static String CategoryModel_finished;
+
+	public static String CategoryModel_music;
+
+	public static String CategoryModel_music_jazz;
+
+	public static String CategoryModel_music_pop;
+
+	public static String CategoryModel_running;
+
+	public static String CategoryModel_software;
+
+	public static String CategoryModel_trash;
+
 	public static String ConsoleView_Thread;
 
 	public static String CopyTaskURLAction_ToolTipText;
@@ -184,6 +200,42 @@ public class Messages extends NLS {
 	public static String TaskTableView_Time;
 
 	public static String TaskTableView_UnknownSize;
+
+	public static String TaskWizardPage_AddCategory;
+
+	public static String TaskWizardPage_Auto;
+
+	public static String TaskWizardPage_Category;
+
+	public static String TaskWizardPage_Download_Task;
+
+	public static String TaskWizardPage_File_Name;
+
+	public static String TaskWizardPage_Input_File_Name;
+
+	public static String TaskWizardPage_Input_URL;
+
+	public static String TaskWizardPage_Manual;
+
+	public static String TaskWizardPage_Memo;
+
+	public static String TaskWizardPage_Protocol_Not_Support;
+
+	public static String TaskWizardPage_Save_Path;
+
+	public static String TaskWizardPage_Select_Category;
+
+	public static String TaskWizardPage_Select_FilePath;
+
+	public static String TaskWizardPage_Select_Path;
+
+	public static String TaskWizardPage_Start_Method;
+
+	public static String TaskWizardPage_Task_Exist;
+
+	public static String TaskWizardPage_Task_Properties;
+
+	public static String TaskWizardPage_Thread_Number;
 
 	public static String Window_text;
 
