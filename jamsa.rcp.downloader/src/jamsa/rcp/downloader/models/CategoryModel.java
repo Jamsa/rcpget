@@ -2,6 +2,7 @@ package jamsa.rcp.downloader.models;
 
 import jamsa.rcp.downloader.Activator;
 import jamsa.rcp.downloader.IConstants;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.utils.Logger;
 
 import java.io.File;
@@ -9,8 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 
@@ -28,9 +29,9 @@ public class CategoryModel extends Observable {
 
 	private static final String SAVE_PATH = IConstants.JAVA_IO_TMPDIR;
 
-	private Map rootCategories = new HashMap();
+	private Map rootCategories = new LinkedHashMap();
 
-	private Map categories = new HashMap();
+	private Map categories = new LinkedHashMap();
 
 	private Category root;
 
@@ -64,34 +65,34 @@ public class CategoryModel extends Observable {
 	 */
 	private void createOtherCategory() {
 		Category child = new Category();
-		child.setName("软件");
-		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "software");
+		child.setName(Messages.CategoryModel_software);
+		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "software"); //$NON-NLS-1$
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 
 		child = new Category();
-		child.setName("音乐");
-		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music");
+		child.setName(Messages.CategoryModel_music);
+		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music"); //$NON-NLS-1$
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 
 		Category child_child = new Category();
-		child_child.setName("流行");
-		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music"
-				+ IConstants.FILE_SEPARATOR + "pop");
+		child_child.setName(Messages.CategoryModel_music_pop);
+		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music" //$NON-NLS-1$
+				+ IConstants.FILE_SEPARATOR + "pop"); //$NON-NLS-1$
 		child.addChild(child_child);
 		categories.put(child_child.getName(), child_child);
 
 		child_child = new Category();
-		child_child.setName("爵士");
-		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music"
-				+ IConstants.FILE_SEPARATOR + "jazz");
+		child_child.setName(Messages.CategoryModel_music_jazz);
+		child_child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "music" //$NON-NLS-1$
+				+ IConstants.FILE_SEPARATOR + "jazz"); //$NON-NLS-1$
 		child.addChild(child_child);
 		categories.put(child_child.getName(), child_child);
 
 		child = new Category();
-		child.setName("书籍");
-		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "books");
+		child.setName(Messages.CategoryModel_books);
+		child.setPath(SAVE_PATH + IConstants.FILE_SEPARATOR + "books"); //$NON-NLS-1$
 		finished.addChild(child);
 		categories.put(child.getName(), child);
 	}
@@ -102,23 +103,23 @@ public class CategoryModel extends Observable {
 	 */
 	private void createDefaultCategory() {
 		root = new Category();
-		root.setName("RCP Get");
+		root.setName("RCP Get"); //$NON-NLS-1$
 		root.setPath(SAVE_PATH);
 		rootCategories.put(root.getName(), root);
 
 		running = new Category();
-		running.setName("正在下载");
+		running.setName(Messages.CategoryModel_running);
 		running.setPath(SAVE_PATH);
 		root.addChild(running);
 
 		finished = new Category();
-		finished.setName("已下载");
+		finished.setName(Messages.CategoryModel_finished);
 		finished.setPath(SAVE_PATH);
 		root.addChild(finished);
 		// categories.put(finished.getName(), finished);
 
 		trash = new Category();
-		trash.setName("回收站");
+		trash.setName(Messages.CategoryModel_trash);
 		trash.setPath(SAVE_PATH);
 		root.addChild(trash);
 	}
@@ -161,7 +162,7 @@ public class CategoryModel extends Observable {
 		categories.put(category.getName(), category);
 		this.setChanged();
 		this.notifyObservers(category);
-		logger.info("添加/修改了新的下载分类");
+		logger.info("添加/修改了新的下载分类"); //$NON-NLS-1$
 		this.saveCategories();
 	}
 
@@ -218,7 +219,7 @@ public class CategoryModel extends Observable {
 
 		this.setChanged();
 		this.notifyObservers(category);
-		logger.info("删除了新的下载分类");
+		logger.info("删除了新的下载分类"); //$NON-NLS-1$
 		this.saveCategories();
 	}
 
@@ -325,7 +326,7 @@ public class CategoryModel extends Observable {
 	public Category getCategory(String categoryName) {
 		Category result = (Category) categories.get(categoryName);
 		if (result == null)
-			result = (Category)rootCategories.get(categoryName);
+			result = (Category) rootCategories.get(categoryName);
 		if (result == null)
 			result = finished;
 		return result;
@@ -342,18 +343,18 @@ public class CategoryModel extends Observable {
 		// return (String[]) categories.keySet().toArray(new String[] {});
 	}
 
-	public static final String TAG_CATEGORIES = "Categories";
+	public static final String TAG_CATEGORIES = "Categories"; //$NON-NLS-1$
 
-	public static final String TAG_CATEGORY = "Category";
+	public static final String TAG_CATEGORY = "Category"; //$NON-NLS-1$
 
-	public static final String TAG_NAME = "Name";
+	public static final String TAG_NAME = "Name"; //$NON-NLS-1$
 
-	public static final String TAG_PATH = "Path";
+	public static final String TAG_PATH = "Path"; //$NON-NLS-1$
 
-	public static final String TAG_PARENT = "Parent";
+	public static final String TAG_PARENT = "Parent"; //$NON-NLS-1$
 
 	private File getCategoriesFile() {
-		return Activator.getDefault().getStateLocation().append("category.xml")
+		return Activator.getDefault().getStateLocation().append("category.xml") //$NON-NLS-1$
 				.toFile();
 	}
 
@@ -363,18 +364,18 @@ public class CategoryModel extends Observable {
 			File file = getCategoriesFile();
 			reader = new FileReader(file);
 			loadCategories(XMLMemento.createReadRoot(reader));
-			logger.info("读取所有分类");
+			logger.info("读取所有分类"); //$NON-NLS-1$
 		} catch (FileNotFoundException e) {
 			createOtherCategory();
 			saveCategories();
 		} catch (Exception e) {
-			logger.error("读取所有分类发生错误", e);
+			logger.error("读取所有分类发生错误", e); //$NON-NLS-1$
 		} finally {
 			try {
 				if (reader != null)
 					reader.close();
 			} catch (Exception e) {
-				logger.error("关闭分类文件发生错误", e);
+				logger.error("关闭分类文件发生错误", e); //$NON-NLS-1$
 			}
 		}
 	}
