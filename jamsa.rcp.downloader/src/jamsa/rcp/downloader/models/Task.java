@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.utils.FileUtils;
 import jamsa.rcp.downloader.views.IConsoleWriter;
 
@@ -40,10 +41,10 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	private static final long BLOCK_MIN_SIZE = 50000;
 
 	// 下载临时文件扩展名
-	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET";
+	public static final String FILENAME_DOWNLOAD_SUFFIX = ".GET"; //$NON-NLS-1$
 
 	// 下载文件名冲突时，添加的修饰后缀
-	public static final String FILENAME_SUFFIX = "_1";
+	public static final String FILENAME_SUFFIX = "_1"; //$NON-NLS-1$
 
 	// 文件名
 	private String fileName;
@@ -64,7 +65,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	private long fileSize;
 
 	// 文件类型
-	private String fileType = "";
+	private String fileType = ""; //$NON-NLS-1$
 
 	// 开始时间
 	private long beginTime;
@@ -335,7 +336,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			msgs.add(message);
 		}
 		setChanged();
-		notifyObservers(new String[] { "线程：" + threadName, message });
+		notifyObservers(new String[] { Messages.ConsoleView_Thread + threadName, message });
 	}
 
 	/**
@@ -414,7 +415,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 						+ splitter.getFinished() + spliteBlock;
 
 				ret = new TaskSplitter(newEndPos, splitter.getEndPos(), 0,
-						getSplitters().size() + "");
+						getSplitters().size() + ""); //$NON-NLS-1$
 				break;
 			}
 		}
@@ -439,7 +440,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		if (fileSize == 0 || block == 0) {
 			TaskSplitter splitter = new TaskSplitter(0, 0, 0, getSplitters()
 					.size()
-					+ "");
+					+ ""); //$NON-NLS-1$
 			this.addSplitter(splitter);
 			this.blocks = 1;
 			return;
@@ -447,7 +448,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 
 		// 如果任务未分割过则要分割任务
 		if (getSplitters().isEmpty()) {
-			writeMessage("Task", "分割任务");
+			writeMessage("Task", Messages.Task_MSG_Split_Task); //$NON-NLS-1$
 
 			// 按设置的块分
 			long blockSize = fileSize / block;
@@ -466,7 +467,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 						finished = true;
 					}
 					addSplitter(new TaskSplitter(startPos, endPos, 0,
-							getSplitters().size() + ""));
+							getSplitters().size() + "")); //$NON-NLS-1$
 					this.blocks++;
 					if (finished)
 						break;
@@ -479,11 +480,11 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 			this.blocks = 0;
 			for (int i = 0; i < (block - 1); i++) {
 				addSplitter(new TaskSplitter(i * blockSize,
-						(i + 1) * blockSize, 0, getSplitters().size() + ""));
+						(i + 1) * blockSize, 0, getSplitters().size() + "")); //$NON-NLS-1$
 				this.blocks++;
 			}
 			addSplitter(new TaskSplitter((block - 1) * blockSize, fileSize, 0,
-					getSplitters().size() + ""));
+					getSplitters().size() + "")); //$NON-NLS-1$
 			this.blocks++;
 			return;
 		}
@@ -499,7 +500,7 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 		while (FileUtils.existsFile(finalFileName)) {
 			String name = getFileName();
 			int length = name.length();
-			int idx = name.lastIndexOf(".");
+			int idx = name.lastIndexOf("."); //$NON-NLS-1$
 			name = name.substring(0, idx) + FILENAME_SUFFIX
 					+ name.substring(idx, length);
 			setFileName(name);
@@ -517,14 +518,14 @@ public class Task extends Observable implements IConsoleWriter, Serializable {
 	public File getTempSavedFile() {
 		// 创建文件保存目录
 		FileUtils.createDirectory(getFilePath());
-		writeMessage("Task", "检查/创建目录" + getFilePath());
+		writeMessage("Task", Messages.Task_MSG_Check_Create_Directory + getFilePath()); //$NON-NLS-1$
 		String fileName = getFilePath() + File.separator + getFileName();
 
 		// 检查文件是否已经存在
 		while (FileUtils.existsFile(fileName)) {
 			String name = getFileName();
 			int length = name.length();
-			int idx = name.lastIndexOf(".");
+			int idx = name.lastIndexOf("."); //$NON-NLS-1$
 			name = name.substring(0, idx) + FILENAME_SUFFIX
 					+ name.substring(idx, length);
 			setFileName(name);

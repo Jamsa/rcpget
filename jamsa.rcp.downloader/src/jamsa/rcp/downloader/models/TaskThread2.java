@@ -1,5 +1,6 @@
 package jamsa.rcp.downloader.models;
 
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.http.HttpClientUtils;
 import jamsa.rcp.downloader.http.RemoteFileInfo;
 import jamsa.rcp.downloader.preference.PreferenceManager;
@@ -52,8 +53,8 @@ public class TaskThread2 extends Thread {
 	 */
 	private void checkFile(String remoteFileName, long remoteFileSize) {
 		if (task.getFileSize() > 0 && task.getFileSize() != remoteFileSize) {
-			task.writeMessage("Task", "文件大小不一致，重新下载！");
-			logger.info("文件大小不一至和，重新下载！");
+			task.writeMessage("Task", Messages.TaskThread2_MSG_FileSize_Change_Restart); //$NON-NLS-1$
+			logger.info("文件大小不一至和，重新下载！"); //$NON-NLS-1$
 			task.reset();
 			task.setStatus(Task.STATUS_RUNNING);
 		}
@@ -76,7 +77,7 @@ public class TaskThread2 extends Thread {
 	}
 
 	public void run() {
-		task.writeMessage("Task", "任务启动");
+		task.writeMessage("Task", Messages.TaskThread2_MSG_Task_Started); //$NON-NLS-1$
 		task.getMessages().clear();
 		// 修改任务状态
 		changeStatus(Task.STATUS_RUNNING);
@@ -89,10 +90,10 @@ public class TaskThread2 extends Thread {
 		RemoteFileInfo remoteFile = HttpClientUtils.getRemoteFileInfo(task
 				.getFileUrl(), preferenceManager.getRetryTimes(),
 				preferenceManager.getRetryDelay() * 1000, preferenceManager
-						.getTimeout() * 1000, new Properties(), "HEAD", task,
-				"Task");
+						.getTimeout() * 1000, new Properties(), "HEAD", task, //$NON-NLS-1$
+				"Task"); //$NON-NLS-1$
 		if (remoteFile == null) {
-			task.writeMessage("Task", "无法获取目标文件信息！");
+			task.writeMessage("Task", Messages.TaskThread2_ERR_Can_Not_Get_Remote_File_Info); //$NON-NLS-1$
 			task.setStatus(Task.STATUS_ERROR);
 			taskModel.updateTask(task);
 			return;
@@ -106,8 +107,8 @@ public class TaskThread2 extends Thread {
 		File file = task.getTempSavedFile();
 		RandomAccessFile savedFile = null;
 		try {
-			savedFile = new RandomAccessFile(file, "rw");
-			task.writeMessage("Task", "打开临时文件" + file);
+			savedFile = new RandomAccessFile(file, "rw"); //$NON-NLS-1$
+			task.writeMessage("Task", Messages.TaskThread2_MSG_Open_Temp_File + file); //$NON-NLS-1$
 
 			int ct = 0;// 启动的线程数量
 			for (Iterator iter = task.getSplitters().iterator(); iter.hasNext();) {
@@ -120,7 +121,7 @@ public class TaskThread2 extends Thread {
 					DownloadThread t = new DownloadThread(task, savedFile, s);
 					threads.add(t);
 					t.start();
-					task.writeMessage("Task", "启动下载线程" + s.getName());
+					task.writeMessage("Task", Messages.TaskThread2_MSG_Start_Download_Thread + s.getName()); //$NON-NLS-1$
 					Thread.sleep(500);
 				}
 			}
@@ -174,7 +175,7 @@ public class TaskThread2 extends Thread {
 					DownloadThread t = new DownloadThread(task, savedFile, s);
 					threads.add(t);
 					t.start();
-					task.writeMessage("Task", "启动下载线程" + s.getName());
+					task.writeMessage("Task", Messages.TaskThread2_MSG_Start_Download_Thread + s.getName()); //$NON-NLS-1$
 				}
 
 				sleep(1000);
@@ -186,8 +187,8 @@ public class TaskThread2 extends Thread {
 			if (task.getStatus() == Task.STATUS_STOP || this.isInterrupted()) {
 				stopAll();
 				changeStatus(Task.STATUS_STOP);
-				logger.info("下载停止");
-				task.writeMessage("Task", "下载停止");
+				logger.info("下载停止"); //$NON-NLS-1$
+				task.writeMessage("Task", Messages.TaskThread2_MSG_Task_Stop); //$NON-NLS-1$
 				return;
 			}
 
@@ -195,8 +196,8 @@ public class TaskThread2 extends Thread {
 			savedFile.close();
 			task.renameSavedFile();
 			changeStatus(Task.STATUS_FINISHED);
-			logger.info("下载完成");
-			task.writeMessage("Task", "下载完成");
+			logger.info("下载完成"); //$NON-NLS-1$
+			task.writeMessage("Task", Messages.TaskThread2_MSG_Task_Finished); //$NON-NLS-1$
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			changeStatus(Task.STATUS_STOP);

@@ -1,6 +1,7 @@
 package jamsa.rcp.downloader.http;
 
 import jamsa.rcp.downloader.IConstants;
+import jamsa.rcp.downloader.Messages;
 import jamsa.rcp.downloader.utils.Logger;
 import jamsa.rcp.downloader.utils.StringUtils;
 import jamsa.rcp.downloader.views.DefaultConsoleWriter;
@@ -17,7 +18,7 @@ import java.util.Properties;
 
 public class HttpClientUtils {
 	private static Logger logger = new Logger(HttpClientUtils.class);
-	public static final String DEFAULT_USER_AGENT="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+	public static final String DEFAULT_USER_AGENT="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"; //$NON-NLS-1$
 
 	/**
 	 * 获取远程文件信息
@@ -61,18 +62,18 @@ public class HttpClientUtils {
 		result.setPort(url.getPort());
 
 		String fileName = url.getFile();
-		int start = fileName.lastIndexOf("/") + 1;
-		int end = fileName.indexOf("?");
+		int start = fileName.lastIndexOf("/") + 1; //$NON-NLS-1$
+		int end = fileName.indexOf("?"); //$NON-NLS-1$
 		if (end > start)
 			result.setFileName(fileName.substring(start, end));
 		else
 			result.setFileName(fileName.substring(start, fileName.length()));
 
-		writer.writeMessage("Task", "远端文件名" + result.getFileName());
+		writer.writeMessage("Task", Messages.HttpClientUtils_MSG_Remote_File_Name + result.getFileName()); //$NON-NLS-1$
 		result.setFileSize(conn.getContentLength());
-		writer.writeMessage("Task", "远端文件大小" + result.getFileSize());
+		writer.writeMessage("Task", Messages.HttpClientUtils_MSG_Remote_File_Size + result.getFileSize()); //$NON-NLS-1$
 
-		logger.info("远程文件信息：\n" + result);
+		logger.info("远程文件信息：\n" + result); //$NON-NLS-1$
 		return result;
 	}
 
@@ -103,7 +104,7 @@ public class HttpClientUtils {
 		if (writer == null)
 			writer = new DefaultConsoleWriter();
 		if (label == null)
-			label = "HttpURLConnection";
+			label = "HttpURLConnection"; //$NON-NLS-1$
 
 		// 连接计数器
 		int count = 0;
@@ -112,8 +113,8 @@ public class HttpClientUtils {
 			URL url = new URL(urlString);
 			while (conn == null && retryTimes >= count) {
 				count++;
-				writer.writeMessage(label, "第" + count + "次连接...");
-				logger.info("第" + count + "次连接...");
+				writer.writeMessage(label, Messages.HttpClientUtils_MSG_Times + count + Messages.HttpClientUtils_MSG_Connect);
+				logger.info("第" + count + "次连接..."); //$NON-NLS-1$ //$NON-NLS-2$
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setConnectTimeout(timeout);
 				conn.setRequestMethod(method);
@@ -137,8 +138,8 @@ public class HttpClientUtils {
 						encode = IConstants.DEFAULT_ENCODING;
 					url = new URL(new String(newURLString.getBytes(encode),
 							IConstants.FILE_ENCODING));
-					writer.writeMessage(label, "重定向到：" + url);
-					logger.info("发生重定向：" + url);
+					writer.writeMessage(label, Messages.HttpClientUtils_MSG_Redirect_To + url);
+					logger.info("发生重定向：" + url); //$NON-NLS-1$
 					conn = null;
 					continue;
 				}
@@ -150,31 +151,31 @@ public class HttpClientUtils {
 
 				// 等侍并重新连接
 				if (conn == null) {
-					writer.writeMessage(label, "连接失败," + retryDelay / 1000
-							+ "秒后重试...");
-					logger.info("连接失败," + retryDelay / 1000 + "秒后重试...");
+					writer.writeMessage(label, Messages.HttpClientUtils_ERR_Connect_Fail + retryDelay / 1000
+							+ Messages.HttpClientUtils_MSG_Retry_After);
+					logger.info("连接失败," + retryDelay / 1000 + "秒后重试..."); //$NON-NLS-1$ //$NON-NLS-2$
 					Thread.sleep(retryDelay);
 				} else {
-					writer.writeMessage(label, "连接成功！");
-					logger.info("连接成功！");
+					writer.writeMessage(label, Messages.HttpClientUtils_MSG_Connected_Success);
+					logger.info("连接成功！"); //$NON-NLS-1$
 				}
 
 			}
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "URL错误：" + e.getLocalizedMessage());
-			logger.error("URL错误！", e);
+			writer.writeMessage(label, Messages.HttpClientUtils_ERR_URL_Error + e.getLocalizedMessage());
+			logger.error("URL错误！", e); //$NON-NLS-1$
 			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "I/O错误：" + e.getLocalizedMessage());
-			logger.error("I/O错误！", e);
+			writer.writeMessage(label, Messages.HttpClientUtils_ERR_IO_Error + e.getLocalizedMessage());
+			logger.error("I/O错误！", e); //$NON-NLS-1$
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			writer.writeMessage(label, "错误：" + e.getLocalizedMessage());
-			logger.error("连接错误！", e);
+			writer.writeMessage(label, Messages.HttpClientUtils_ERR_Error + e.getLocalizedMessage());
+			logger.error("连接错误！", e); //$NON-NLS-1$
 			return null;
 		}
 
@@ -206,7 +207,7 @@ public class HttpClientUtils {
 				ret = conn.getInputStream();
 			} catch (Exception e) {
 				writer.writeMessage(label, e.getLocalizedMessage());
-				logger.error("获取输入流发生错误！", e);
+				logger.error("获取输入流发生错误！", e); //$NON-NLS-1$
 			}
 		}
 
@@ -222,12 +223,12 @@ public class HttpClientUtils {
 	 */
 	public static void printResponseInfo(URLConnection conn,
 			IConsoleWriter writer, String label) {
-		logger.info("Http响应信息：");
+		logger.info("Http响应信息："); //$NON-NLS-1$
 		for (Iterator iter = conn.getHeaderFields().keySet().iterator(); iter
 				.hasNext();) {
 			String key = (String) iter.next();
-			writer.writeMessage(label, key + ":" + conn.getHeaderField(key));
-			logger.info(key + ":" + conn.getHeaderField(key));
+			writer.writeMessage(label, key + ":" + conn.getHeaderField(key)); //$NON-NLS-1$
+			logger.info(key + ":" + conn.getHeaderField(key)); //$NON-NLS-1$
 		}
 	}
 
@@ -240,13 +241,13 @@ public class HttpClientUtils {
 	 */
 	public static void printRequestInfo(HttpURLConnection conn,
 			IConsoleWriter writer, String label) {
-		logger.info("Http请求信息：");
-		logger.info("RequestMethod:" + conn.getRequestMethod());
+		logger.info("Http请求信息："); //$NON-NLS-1$
+		logger.info("RequestMethod:" + conn.getRequestMethod()); //$NON-NLS-1$
 		for (Iterator iter = conn.getRequestProperties().keySet().iterator(); iter
 				.hasNext();) {
 			String key = (String) iter.next();
-			writer.writeMessage(label, key + ":" + conn.getHeaderField(key));
-			logger.info(key + ":" + conn.getHeaderField(key));
+			writer.writeMessage(label, key + ":" + conn.getHeaderField(key)); //$NON-NLS-1$
+			logger.info(key + ":" + conn.getHeaderField(key)); //$NON-NLS-1$
 		}
 	}
 }
