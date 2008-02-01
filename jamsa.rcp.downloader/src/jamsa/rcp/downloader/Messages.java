@@ -63,11 +63,45 @@ public class Messages extends NLS {
 
 	public static String DeleteTaskAction_ToolTipText;
 
+	public static String DownloadThread_ERR_Can_Not_Get_Input_Stream;
+
+	public static String DownloadThread_ERR_Stream_Exception;
+
+	public static String DownloadThread_ERR_Thread_Interrupted;
+
+	public static String DownloadThread_MSG_Reading;
+
+	public static String DownloadThread_MSG_Thread_Stopped;
+
+	public static String DownloadThread_MSG_Thread_Task_Finished;
+
 	public static String EmptyTrashAction_DeleteTrashFile;
 
 	public static String EmptyTrashAction_EmptyTrash;
 
 	public static String EmptyTrashAction_EmptyTrashConfirm;
+
+	public static String HttpClientUtils_ERR_Connect_Fail;
+
+	public static String HttpClientUtils_ERR_Error;
+
+	public static String HttpClientUtils_ERR_IO_Error;
+
+	public static String HttpClientUtils_ERR_URL_Error;
+
+	public static String HttpClientUtils_MSG_Connect;
+
+	public static String HttpClientUtils_MSG_Connected_Success;
+
+	public static String HttpClientUtils_MSG_Redirect_To;
+
+	public static String HttpClientUtils_MSG_Remote_File_Name;
+
+	public static String HttpClientUtils_MSG_Remote_File_Size;
+
+	public static String HttpClientUtils_MSG_Retry_After;
+
+	public static String HttpClientUtils_MSG_Times;
 
 	public static String ModifyTaskAction_ToolTipText;
 
@@ -145,6 +179,10 @@ public class Messages extends NLS {
 
 	public static String StopTaskAction_ToolTipText;
 
+	public static String Task_MSG_Check_Create_Directory;
+
+	public static String Task_MSG_Split_Task;
+
 	public static String TaskInfoView_AverageSpeed;
 
 	public static String TaskInfoView_Error;
@@ -200,6 +238,20 @@ public class Messages extends NLS {
 	public static String TaskTableView_Time;
 
 	public static String TaskTableView_UnknownSize;
+
+	public static String TaskThread2_ERR_Can_Not_Get_Remote_File_Info;
+
+	public static String TaskThread2_MSG_FileSize_Change_Restart;
+
+	public static String TaskThread2_MSG_Open_Temp_File;
+
+	public static String TaskThread2_MSG_Start_Download_Thread;
+
+	public static String TaskThread2_MSG_Task_Finished;
+
+	public static String TaskThread2_MSG_Task_Started;
+
+	public static String TaskThread2_MSG_Task_Stop;
 
 	public static String TaskWizardPage_AddCategory;
 
